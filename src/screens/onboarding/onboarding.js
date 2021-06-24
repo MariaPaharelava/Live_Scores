@@ -1,5 +1,7 @@
 import React from 'react';
-import styles from './styles';
+import styles from './OnboardingStyles';
+import {IMAGES} from '../../images/Images';
+import {RoundedButton} from '../../buttons/RoundedButton';
 import {
   View,
   StyleSheet,
@@ -13,24 +15,19 @@ import {
 function Onboarding() {
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.onboarding_image}
-        source={require('./onboarding_image.png')}
-      />
-      <View style={styles.onboarding_text}>
-        <Text style={styles.first_section}>Discover all about sport</Text>
-        <Text style={styles.second_section}>
+      <Image style={styles.onboardingImage} source={IMAGES.ONBOARDING_IMAGE} />
+      <View style={styles.onboardingText}>
+        <Text style={styles.firstSection}>Discover all about sport</Text>
+        <Text style={styles.secondSection}>
           Search millions of jobs and get the inside scoop on companies. Wait
           for what? Let’s get start it!
         </Text>
       </View>
       <View style={styles.buttons}>
-        <TouchableOpacity style={styles.signin_button}>
-          <Text style={styles.signin_button_text}>Sign in</Text>
-        </TouchableOpacity>
+        <RoundedButton title="Sign in" />
 
-        <TouchableOpacity style={styles.signup_button}>
-          <Text style={styles.signup_button_text}>Sign Up</Text>
+        <TouchableOpacity style={styles.signupButton}>
+          <Text style={styles.signupButtonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     </View>

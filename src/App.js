@@ -1,5 +1,5 @@
 import React from 'react';
-import Onboarding from './screens/onboarding/onboarding';
+import Onboarding from './screens/onboarding/Onboarding';
 
 import {
   SafeAreaView,
