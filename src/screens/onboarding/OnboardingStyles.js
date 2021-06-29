@@ -39,12 +39,14 @@ const styles = StyleSheet.create({
     marginBottom: 'auto',
     marginTop: 'auto',
     marginLeft: 40,
+    width: 200,
   },
   signupButton: {
     width: 70,
     height: 50,
     marginRight: 40,
     top: 10,
+    marginLeft: 50,
   },
   signupButtonText: {
     fontSize: 18,

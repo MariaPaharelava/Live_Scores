@@ -18,7 +18,7 @@ export const RoundedButton = ({onPress, noBackground = false, ...props}) => {
 };
 
 RoundedButton.propTypes = {
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
   noBackground: PropTypes.bool,
 };
 RoundedButton.defaultProps = {
