@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    padding: Platform.OS === 'ios' ? 30 : 12,
+    padding: Platform.OS === 'ios' ? 30 : 5,
     justifyContent: 'space-between',
   },
   signupButton: {paddingLeft: 3},
