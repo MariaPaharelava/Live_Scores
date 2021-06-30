@@ -6,6 +6,7 @@ import Hide from '../../icons/Hide.svg';
 import Password from '../../icons/Password.svg';
 import Show from '../../icons/Show.svg';
 import CheckBox from '@react-native-community/checkbox';
+import {LoginButton} from '../../buttons/LoginButton';
 
 import {
   Modal,
@@ -53,41 +54,12 @@ const LoginScreen = ({visible, setVisible}) => {
               <View style={styles.hideLine} />
             </Pressable>
             <Text style={styles.modalText}>Welcome</Text>
-            <View>
-              <View style={styles.password}>
-                <Message style={styles.imageStyle} />
-                <TextInput
-                  placeholderTextColor="#65656B"
-                  placeholder="Email"
-                  selectionColor="#65656B"
-                  style={styles.textInput}
-                  color="white"
-                  autoCapitalize="none"
-                />
-              </View>
 
-              <View style={styles.password}>
-                <Password style={styles.imageStyle} />
-
-                <TextInput
-                  placeholderTextColor="#65656B"
-                  placeholder="Password"
-                  selectionColor="#65656B"
-                  color="white"
-                  style={styles.textInput}
-                  secureTextEntry={data.secureTextEntry ? true : false}
-                  autoCapitalize="none"
-                  onChangeText={value => handlePasswordChange(value)}
-                />
-                <TouchableOpacity onPress={updateSecureTextEntry}>
-                  {data.secureTextEntry ? (
-                    <Hide style={styles.imageStyleHide} />
-                  ) : (
-                    <Show />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
+            <LoginButton
+              onChangeText={value => handlePasswordChange(value)}
+              data={data}
+              onPress={updateSecureTextEntry}
+            />
 
             <View style={styles.reminder}>
               <TouchableOpacity style={styles.signupButton}>
