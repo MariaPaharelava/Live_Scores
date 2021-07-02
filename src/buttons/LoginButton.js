@@ -1,10 +1,10 @@
 import React from 'react';
 import {styles} from './LoginButtonStyle';
 import PropTypes from 'prop-types';
-import Message from '../icons/Message.svg';
-import Hide from '../icons/Hide.svg';
-import Password from '../icons/Password.svg';
-import Show from '../icons/Show.svg';
+import Message from '../icons/login/Message.svg';
+import Hide from '../icons/login/Hide.svg';
+import Password from '../icons/login/Password.svg';
+import Show from '../icons/login/Show.svg';
 
 import {View, TextInput, TouchableOpacity} from 'react-native';
 export const LoginButton = ({
