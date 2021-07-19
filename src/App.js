@@ -1,23 +1,29 @@
 import React from 'react';
-import Onboarding from './screens/onboarding/Onboarding';
-import SplashScreen from './screens/splash_screen/SplashScreen';
+import 'react-native-gesture-handler';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import RootStackScreen from './screens/RootScreen';
+import Tabs from './/navigations/Tabs';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const Stack = createStackNavigator();
+
+// import {
+//   SafeAreaView,
+//   ScrollView,
+//   StatusBar,
+//   StyleSheet,
+//   Text,
+//   useColorScheme,
+//   View,
+// } from 'react-native';
+// import Tabs from './navigations/Tabs';
 
 const App = () => {
-  return <SplashScreen />;
+  return (
+    <NavigationContainer>
+      <RootStackScreen />
+    </NavigationContainer>
+  );
 };
-{
-  /* <SplashScreen /> */
-  // <Onboarding />;
-}
 
 export default App;

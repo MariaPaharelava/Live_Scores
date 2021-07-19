@@ -1,18 +1,9 @@
 import React, {useState} from 'react';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {RoundedButton} from '../../buttons/RoundedButton';
+import LoginScreen from '../login_screen/LoginScreen';
 import styles from './OnboardingStyles';
 import {IMAGES} from '../../images/Images';
-import {RoundedButton} from '../../buttons/RoundedButton';
-import LoginScreen from '../login_screen/Modal';
-import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  Button,
-  Modal,
-} from 'react-native';
 
 function Onboarding() {
   const [modalVisible, setModalVisible] = useState(false);

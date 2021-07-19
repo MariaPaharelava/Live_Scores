@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {colors} from '../constant/colors';
 import {styles} from './RoundedButtonStyles';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
-import fonts from '../constant/fonts';
 export const RoundedButton = ({onPress, noBackground = false, ...props}) => {
   return (
     <TouchableOpacity
