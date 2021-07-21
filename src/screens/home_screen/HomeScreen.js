@@ -3,9 +3,6 @@ import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import Notification from '../../icons/other/Notification.svg';
 import {IMAGES} from '../../images/Images';
 import {SPORTS_IMAGES} from '../../images/Images';
-import Tabs from '../../navigations/Tabs';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
 
 import Search from '../../icons/other/Search.svg';
 import styles from './HomeScreenStyles';

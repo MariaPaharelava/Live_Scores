@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#181829',
-    margin: 10,
+    margin: 12,
     marginHorizontal: 15,
     borderRadius: 16,
     borderWidth: 1,
@@ -53,7 +53,6 @@ export const styles = StyleSheet.create({
     margin: 5,
   },
 
-  imageStyleHide: {},
   reminder: {
     justifyContent: 'center',
     alignItems: 'center',
