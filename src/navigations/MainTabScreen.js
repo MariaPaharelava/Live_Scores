@@ -8,7 +8,7 @@ import ProfileScreen from '../screens/profile_screen/ProfileScreen';
 import styles from './MainTabScreenStyles';
 const Tab = createBottomTabNavigator();
 
-const MainTabScreen = () => {
+const MainTabScreen = ({navigation}) => {
   return (
     <Tab.Navigator
       tabBarOptions={{

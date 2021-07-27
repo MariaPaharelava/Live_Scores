@@ -1,25 +1,16 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Alert,
-  Image,
-  Pressable,
-} from 'react-native';
+import React, {useState, useContext} from 'react';
+import {View, Text, TouchableOpacity, Image, Pressable} from 'react-native';
 import * as Animatable from 'react-native-animatable';
-
-import {AuthContext} from '../../components/context';
+import {AuthContext} from '../../navigations/AuthProvider';
 import CheckBox from '@react-native-community/checkbox';
 import {LoginButton} from '../../buttons/LoginButton';
 import {RoundedButton} from '../../buttons/RoundedButton';
 
-import Users from '../../model/users';
 import {IMAGES} from '../../images/Images';
 import styles from './SignInScreenStyles';
 const SignInScreen = ({navigation}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(true);
-
+  const {login} = useContext(AuthContext);
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -28,8 +19,6 @@ const SignInScreen = ({navigation}) => {
     isValidUser: true,
     isValidPassword: true,
   });
-
-  const {signIn} = React.useContext(AuthContext);
 
   const textInputChange = val => {
     if (val.trim().length >= 6) {
@@ -86,27 +75,6 @@ const SignInScreen = ({navigation}) => {
     }
   };
 
-  const loginHandle = (userEmail, password) => {
-    const foundUser = Users.filter(item => {
-      return userEmail == item.email && password == item.password;
-    });
-
-    if (data.email.length == 0 || data.password.length == 0) {
-      Alert.alert('Wrong Input!', 'Email or password field cannot be empty.', [
-        {text: 'Okay'},
-      ]);
-      return;
-    }
-
-    if (foundUser.length == 0) {
-      Alert.alert('Invalid Email!', 'Email or password is incorrect.', [
-        {text: 'Okay'},
-      ]);
-      return;
-    }
-    signIn(foundUser);
-  };
-
   return (
     <View style={styles.container}>
       <Image style={styles.onboardingImage} source={IMAGES.ONBOARDING_IMAGE} />
@@ -119,7 +87,9 @@ const SignInScreen = ({navigation}) => {
             backgroundColor: '#222232',
           },
         ]}>
-        <Pressable style={styles.pressable} onPress={() => navigation.goBack()}>
+        <Pressable
+          style={styles.pressable}
+          onPress={() => navigation.navigate('Onboarding')}>
           <View style={styles.hideLine} />
         </Pressable>
         <Text
@@ -172,7 +142,7 @@ const SignInScreen = ({navigation}) => {
           <RoundedButton
             title="Sign in"
             onPress={() => {
-              loginHandle(data.email, data.password);
+              login(data.email, data.password);
             }}
           />
 

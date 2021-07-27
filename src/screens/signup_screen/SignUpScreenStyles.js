@@ -24,6 +24,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
   },
+  errorMsg: {
+    color: '#FF0000',
+    fontSize: 14,
+  },
   text_footer: {
     color: '#05375a',
     fontSize: 18,

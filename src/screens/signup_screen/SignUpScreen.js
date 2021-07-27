@@ -1,54 +1,88 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import styles from './SignUpScreenStyles';
 import Hide from '../../icons/login/Hide.svg';
 import Show from '../../icons/login/Show.svg';
-const SignInScreen = ({navigation}) => {
-  const [data, setData] = React.useState({
-    username: '',
+import {AuthContext} from '../../navigations/AuthProvider';
+const SignUpScreen = ({navigation}) => {
+  const {register} = useContext(AuthContext);
+  const [data, setData] = useState({
+    email: '',
     password: '',
     confirm_password: '',
     check_textInputChange: false,
     secureTextEntry: true,
     confirm_secureTextEntry: true,
+    isValidUser: true,
+    isValidPassword: true,
+    isValidConfirmPassword: true,
+    pressed: false,
   });
 
   const textInputChange = val => {
-    if (val.length !== 0) {
+    if (val.trim().length >= 6) {
       setData({
         ...data,
-        username: val,
+        email: val,
         check_textInputChange: true,
+        isValidUser: true,
       });
     } else {
       setData({
         ...data,
-        username: val,
+        email: val,
         check_textInputChange: false,
+        isValidUser: false,
       });
     }
   };
 
   const handlePasswordChange = val => {
-    setData({
-      ...data,
-      password: val,
-    });
+    if (val.trim().length >= 8) {
+      setData({
+        ...data,
+        password: val,
+        isValidPassword: true,
+      });
+    } else {
+      setData({
+        ...data,
+        password: val,
+        isValidPassword: false,
+      });
+    }
+  };
+  const handleConfirmPasswordChange = val => {
+    if (val.trim().length >= 8) {
+      setData({
+        ...data,
+        confirm_password: val,
+        isValidConfirmPassword: true,
+      });
+    } else {
+      setData({
+        ...data,
+        confirm_password: val,
+        isValidConfirmPassword: false,
+      });
+    }
+  };
+  const hanldeSignUp = () => {
+    if (data.password == data.confirm_password) {
+      register(data.email, data.password);
+    } else {
+      Alert.alert('Password mismatch');
+    }
   };
 
-  const handleConfirmPasswordChange = val => {
-    setData({
-      ...data,
-      confirm_password: val,
-    });
-  };
   const updateSecureTextEntry = () => {
     setData({
       ...data,
@@ -78,6 +112,13 @@ const SignInScreen = ({navigation}) => {
               onChangeText={val => textInputChange(val)}
             />
           </View>
+          {data.isValidUser ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={styles.errorMsg}>
+                Email must be 6 characters long.
+              </Text>
+            </Animatable.View>
+          )}
 
           <Text
             style={[
@@ -100,7 +141,13 @@ const SignInScreen = ({navigation}) => {
               {data.secureTextEntry ? <Hide /> : <Show />}
             </TouchableOpacity>
           </View>
-
+          {data.isValidPassword ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={styles.errorMsg}>
+                Password must be 8 characters long.
+              </Text>
+            </Animatable.View>
+          )}
           <Text
             style={[
               styles.text_footer,
@@ -123,6 +170,11 @@ const SignInScreen = ({navigation}) => {
               {data.confirm_secureTextEntry ? <Hide /> : <Show />}
             </TouchableOpacity>
           </View>
+          {data.isValidConfirmPassword ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={styles.errorMsg}>must be 8 characters long.</Text>
+            </Animatable.View>
+          )}
           <View style={styles.textPrivate}>
             <Text style={styles.color_textPrivate}>
               By signing up you agree to our
@@ -138,9 +190,7 @@ const SignInScreen = ({navigation}) => {
             </Text>
           </View>
           <View style={styles.button}>
-            <TouchableOpacity
-              style={styles.signIn}
-              onPress={() => navigation.navigate('SportsSelectionScreen')}>
+            <TouchableOpacity style={styles.signIn} onPress={hanldeSignUp}>
               <View colors={['#246BFD', '#246BFD']} style={styles.signIn}>
                 <Text
                   style={[
@@ -181,4 +231,4 @@ const SignInScreen = ({navigation}) => {
   );
 };
 
-export default SignInScreen;
+export default SignUpScreen;

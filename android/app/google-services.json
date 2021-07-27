@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "791014127591",
+    "project_id": "livescore-70531",
+    "storage_bucket": "livescore-70531.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791014127591:android:4cbcc1f149e7cfdec16f42",
+        "android_client_info": {
+          "package_name": "com.live_scores"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791014127591-ktqat36af3fskhf7kju1ev4n0irk2v6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOjB4X246ToeQS_tTGQhqks7kbcEqZMGg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791014127591-ktqat36af3fskhf7kju1ev4n0irk2v6a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "791014127591-u86n7dmitn18b4np9uvshslt486brein.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.livescore"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

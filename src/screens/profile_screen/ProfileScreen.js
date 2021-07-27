@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
-import {AuthContext} from '../../components/context';
+import {AuthContext} from '../../navigations/AuthProvider';
 
 const ProfileScreen = () => {
-  const {signOut} = React.useContext(AuthContext);
+  const {user, logout} = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
@@ -11,7 +11,7 @@ const ProfileScreen = () => {
       <Button
         title="Click Here"
         onPress={() => {
-          signOut();
+          logout();
         }}
       />
     </View>
