@@ -40,9 +40,8 @@ const SPORTS = [
   },
 ];
 
-function HomeScreen() {
+function HomeScreen({navigation, route}) {
   const [types, setTypes] = useState([]);
-
   const HandleSportPress = type => {
     if (types.includes(type)) {
       setTypes(types.filter(sportType => sportType !== type));
@@ -83,7 +82,7 @@ function HomeScreen() {
         ))}
       </ScrollView>
       <ScrollView style={styles.content}>
-        <Text>La liga</Text>
+        <Text>La liga </Text>
       </ScrollView>
     </View>
   );
