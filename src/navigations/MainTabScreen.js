@@ -1,12 +1,89 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+
+import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../screens/home_screen/HomeScreen';
 import ExploreScreen from '../screens/explore_screen/ExploreScreen';
 import StandingsScreen from '../screens/standings_screen/StandingsScreen';
 import ProfileScreen from '../screens/profile_screen/ProfileScreen';
+import ActivityProfileScreen from '../screens/profile_screen/ActivityProfile';
+import SettingsProfileScreen from '../screens/profile_screen/SettingsProfileScreen';
+import EditProfileScreen from '../screens/profile_screen/EditProfileScreen';
+
 import styles from './MainTabScreenStyles';
+import CameraScreen from '../screens/profile_screen/CameraScreen';
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const ProfileStack = ({navigation}) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Profile"
+      component={ProfileScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="ActivityProfile"
+      component={ActivityProfileScreen}
+      options={{
+        headerTitle: ' Activity',
+        headerBackTitleVisible: false,
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#fff',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="SettingsProfile"
+      component={SettingsProfileScreen}
+      options={{
+        headerTitle: ' Settings',
+        headerBackTitleVisible: false,
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#fff',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="EditProfile"
+      component={EditProfileScreen}
+      options={{
+        headerTitle: ' Edit Profile',
+        headerBackTitleVisible: false,
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#fff',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="Camera"
+      component={CameraScreen}
+      options={{
+        headerTitle: 'Camera',
+        headerBackTitleVisible: false,
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#fff',
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+      }}
+    />
+  </Stack.Navigator>
+);
 
 const MainTabScreen = ({navigation}) => {
   return (
@@ -101,7 +178,7 @@ const MainTabScreen = ({navigation}) => {
       />
       <Tab.Screen
         name="My Profile"
-        component={ProfileScreen}
+        component={ProfileStack}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={styles.container}>

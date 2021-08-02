@@ -11,10 +11,10 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		13C17141FDCB6A74F9FBE011 /* libPods-Live_Scores-Live_ScoresTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C60973F5A7B6998333AC77 /* libPods-Live_Scores-Live_ScoresTests.a */; };
 		1E9D03E626A99B06006FA8EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E9D03E526A99B06006FA8EB /* GoogleService-Info.plist */; };
-		8133DCBAA4427517025BEAA6 /* libPods-Live_Scores.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A935270CF52E4DCC2A7CDDA /* libPods-Live_Scores.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		82DB091DC82EC0D93652A6D1 /* libPods-Live_Scores-Live_ScoresTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C261D5268E09190D6C16BF4C /* libPods-Live_Scores-Live_ScoresTests.a */; };
+		A169031CC947AE7E38C28DA0 /* libPods-Live_Scores.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CC44A4E78DA8F9570F0067B /* libPods-Live_Scores.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,10 +38,10 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Live_Scores/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Live_Scores/main.m; sourceTree = "<group>"; };
 		1E9D03E526A99B06006FA8EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		5A935270CF52E4DCC2A7CDDA /* libPods-Live_Scores.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Live_Scores.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CC44A4E78DA8F9570F0067B /* libPods-Live_Scores.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Live_Scores.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		779ED43EF1997FA7D1276E2D /* Pods-Live_Scores.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Live_Scores.debug.xcconfig"; path = "Target Support Files/Pods-Live_Scores/Pods-Live_Scores.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Live_Scores/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		C4C60973F5A7B6998333AC77 /* libPods-Live_Scores-Live_ScoresTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Live_Scores-Live_ScoresTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C261D5268E09190D6C16BF4C /* libPods-Live_Scores-Live_ScoresTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Live_Scores-Live_ScoresTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5A49D842F6441A54E73B6F5 /* Pods-Live_Scores.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Live_Scores.release.xcconfig"; path = "Target Support Files/Pods-Live_Scores/Pods-Live_Scores.release.xcconfig"; sourceTree = "<group>"; };
 		E613D7C2E681B23A34D0B49A /* Pods-Live_Scores-Live_ScoresTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Live_Scores-Live_ScoresTests.release.xcconfig"; path = "Target Support Files/Pods-Live_Scores-Live_ScoresTests/Pods-Live_Scores-Live_ScoresTests.release.xcconfig"; sourceTree = "<group>"; };
 		E7A25117A0EE6A20AA03B38A /* Pods-Live_Scores-Live_ScoresTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Live_Scores-Live_ScoresTests.debug.xcconfig"; path = "Target Support Files/Pods-Live_Scores-Live_ScoresTests/Pods-Live_Scores-Live_ScoresTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -53,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13C17141FDCB6A74F9FBE011 /* libPods-Live_Scores-Live_ScoresTests.a in Frameworks */,
+				82DB091DC82EC0D93652A6D1 /* libPods-Live_Scores-Live_ScoresTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8133DCBAA4427517025BEAA6 /* libPods-Live_Scores.a in Frameworks */,
+				A169031CC947AE7E38C28DA0 /* libPods-Live_Scores.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,8 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5A935270CF52E4DCC2A7CDDA /* libPods-Live_Scores.a */,
-				C4C60973F5A7B6998333AC77 /* libPods-Live_Scores-Live_ScoresTests.a */,
+				4CC44A4E78DA8F9570F0067B /* libPods-Live_Scores.a */,
+				C261D5268E09190D6C16BF4C /* libPods-Live_Scores-Live_ScoresTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -418,7 +418,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Live_ScoresTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -442,7 +442,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = Live_ScoresTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -558,7 +558,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -616,7 +616,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -627,6 +627,7 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

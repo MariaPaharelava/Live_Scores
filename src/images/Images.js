@@ -1,6 +1,7 @@
 export const IMAGES = {
   ONBOARDING_IMAGE: require('./images/onboarding_image.png'),
   HOMESCREEN_IMAGE: require('./images/banner_homeScreen.png'),
+  PROFILE_IMAGE: require('./images/photo_profile.png'),
 };
 export const SPORTS_IMAGES = {
   SOOCER_IMAGE: require('./sports_images/soccer.png'),
