@@ -7,18 +7,29 @@ import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../screens/home_screen/HomeScreen';
 import ExploreScreen from '../screens/explore_screen/ExploreScreen';
 import StandingsScreen from '../screens/standings_screen/StandingsScreen';
-import ProfileScreen from '../screens/profile_screen/ProfileScreen';
-import ActivityProfileScreen from '../screens/profile_screen/ActivityProfile';
-import SettingsProfileScreen from '../screens/profile_screen/SettingsProfileScreen';
-import EditProfileScreen from '../screens/profile_screen/EditProfileScreen';
+import ProfileScreen from '../screens/profile_screen/profile/ProfileScreen';
+import ActivityProfileScreen from '../screens/profile_screen/activity/ActivityProfileScreen';
+import SettingsProfileScreen from '../screens/profile_screen/settings/SettingsProfileScreen';
+import EditProfileScreen from '../screens/profile_screen/edit/EditProfileScreen';
 
 import styles from './MainTabScreenStyles';
-import CameraScreen from '../screens/profile_screen/CameraScreen';
+import CameraScreen from '../screens/profile_screen/camera/CameraScreen';
 const Tab = createBottomTabNavigator();
+const Top = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 const ProfileStack = ({navigation}) => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{
+      headerBackTitleVisible: false,
+      headerTitleAlign: 'center',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#181829',
+        shadowColor: '#181829',
+        elevation: 0,
+      },
+    }}>
     <Stack.Screen
       name="Profile"
       component={ProfileScreen}
@@ -31,13 +42,6 @@ const ProfileStack = ({navigation}) => (
       component={ActivityProfileScreen}
       options={{
         headerTitle: ' Activity',
-        headerBackTitleVisible: false,
-        headerTitleAlign: 'center',
-        headerStyle: {
-          backgroundColor: '#fff',
-          shadowColor: '#fff',
-          elevation: 0,
-        },
       }}
     />
     <Stack.Screen
@@ -45,13 +49,6 @@ const ProfileStack = ({navigation}) => (
       component={SettingsProfileScreen}
       options={{
         headerTitle: ' Settings',
-        headerBackTitleVisible: false,
-        headerTitleAlign: 'center',
-        headerStyle: {
-          backgroundColor: '#fff',
-          shadowColor: '#fff',
-          elevation: 0,
-        },
       }}
     />
     <Stack.Screen
@@ -59,27 +56,6 @@ const ProfileStack = ({navigation}) => (
       component={EditProfileScreen}
       options={{
         headerTitle: ' Edit Profile',
-        headerBackTitleVisible: false,
-        headerTitleAlign: 'center',
-        headerStyle: {
-          backgroundColor: '#fff',
-          shadowColor: '#fff',
-          elevation: 0,
-        },
-      }}
-    />
-    <Stack.Screen
-      name="Camera"
-      component={CameraScreen}
-      options={{
-        headerTitle: 'Camera',
-        headerBackTitleVisible: false,
-        headerTitleAlign: 'center',
-        headerStyle: {
-          backgroundColor: '#fff',
-          shadowColor: '#fff',
-          elevation: 0,
-        },
       }}
     />
   </Stack.Navigator>
