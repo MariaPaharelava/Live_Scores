@@ -39,9 +39,31 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   content: {
-    backgroundColor: 'white',
     width: '100%',
     height: Platform.OS === 'ios' ? '50%' : '40%',
+    backgroundColor: '#181829',
   },
+  info: {
+    fontSize: 20,
+    textAlign: 'left',
+    color: '#666666',
+    fontStyle: 'italic',
+    lineHeight: 40,
+    fontWeight: 'bold',
+    marginLeft: 6,
+    marginBottom: 5,
+
+    letterSpacing: 0.9,
+  },
+  point: {
+    borderColor: '#ad3123',
+    borderWidth: 4,
+    width: 4,
+    height: 4,
+    borderRadius: 4,
+  },
+  ligaStyle: {},
+  matchStyle: {},
+  lastView: {height: 80},
 });
 export default styles;

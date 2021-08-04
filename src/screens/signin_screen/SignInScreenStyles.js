@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: Platform.OS === 'ios' ? 30 : 12,
-    paddingHorizontal: Platform.OS === 'ios' ? 18 : 12,
+    paddingHorizontal: Platform.OS === 'ios' ? 25 : 20,
   },
   lastView: {
     flexDirection: 'row',
@@ -107,5 +107,9 @@ const styles = StyleSheet.create({
     marginLeft: 150,
   },
   pressable: {},
+  rememberText: {
+    color: 'gray',
+    paddingRight: Platform.OS === 'ios' ? 30 : 80,
+  },
 });
 export default styles;

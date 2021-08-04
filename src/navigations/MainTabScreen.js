@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../screens/home_screen/HomeScreen';
@@ -13,9 +12,7 @@ import SettingsProfileScreen from '../screens/profile_screen/settings/SettingsPr
 import EditProfileScreen from '../screens/profile_screen/edit/EditProfileScreen';
 
 import styles from './MainTabScreenStyles';
-import CameraScreen from '../screens/profile_screen/camera/CameraScreen';
 const Tab = createBottomTabNavigator();
-const Top = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 const ProfileStack = ({navigation}) => (

@@ -25,7 +25,7 @@ const ProfileScreen = ({navigation}) => {
             <TouchableOpacity style={styles.userEditContainer}>
               <Image
                 style={styles.userEditImg}
-                source={require('../../../images/profile/Profile.png')}
+                source={require('../../../images/profile/ProfileEdit.png')}
               />
             </TouchableOpacity>
           </ImageBackground>
@@ -55,25 +55,25 @@ const ProfileScreen = ({navigation}) => {
         <ProfileButton
           title="Name"
           titleInfo="Brian Imanuel"
-          image={require('../../images/profile/Profile.png')}
+          image={require('../../../images/profile/Profile.png')}
           onPress={() => navigation.navigate('EditProfile')}
         />
         <ProfileButton
           title="Email"
           titleInfo="brians213@gmail.com"
-          image={require('../../images/profile/ProfileEmail.png')}
+          image={require('../../../images/profile/ProfileEmail.png')}
           onPress={() => navigation.navigate('EditProfile')}
         />
         <ProfileButton
           title="Phone"
           titleInfo="+62 821 560 641"
-          image={require('../../images/profile/ProfilePhone.png')}
+          image={require('../../../images/profile/ProfilePhone.png')}
           onPress={() => navigation.navigate('EditProfile')}
         />
         <ProfileButton
           title="Adress"
           titleInfo="Long beach, California"
-          image={require('../../images/profile/ProfileAdress.png')}
+          image={require('../../../images/profile/ProfileAdress.png')}
           onPress={() => navigation.navigate('EditProfile')}
         />
       </ScrollView>
