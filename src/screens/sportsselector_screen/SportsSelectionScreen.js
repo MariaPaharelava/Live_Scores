@@ -61,7 +61,7 @@ function SportsSelectionScreen({navigation}) {
             <TouchableOpacity
               style={
                 types.includes(item.type)
-                  ? [styles.touchableOpacity, {backgroundColor: 'orange'}]
+                  ? [styles.touchableOpacity, {backgroundColor: '#ED6B4E'}]
                   : styles.touchableOpacity
               }
               onPress={() => HandleSportPress(item.type)}>

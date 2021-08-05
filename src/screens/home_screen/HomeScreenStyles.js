@@ -62,8 +62,7 @@ const styles = StyleSheet.create({
     height: 4,
     borderRadius: 4,
   },
-  ligaStyle: {},
-  matchStyle: {},
-  lastView: {height: 80},
+
+  lastView: {height: 75},
 });
 export default styles;

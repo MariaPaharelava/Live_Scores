@@ -5,7 +5,8 @@ import {TouchableOpacity, Text, Image, View} from 'react-native';
 export const MatchButton = ({
   onPress,
   noBackground = false,
-
+  liga,
+  matches,
   ...props
 }) => {
   return (
@@ -15,30 +16,34 @@ export const MatchButton = ({
           <View style={styles.wrapper}>
             <Image
               style={{height: 30, width: 30, marginRight: 10}}
-              source={{uri: props.imageF}}
+              source={{uri: matches.firstTeam.teamDetails.imageUrl}}
             />
             <Image
               style={{height: 30, width: 30}}
-              source={{uri: props.imageS}}
+              source={{uri: matches.secondTeam.teamDetails.imageUrl}}
             />
           </View>
 
           <View style={styles.content}>
             <View style={styles.wrapperScore}>
-              <Text style={styles.text}>{props.firstTeam}</Text>
-              <Text style={styles.text}>{props.scoreF}</Text>
+              <Text style={styles.text}>
+                {matches.firstTeam.teamDetails.name}
+              </Text>
+              <Text style={styles.text}>{matches.firstTeam.score}</Text>
             </View>
             <View style={styles.wrapperScore}>
               <Text style={styles.text}>vs</Text>
               <Text style={styles.text}>-</Text>
             </View>
             <View style={styles.wrapperScore}>
-              <Text style={styles.text}>{props.secondTeam}</Text>
-              <Text style={styles.text}>{props.scoreS}</Text>
+              <Text style={styles.text}>
+                {matches.secondTeam.teamDetails.name}
+              </Text>
+              <Text style={styles.text}>{matches.secondTeam.score}</Text>
             </View>
           </View>
           <View style={styles.time}>
-            <Text style={[styles.text]}>{props.type}</Text>
+            <Text style={[styles.text]}>{matches.type}</Text>
           </View>
         </TouchableOpacity>
       </View>

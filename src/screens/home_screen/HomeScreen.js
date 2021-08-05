@@ -50,7 +50,7 @@ const SPORTS = [
   },
 ];
 
-function HomeScreen() {
+function HomeScreen({navigation}) {
   const [types, setTypes] = useState([]);
 
   const HandleSportPress = type => {
@@ -60,14 +60,35 @@ function HomeScreen() {
       setTypes([...types, type]);
     }
   };
-  // const sort = () => {
-  //   Ligs.map(item => {
-  //     item.matches.sort((a, b) => {
-  //       return new Date(b.playtime) - new Date(a.playtime);
-  //     });
-  //   });
-  //   console.log(Ligs);
-  // };
+
+  const rednderLigs = ligs => {
+    return ligs.map(liga => {
+      const matchIndex = getIndex(liga.matches);
+      return (
+        <View key={liga.id}>
+          <LigaButton liga={liga} />
+          <MatchButton
+            liga={liga}
+            matches={liga.matches[matchIndex]}
+            onPress={() =>
+              navigation.navigate('DetailTeam', {
+                match: liga.matches[matchIndex],
+                othermatch: liga.matches,
+                liga: liga,
+              })
+            }
+          />
+        </View>
+      );
+    });
+  };
+
+  const getIndex = matches => {
+    const now = Date.now();
+    const a = matches.map(match => Math.abs(now - match.playtime));
+    return a.indexOf(Math.min(...a));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -89,7 +110,7 @@ function HomeScreen() {
             <TouchableOpacity
               style={
                 types.includes(item.type)
-                  ? [styles.touchableOpacity, {backgroundColor: 'orange'}]
+                  ? [styles.touchableOpacity, {backgroundColor: '#ED6B4E'}]
                   : styles.touchableOpacity
               }
               onPress={() => HandleSportPress(item.type)}>
@@ -100,28 +121,7 @@ function HomeScreen() {
         ))}
       </ScrollView>
       <ScrollView style={styles.content}>
-        {Ligs.map(item => (
-          <View key={item.id}>
-            <LigaButton
-              title={item.ligaName}
-              titleInfo={item.ligaCountry}
-              iconName={item.country}
-              imageF={item.matches[0].firstTeam.teamDetails.imageUrl}
-              imageS={item.matches[0].secondTeam.teamDetails.imageUrl}
-            />
-            <MatchButton
-              firstTeam={item.matches[0].firstTeam.teamDetails.name}
-              secondTeam={item.matches[0].secondTeam.teamDetails.name}
-              iconName={item.country}
-              imageF={item.matches[0].firstTeam.teamDetails.imageUrl}
-              imageS={item.matches[0].secondTeam.teamDetails.imageUrl}
-              scoreF={item.matches[0].firstTeam.score}
-              scoreS={item.matches[0].secondTeam.score}
-              type={item.matches[0].type}
-            />
-            {/* <MatchButton /> */}
-          </View>
-        ))}
+        {rednderLigs(Ligs)}
         <View style={styles.lastView}></View>
       </ScrollView>
     </View>
@@ -129,21 +129,3 @@ function HomeScreen() {
 }
 
 export default HomeScreen;
-{
-  /* <SafeAreaView style={styles.content}>
-        <FlatList
-          data={Ligs}
-          keyExtractor={item => item.currentMatchId}
-          renderItem={({item}) => (
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginLeft: 5,
-              }}>
-              <Text style={styles.info}>{item.ligaName}</Text>
-            </View>
-          )}
-        />
-      </SafeAreaView> */
-}
