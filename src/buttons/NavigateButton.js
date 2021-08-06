@@ -9,16 +9,19 @@ export const NavigateButton = ({
   ...props
 }) => {
   return (
-    <TouchableOpacity
-      style={[
-        styles.userBtn,
-        {
-          width: props.width,
-          height: props.height,
-          backgroundColor: props.color,
-        },
-      ]}>
-      <Text style={styles.userBtnTxt}>{props.title}</Text>
-    </TouchableOpacity>
+    <View>
+      <TouchableOpacity
+        style={[
+          styles.userBtn,
+          {
+            width: props.width,
+            height: props.height,
+            backgroundColor: props.color,
+          },
+        ]}
+        onPress={onPress}>
+        <Text style={styles.userBtnTxt}>{props.title}</Text>
+      </TouchableOpacity>
+    </View>
   );
 };

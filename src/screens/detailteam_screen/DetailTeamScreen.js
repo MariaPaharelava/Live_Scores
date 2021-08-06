@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -11,15 +11,43 @@ import {
 import {styles} from './DetailTeamScreenStyles';
 import {NavigateButton} from '../../buttons/NavigateButton';
 import {LogBox} from 'react-native';
-import {Score} from '../../component/Score';
-import {MatchButton} from '../../buttons/MatchButton';
-import {Ligs} from '../../component/Ligs';
+
+import MatchDetail from '../../component/MatchDetail';
+import LineUp from '../../component/LineUp';
+import H2H from '../../component/H2H';
 
 const DetailTeamScreen = ({navigation, route}) => {
   LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
   ]);
+
   const {match, othermatch} = route.params;
+  const [view, setView] = useState('details');
+  const options = [
+    {label: 'Match Details', value: 'details'},
+    {label: 'Line Up', value: 'lineUp'},
+    {label: ' H2H', value: 'h2h'},
+  ];
+
+  const selectedView = () => {
+    switch (view) {
+      case 'details':
+        return (
+          <MatchDetail
+            navigation={navigation}
+            match={match}
+            othermatch={othermatch}
+          />
+        );
+      case 'lineUp':
+        return <LineUp />;
+      case 'h2h':
+        return <H2H />;
+      default:
+        return;
+    }
+  };
+
   // const [matches] = React.useState(route.params.matches);
 
   // React.useLayoutEffect(() => {
@@ -28,24 +56,24 @@ const DetailTeamScreen = ({navigation, route}) => {
   //   });
   // }, [navigation, matches]);
 
-  const rednderLigs = (othermatch, currentmutch) => {
-    return othermatch.map(match => {
-      if (match != currentmutch)
-        return (
-          <View style={{paddingTop: 20}} key={match.id}>
-            <MatchButton
-              matches={match}
-              onPress={() =>
-                navigation.navigate('DetailTeam', {
-                  match: match,
-                  othermatch: othermatch,
-                })
-              }
-            />
-          </View>
-        );
-    });
-  };
+  // const rednderLigs = (othermatch, currentmutch) => {
+  //   return othermatch.map(match => {
+  //     if (match != currentmutch)
+  //       return (
+  //         <View style={{paddingTop: 20}} key={match.id}>
+  //           <MatchButton
+  //             matches={match}
+  //             onPress={() =>
+  //               navigation.navigate('DetailTeam', {
+  //                 match: match,
+  //                 othermatch: othermatch,
+  //               })
+  //             }
+  //           />
+  //         </View>
+  //       );
+  //   });
+  // };
 
   return (
     <View style={styles.container}>
@@ -87,66 +115,20 @@ const DetailTeamScreen = ({navigation, route}) => {
         </View>
       </View>
       <View style={styles.navigate}>
-        <NavigateButton
-          title="Match Detail"
-          width={100}
-          color="#ED6B4E"
-          height={50}
-          onPress={() => {}}
-        />
-        <NavigateButton
-          title="Line up"
-          width={100}
-          height={50}
-          color="#ED6B4E"
-          onPress={() => {}}
-        />
-        <NavigateButton
-          title="H2H"
-          width={100}
-          height={50}
-          color="#ED6B4E"
-          onPress={() => {}}
-        />
+        {options.map(item => (
+          <NavigateButton
+            key={item.label}
+            title={item.label}
+            width={100}
+            height={50}
+            color={view == item.value ? '#ED6B4E' : '#00000000'}
+            onPress={() => {
+              setView(item.value);
+            }}
+          />
+        ))}
       </View>
-      <View style={styles.params}>
-        <Score
-          title="Shooting"
-          valueF={match.firstTeam.stats.shooting}
-          valueS={match.secondTeam.stats.shooting}
-        />
-        <Score
-          title="Attacks"
-          valueF={match.firstTeam.stats.attacks}
-          valueS={match.secondTeam.stats.attacks}
-        />
-        <Score
-          title="Possesion"
-          valueF={match.firstTeam.stats.possesion}
-          valueS={match.secondTeam.stats.possesion}
-        />
-        <Score
-          title="Cards"
-          valueF={match.firstTeam.stats.cards}
-          valueS={match.secondTeam.stats.cards}
-          image={require('../../icons/other/yellowcard.png')}
-        />
-        <Score
-          title="Corners"
-          valueF={match.firstTeam.stats.corners}
-          valueS={match.secondTeam.stats.corners}
-        />
-      </View>
-      <View style={styles.other}>
-        <Text style={styles.otherText}>Other Match</Text>
-        <TouchableOpacity>
-          <Text style={styles.allText}>See all</Text>
-        </TouchableOpacity>
-      </View>
-      <ScrollView>
-        {rednderLigs(othermatch, match)}
-        <View style={{height: 75}}></View>
-      </ScrollView>
+      <View tyle={styles.params}>{selectedView()}</View>
     </View>
   );
 };

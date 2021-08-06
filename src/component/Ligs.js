@@ -9,6 +9,7 @@ export const Ligs = [
     currentMatchId: 'laliga',
     matches: [
       {
+        // playtime: new Date('2016-02-29T07:00:00.000Z'),
         playtime: new Date(),
         id: '1',
         type: 'HT',
@@ -20,6 +21,7 @@ export const Ligs = [
             name: 'Barselona',
             imageUrl:
               'https://cdn.icon-icons.com/icons2/104/PNG/256/fc_barcelona_footballteam_18015.png',
+            players: ['asdasd', 'asdasd'],
           },
           stats: {
             shooting: 10,
@@ -28,6 +30,7 @@ export const Ligs = [
             cards: 4,
             corners: 8,
           },
+          formation: [4, 2, 3, 1],
         },
         secondTeam: {
           score: 0,
@@ -38,8 +41,8 @@ export const Ligs = [
               'https://cdn.icon-icons.com/icons2/1637/PNG/256/real-madrid_109486.png',
           },
           stats: {
-            shooting: 8,
-            attacks: 9,
+            shooting: 11,
+            attacks: 11,
             possesion: 50,
             cards: 6,
             corners: 2,
@@ -211,11 +214,11 @@ export const Ligs = [
               'https://iconape.com/wp-content/png_logo_vector/borussia-dortmund.png',
           },
           stats: {
-            shooting: 10,
+            shooting: 12,
             attacks: 15,
             possesion: 45,
-            cards: 2,
-            corners: 8,
+            cards: 4,
+            corners: 5,
           },
         },
       },

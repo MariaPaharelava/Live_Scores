@@ -4,7 +4,6 @@ import {fonts} from '../../constant/fonts';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     backgroundColor: '#181829',
   },
   column: {
@@ -32,7 +31,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   params: {
-    marginTop: Platform.OS === 'ios' ? 30 : 0,
+    marginTop: Platform.OS === 'ios' ? 50 : 0,
   },
   other: {
     marginTop: Platform.OS === 'ios' ? 40 : 20,
