@@ -40,7 +40,7 @@ const DetailTeamScreen = ({navigation, route}) => {
           />
         );
       case 'lineUp':
-        return <LineUp />;
+        return <LineUp navigation={navigation} match={match} />;
       case 'h2h':
         return <H2H />;
       default:

@@ -10,4 +10,5 @@ export const SPORTS_IMAGES = {
   BASEBALL_IMAGE: require('./sports_images/baseball.png'),
   TENNIS_IMAGE: require('./sports_images/tennis.png'),
   VOLLEYBALL_IMAGE: require('./sports_images/volleyball.png'),
+  FIELD_IMAGE: require('./images/field.jpg'),
 };

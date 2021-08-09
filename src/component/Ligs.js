@@ -21,7 +21,6 @@ export const Ligs = [
             name: 'Barselona',
             imageUrl:
               'https://cdn.icon-icons.com/icons2/104/PNG/256/fc_barcelona_footballteam_18015.png',
-            players: ['asdasd', 'asdasd'],
           },
           stats: {
             shooting: 10,
@@ -30,7 +29,46 @@ export const Ligs = [
             cards: 4,
             corners: 8,
           },
-          formation: [4, 2, 3, 1],
+          formation: [4, 3, 3],
+
+          players: {
+            FWD: [
+              {name: 'Dembele', number: '11', goal: '+'},
+              {name: 'Aguero', number: '19'},
+              {name: 'Griezmann', number: '7'},
+            ],
+            MID: [
+              {name: 'Busquets', number: '5'},
+              {name: 'DeJong', number: '21'},
+              {
+                name: 'Messi',
+                number: '10',
+                captain: '+',
+                card: '+',
+              },
+            ],
+            DEF: [
+              {name: 'Alba', number: '18'},
+              {name: 'Pique', number: '3'},
+              {name: 'Roberto', number: '20', card: '+'},
+              {name: 'Umtiti', number: '23'},
+            ],
+            GKC: [{name: 'Neto', number: '13'}],
+          },
+
+          // players: [
+          //   {player: 'Neto', number: '13'},
+          //   {player: 'Alba', number: '18'},
+          //   {player: 'Pique', number: '3'},
+          //   {player: 'Roberto', number: '20'},
+          //   {player: 'Umtiti', number: '23'},
+          //   {player: 'Busquets', number: '5'},
+          //   {player: 'DeJong', number: '21'},
+          //   {player: 'Messi', number: '10'},
+          //   {player: 'Aguero', number: '19'},
+          //   {player: 'Griezmann', number: '7'},
+          //   {player: 'Dembele', number: '11'},
+          // ],
         },
         secondTeam: {
           score: 0,
@@ -47,6 +85,39 @@ export const Ligs = [
             cards: 6,
             corners: 2,
           },
+          formation: [5, 2, 3],
+          players: {
+            FWD: [
+              {name: 'Asensio', number: '11'},
+              {name: 'Benzema', number: '9'},
+              {name: 'Hazard', number: '7'},
+            ],
+            MID: [
+              {name: 'Modric', number: '10'},
+              {name: 'Isco', number: '22'},
+            ],
+            DEF: [
+              {name: 'Alaba', number: '4'},
+              {name: 'Nacho', number: '6'},
+              {name: 'Marcelo', number: '12'},
+              {name: 'Mendy', number: '23'},
+              {name: 'Kroos', number: '8', captain: '+'},
+            ],
+            GKC: [{name: 'Courtois', number: '1'}],
+          },
+          // players: [
+          //   {player: 'Courtois', number: '1'},
+          //   {player: 'Alaba', number: '4'},
+          //   {player: 'Nacho', number: '6'},
+          //   {player: 'Marcelo', number: '12'},
+          //   {player: 'Mendy', number: '23'},
+          //   {player: 'Kroos', number: '8'},
+          //   {player: 'Modric', number: '10'},
+          //   {player: 'Isco', number: '22'},
+          //   {player: 'Asensio', number: '11'},
+          //   {player: 'Hazard', number: '7'},
+          //   {player: 'Benzema', number: '9'},
+          // ],
         },
       },
       {
@@ -68,6 +139,26 @@ export const Ligs = [
             cards: 2,
             corners: 10,
           },
+          formation: [4, 4, 2],
+          players: {
+            FWD: [
+              {name: 'Felix', number: '7'},
+              {name: 'Suarez', number: '9'},
+            ],
+            MID: [
+              {name: 'Herrera', number: '16'},
+              {name: 'Koke', number: '6'},
+              {name: 'Dorta', number: '41'},
+              {name: 'Saul', number: '8'},
+            ],
+            DEF: [
+              {name: 'Hermoso', number: '22'},
+              {name: 'Sanchez', number: '29'},
+              {name: 'Lodi', number: '12'},
+              {name: 'Garcia', number: '26'},
+            ],
+            GKC: [{name: 'Oblak', number: '13', captain: '+'}],
+          },
         },
         secondTeam: {
           score: 1,
@@ -83,6 +174,27 @@ export const Ligs = [
             possesion: 50,
             cards: 6,
             corners: 2,
+          },
+          formation: [4, 2, 3, 1],
+          players: {
+            FWD: [{name: 'Suso', number: '7'}],
+            MIDF: [
+              {name: 'Jordan', number: '8'},
+              {name: 'Gomez', number: '24'},
+              {name: 'Lemar', number: '11'},
+            ],
+            MIDS: [
+              {name: 'Rodriges', number: '14'},
+              {name: 'Rakitic', number: '10', captain: '+'},
+            ],
+            DEF: [
+              {name: 'Pozo', number: '18'},
+              {name: 'Reges', number: '25'},
+              {name: 'Rekik', number: '4'},
+              {name: 'Carlos', number: '20'},
+              {name: 'Diaz', number: '31'},
+            ],
+            GKC: [{name: 'Bono', number: '13'}],
           },
         },
       },
@@ -117,6 +229,27 @@ export const Ligs = [
             cards: 6,
             corners: 4,
           },
+          formation: [4, 2, 3, 1],
+          players: {
+            FWD: [{name: 'Suso', number: '7'}],
+            MIDF: [
+              {name: 'Jordan', number: '8'},
+              {name: 'Gomez', number: '24'},
+              {name: 'Lemar', number: '11'},
+            ],
+            MIDS: [
+              {name: 'Rodriges', number: '14'},
+              {name: 'Rakitic', number: '10', captain: '+'},
+            ],
+            DEF: [
+              {name: 'Pozo', number: '18'},
+              {name: 'Reges', number: '25'},
+              {name: 'Rekik', number: '4'},
+              {name: 'Carlos', number: '20'},
+              {name: 'Diaz', number: '31'},
+            ],
+            GKC: [{name: 'Bono', number: '13'}],
+          },
         },
         secondTeam: {
           score: 3,
@@ -132,6 +265,26 @@ export const Ligs = [
             possesion: 60,
             cards: 2,
             corners: 2,
+          },
+          formation: [5, 2, 3],
+          players: {
+            FWD: [
+              {name: 'Asensio', number: '11'},
+              {name: 'Benzema', number: '9', captain: '+'},
+              {name: 'Hazard', number: '7'},
+            ],
+            MID: [
+              {name: 'Modric', number: '10'},
+              {name: 'Isco', number: '22'},
+            ],
+            DEF: [
+              {name: 'Alaba', number: '4'},
+              {name: 'Nacho', number: '6'},
+              {name: 'Marcelo', number: '12'},
+              {name: 'Mendy', number: '23'},
+              {name: 'Kroos', number: '8'},
+            ],
+            GKC: [{name: 'Courtois', number: '1'}],
           },
         },
       },
@@ -155,6 +308,27 @@ export const Ligs = [
             cards: 2,
             corners: 12,
           },
+          formation: [4, 3, 3],
+
+          players: {
+            FWD: [
+              {name: 'Dembele', number: '11'},
+              {name: 'Aguero', number: '19'},
+              {name: 'Griezmann', number: '7', captain: '+'},
+            ],
+            MID: [
+              {name: 'Busquets', number: '5'},
+              {name: 'DeJong', number: '21'},
+              {name: 'Messi', number: '10'},
+            ],
+            DEF: [
+              {name: 'Alba', number: '18'},
+              {name: 'Pique', number: '3'},
+              {name: 'Roberto', number: '20'},
+              {name: 'Umtiti', number: '23'},
+            ],
+            GKC: [{name: 'Neto', number: '13'}],
+          },
         },
         secondTeam: {
           score: 3,
@@ -170,6 +344,27 @@ export const Ligs = [
             possesion: 80,
             cards: 5,
             corners: 7,
+          },
+          formation: [4, 2, 3, 1],
+          players: {
+            FWD: [{name: 'Suso', number: '7'}],
+            MIDF: [
+              {name: 'Jordan', number: '8'},
+              {name: 'Gomez', number: '24'},
+              {name: 'Lemar', number: '11'},
+            ],
+            MIDS: [
+              {name: 'Rodriges', number: '14'},
+              {name: 'Rakitic', number: '10'},
+            ],
+            DEF: [
+              {name: 'Pozo', number: '18'},
+              {name: 'Reges', number: '25'},
+              {name: 'Rekik', number: '4', captain: '+'},
+              {name: 'Carlos', number: '20'},
+              {name: 'Diaz', number: '31'},
+            ],
+            GKC: [{name: 'Bono', number: '13'}],
           },
         },
       },
@@ -204,6 +399,27 @@ export const Ligs = [
             cards: 2,
             corners: 8,
           },
+          formation: [4, 3, 3],
+
+          players: {
+            FWD: [
+              {name: 'Dembele', number: '11'},
+              {name: 'Aguero', number: '19'},
+              {name: 'Griezmann', number: '7'},
+            ],
+            MID: [
+              {name: 'Busquets', number: '5'},
+              {name: 'DeJong', number: '21'},
+              {name: 'Messi', number: '10'},
+            ],
+            DEF: [
+              {name: 'Alba', number: '18'},
+              {name: 'Pique', number: '3'},
+              {name: 'Roberto', number: '20'},
+              {name: 'Umtiti', number: '23'},
+            ],
+            GKC: [{name: 'Neto', number: '13', captain: '+'}],
+          },
         },
         secondTeam: {
           score: 3,
@@ -219,6 +435,27 @@ export const Ligs = [
             possesion: 45,
             cards: 4,
             corners: 5,
+          },
+          formation: [4, 2, 3, 1],
+          players: {
+            FWD: [{name: 'Suso', number: '7'}],
+            MIDF: [
+              {name: 'Jordan', number: '8'},
+              {name: 'Gomez', number: '24'},
+              {name: 'Lemar', number: '11'},
+            ],
+            MIDS: [
+              {name: 'Rodriges', number: '14'},
+              {name: 'Rakitic', number: '10'},
+            ],
+            DEF: [
+              {name: 'Pozo', number: '18'},
+              {name: 'Reges', number: '25'},
+              {name: 'Rekik', number: '4'},
+              {name: 'Carlos', number: '20', captain: '+'},
+              {name: 'Diaz', number: '31'},
+            ],
+            GKC: [{name: 'Bono', number: '13'}],
           },
         },
       },
@@ -242,6 +479,26 @@ export const Ligs = [
             cards: 3,
             corners: 8,
           },
+          formation: [5, 2, 3],
+          players: {
+            FWD: [
+              {name: 'Asensio', number: '11'},
+              {name: 'Benzema', number: '9'},
+              {name: 'Hazard', number: '7'},
+            ],
+            MID: [
+              {name: 'Modric', number: '10'},
+              {name: 'Isco', number: '22'},
+            ],
+            DEF: [
+              {name: 'Alaba', number: '4'},
+              {name: 'Nacho', number: '6'},
+              {name: 'Marcelo', number: '12'},
+              {name: 'Mendy', number: '23', captain: '+'},
+              {name: 'Kroos', number: '8'},
+            ],
+            GKC: [{name: 'Courtois', number: '1'}],
+          },
         },
         secondTeam: {
           score: 1,
@@ -257,6 +514,26 @@ export const Ligs = [
             possesion: 25,
             cards: 2,
             corners: 8,
+          },
+          formation: [4, 4, 2],
+          players: {
+            FWD: [
+              {name: 'Felix', number: '7'},
+              {name: 'Suarez', number: '9'},
+            ],
+            MID: [
+              {name: 'Herrera', number: '16'},
+              {name: 'Koke', number: '6'},
+              {name: 'Dorta', number: '41'},
+              {name: 'Saul', number: '8'},
+            ],
+            DEF: [
+              {name: 'Hermoso', number: '22'},
+              {name: 'Sanchez', number: '29'},
+              {name: 'Lodi', number: '12'},
+              {name: 'Garcia', number: '26'},
+            ],
+            GKC: [{name: 'Oblak', number: '13', captain: '+'}],
           },
         },
       },
