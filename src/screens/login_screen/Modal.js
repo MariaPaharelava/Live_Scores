@@ -1,10 +1,7 @@
 import React, {useState} from 'react';
 import {RoundedButton} from '../../buttons/RoundedButton';
 import styles from './ModalStyles';
-import Message from '../../icons/Message.svg';
-import Hide from '../../icons/Hide.svg';
-import Password from '../../icons/Password.svg';
-import Show from '../../icons/Show.svg';
+
 import CheckBox from '@react-native-community/checkbox';
 import {LoginButton} from '../../buttons/LoginButton';
 

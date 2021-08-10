@@ -1,5 +1,6 @@
 import React from 'react';
 import Onboarding from './screens/onboarding/Onboarding';
+import SplashScreen from './screens/splash_screen/SplashScreen';
 
 import {
   SafeAreaView,
@@ -12,7 +13,11 @@ import {
 } from 'react-native';
 
 const App = () => {
-  return <Onboarding></Onboarding>;
+  return <SplashScreen />;
 };
+{
+  /* <SplashScreen /> */
+  // <Onboarding />;
+}
 
 export default App;
