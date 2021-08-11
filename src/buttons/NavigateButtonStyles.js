@@ -12,6 +12,15 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
   },
+  imageView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sportLogo: {
+    width: 30,
+    height: 30,
+  },
 });
 
 export default styles;

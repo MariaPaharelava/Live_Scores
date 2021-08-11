@@ -1,4 +1,4 @@
-export const Ligs = [
+const Ligas = [
   {
     id: 'laliga228',
     ligaName: 'La Liga',
@@ -304,7 +304,6 @@ export const Ligs = [
     ],
     matches: [
       {
-        // playtime: new Date('2016-02-29T07:00:00.000Z'),
         playtime: new Date(),
         id: '1',
         type: 'HT',
@@ -837,3 +836,23 @@ export const Ligs = [
     ],
   },
 ];
+export const getMatch = id => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let match;
+      for (let liga of Ligas) {
+        match = liga.matches.find(match => match.id === id);
+        if (match) {
+          break;
+        }
+      }
+
+      console.log(id, match);
+      if (!match) {
+        reject(new Error('Error'));
+      } else {
+        resolve(match);
+      }
+    }, 3000);
+  });
+};

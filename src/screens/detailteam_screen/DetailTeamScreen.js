@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -15,13 +15,15 @@ import {LogBox} from 'react-native';
 import MatchDetail from '../../component/MatchDetail';
 import LineUp from '../../component/LineUp';
 import H2H from '../../component/H2H';
+import {getMatch} from '../../api/Matches';
 
 const DetailTeamScreen = ({navigation, route}) => {
-  LogBox.ignoreLogs([
-    'Non-serializable values were found in the navigation state',
-  ]);
+  const {matchID} = route.params;
 
-  const {match, othermatch} = route.params;
+  const [matchData, setMatchData] = useState();
+  const [matchError, setMatchError] = useState();
+  const [matchLoading, setMatchLoading] = useState();
+
   const [view, setView] = useState('details');
   const options = [
     {label: 'Match Details', value: 'details'},
@@ -29,18 +31,35 @@ const DetailTeamScreen = ({navigation, route}) => {
     {label: ' H2H', value: 'h2h'},
   ];
 
+  const matchrequest = async () => {
+    setMatchLoading(true);
+    try {
+      const match = await getMatch(matchID);
+      setMatchData(match);
+    } catch (error) {
+      setMatchError(error);
+      console.log(error);
+    } finally {
+      setMatchLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    matchrequest();
+  }, []);
+
   const selectedView = () => {
     switch (view) {
       case 'details':
         return (
           <MatchDetail
             navigation={navigation}
-            match={match}
-            othermatch={othermatch}
+            match={matchData}
+            // othermatch={othermatch}
           />
         );
       case 'lineUp':
-        return <LineUp navigation={navigation} match={match} />;
+        return <LineUp navigation={navigation} match={matchData} />;
       case 'h2h':
         return <H2H />;
       default:
@@ -74,7 +93,15 @@ const DetailTeamScreen = ({navigation, route}) => {
   //       );
   //   });
   // };
-
+  if (matchLoading) {
+    return null; //loader
+  }
+  if (!matchData) {
+    return null; //null
+  }
+  if (matchError) {
+    return null; //error
+  }
   return (
     <View style={styles.container}>
       <View style={styles.score}>
@@ -86,19 +113,21 @@ const DetailTeamScreen = ({navigation, route}) => {
           <Image
             style={styles.icon}
             source={{
-              uri: match.firstTeam.teamDetails.imageUrl,
+              uri: matchData.firstTeam.teamDetails.imageUrl,
             }}
           />
-          <Text style={styles.text}>{match.firstTeam.teamDetails.name}</Text>
+          <Text style={styles.text}>
+            {matchData.firstTeam.teamDetails.name}
+          </Text>
         </View>
         <View style={styles.column}>
           <View
             style={{
               flexDirection: 'row',
             }}>
-            <Text style={styles.textScore}>{match.firstTeam.score}</Text>
+            <Text style={styles.textScore}>{matchData.firstTeam.score}</Text>
             <Text style={styles.textScore}>-</Text>
-            <Text style={styles.textScore}>{match.secondTeam.score}</Text>
+            <Text style={styles.textScore}>{matchData.secondTeam.score}</Text>
           </View>
 
           <Text style={styles.text}>90.15</Text>
@@ -108,10 +137,12 @@ const DetailTeamScreen = ({navigation, route}) => {
           <Image
             style={styles.icon}
             source={{
-              uri: match.secondTeam.teamDetails.imageUrl,
+              uri: matchData.secondTeam.teamDetails.imageUrl,
             }}
           />
-          <Text style={styles.text}>{match.secondTeam.teamDetails.name}</Text>
+          <Text style={styles.text}>
+            {matchData.secondTeam.teamDetails.name}
+          </Text>
         </View>
       </View>
       <View style={styles.navigate}>
@@ -128,7 +159,7 @@ const DetailTeamScreen = ({navigation, route}) => {
           />
         ))}
       </View>
-      <View tyle={styles.params}>{selectedView()}</View>
+      <View>{selectedView()}</View>
     </View>
   );
 };

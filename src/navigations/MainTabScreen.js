@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-ico-flags';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../screens/home_screen/HomeScreen';
@@ -11,6 +12,7 @@ import ActivityProfileScreen from '../screens/profile_screen/activity/ActivityPr
 import SettingsProfileScreen from '../screens/profile_screen/settings/SettingsProfileScreen';
 import EditProfileScreen from '../screens/profile_screen/edit/EditProfileScreen';
 import DetailTeamScreen from '../screens/detailteam_screen/DetailTeamScreen';
+import StandingsDetailScreen from '../screens/standingsdetail_screen/StandingsDetailScreen';
 
 import styles from './MainTabScreenStyles';
 const Tab = createBottomTabNavigator();
@@ -83,6 +85,13 @@ const HomeStack = ({navigation, route}) => (
       options={{
         headerTitle: route.headerTitle,
       }}
+    />
+    <Stack.Screen
+      name="StandingsDetail"
+      component={StandingsDetailScreen}
+      options={({route}) => ({
+        title: route.params.title,
+      })}
     />
   </Stack.Navigator>
 );

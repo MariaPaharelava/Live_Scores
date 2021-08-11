@@ -59,4 +59,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
+  backImage: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#222232',
+    width: 40,
+    height: 40,
+    borderRadius: 25,
+    marginRight: 2,
+  },
 });
