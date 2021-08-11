@@ -349,20 +349,6 @@ const Ligas = [
             ],
             GKC: [{name: 'Neto', number: '13'}],
           },
-
-          // players: [
-          //   {player: 'Neto', number: '13'},
-          //   {player: 'Alba', number: '18'},
-          //   {player: 'Pique', number: '3'},
-          //   {player: 'Roberto', number: '20'},
-          //   {player: 'Umtiti', number: '23'},
-          //   {player: 'Busquets', number: '5'},
-          //   {player: 'DeJong', number: '21'},
-          //   {player: 'Messi', number: '10'},
-          //   {player: 'Aguero', number: '19'},
-          //   {player: 'Griezmann', number: '7'},
-          //   {player: 'Dembele', number: '11'},
-          // ],
         },
         secondTeam: {
           score: 0,
@@ -399,19 +385,6 @@ const Ligas = [
             ],
             GKC: [{name: 'Courtois', number: '1'}],
           },
-          // players: [
-          //   {player: 'Courtois', number: '1'},
-          //   {player: 'Alaba', number: '4'},
-          //   {player: 'Nacho', number: '6'},
-          //   {player: 'Marcelo', number: '12'},
-          //   {player: 'Mendy', number: '23'},
-          //   {player: 'Kroos', number: '8'},
-          //   {player: 'Modric', number: '10'},
-          //   {player: 'Isco', number: '22'},
-          //   {player: 'Asensio', number: '11'},
-          //   {player: 'Hazard', number: '7'},
-          //   {player: 'Benzema', number: '9'},
-          // ],
         },
       },
       {
@@ -846,13 +819,11 @@ export const getMatch = id => {
           break;
         }
       }
-
-      console.log(id, match);
       if (!match) {
         reject(new Error('Error'));
       } else {
         resolve(match);
       }
-    }, 3000);
+    }, 2000);
   });
 };

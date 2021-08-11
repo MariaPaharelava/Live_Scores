@@ -32,14 +32,8 @@ export const ExploreMatchButton = ({
           <Text style={styles.text}>vs</Text>
           <Text style={styles.text}>{matches.secondTeam.teamDetails.name}</Text>
         </View>
-
         <Text style={styles.data}>Monday,12 Feb 2021.02.30 am</Text>
       </View>
-      <TouchableOpacity onPress={onPress}>
-        <Image
-          style={{height: 25, width: 25}}
-          source={require('../icons/other/silang.png')}></Image>
-      </TouchableOpacity>
     </View>
   );
 };

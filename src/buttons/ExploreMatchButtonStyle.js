@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    marginTop: 10,
   },
 
   noBackground: {
@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
   text: {
     color: colors.white,
     ...fonts.defaultFont,
+    paddingHorizontal: 5,
   },
 
   wrapper: {
@@ -40,5 +41,6 @@ export const styles = StyleSheet.create({
   },
   data: {
     color: '#65656B',
+    paddingLeft: 5,
   },
 });
