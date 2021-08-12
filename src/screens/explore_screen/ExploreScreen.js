@@ -50,7 +50,6 @@ const ExploreScreen = ({navigation}) => {
 
   const rednderLigs = ({item}) => {
     return item.matches.map(match => {
-      console.log(match);
       return (
         <View key={match.id}>
           <ExploreMatchButton

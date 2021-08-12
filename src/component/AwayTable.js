@@ -5,7 +5,6 @@ import {TeamTable} from './TeamTable';
 const AwayTable = ({navigation, liga}) => {
   const renderTeam = awaytable => {
     return awaytable.map(team => {
-      console.log(team.team);
       return (
         <View key={team.team}>
           <TeamTable

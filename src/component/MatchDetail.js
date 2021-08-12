@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,64 +8,48 @@ import {
   ScrollView,
 } from 'react-native';
 import {Score} from '../component/Score';
-import {MatchButton} from '../buttons/MatchButton';
 import {colors} from '../constant/colors';
 import {fonts} from '../constant/fonts';
+import OtherMatches from './OtherMatches';
 const MatchDetail = ({
   navigation,
   onPress,
   noBackground = false,
   image,
-  match,
+  currentmatch,
   othermatch,
+  liga,
+  matchID,
   ...props
 }) => {
-  const rednderOtherMathes = (othermatch, currentmutch) => {
-    // return othermatch.map(match => {
-    //   if (match != currentmutch)
-    //     return (
-    //       <View style={{paddingTop: 20}} key={match.id}>
-    //         <MatchButton
-    //           matches={match}
-    //           onPress={() =>
-    //             navigation.push('DetailTeam', {
-    //               match: match,
-    //               othermatch: othermatch,
-    //             })
-    //           }
-    //         />
-    //       </View>
-    //     );
-    // });
-  };
   return (
     <View>
       <View style={styles.params}>
         <Score
           title="Shooting"
-          valueF={match.firstTeam.stats.shooting}
-          valueS={match.secondTeam.stats.shooting}
+          valueF={currentmatch.firstTeam.stats.shooting}
+          valueS={currentmatch.secondTeam.stats.shooting}
         />
         <Score
           title="Attacks"
-          valueF={match.firstTeam.stats.attacks}
-          valueS={match.secondTeam.stats.attacks}
+          valueF={currentmatch.firstTeam.stats.attacks}
+          valueS={currentmatch.secondTeam.stats.attacks}
         />
         <Score
           title="Possesion"
-          valueF={match.firstTeam.stats.possesion}
-          valueS={match.secondTeam.stats.possesion}
+          valueF={currentmatch.firstTeam.stats.possesion}
+          valueS={currentmatch.secondTeam.stats.possesion}
         />
         <Score
           title="Cards"
-          valueF={match.firstTeam.stats.cards}
-          valueS={match.secondTeam.stats.cards}
+          valueF={currentmatch.firstTeam.stats.cards}
+          valueS={currentmatch.secondTeam.stats.cards}
           image={require('../icons/other/yellowcard.png')}
         />
         <Score
           title="Corners"
-          valueF={match.firstTeam.stats.corners}
-          valueS={match.secondTeam.stats.corners}
+          valueF={currentmatch.firstTeam.stats.corners}
+          valueS={currentmatch.secondTeam.stats.corners}
         />
       </View>
       <View style={styles.other}>
@@ -74,10 +58,11 @@ const MatchDetail = ({
           <Text style={styles.allText}>See all</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView>
-        {/* {rednderOtherMathes(othermatch, match)} */}
-        <View style={{height: 75}}></View>
-      </ScrollView>
+      <OtherMatches
+        navigation={navigation}
+        matchID={matchID}
+        currentmatch={currentmatch}
+      />
     </View>
   );
 };

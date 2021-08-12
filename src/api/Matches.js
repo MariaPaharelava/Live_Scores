@@ -827,3 +827,24 @@ export const getMatch = id => {
     }, 2000);
   });
 };
+
+export const getOtherMatches = id => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let matches;
+      for (let liga of Ligas) {
+        let match = liga.matches.find(match => match.id === id);
+
+        if (match) {
+          matches = liga.matches;
+          break;
+        }
+      }
+      if (!matches) {
+        reject(new Error('Error'));
+      } else {
+        resolve(matches);
+      }
+    }, 2000);
+  });
+};
