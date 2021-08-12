@@ -115,8 +115,3 @@ const styles = StyleSheet.create({
     opacity: 0.1,
   },
 });
-{
-  /* <TouchableOpacity onPress={() => goBack()}>
-<Text>sadsdsadasdas</Text>
-</TouchableOpacity> */
-}

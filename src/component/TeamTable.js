@@ -12,41 +12,6 @@ export const TeamTable = ({
 }) => {
   return (
     <View style={styles.container}>
-      {/* <View style={styles.wrapper}>
-        <View style={styles.teamName}>
-          <Text
-            style={[
-              styles.text,
-              {paddingRight: Platform.OS === 'ios' ? 10 : 5},
-            ]}>
-            {team.place}
-          </Text>
-          <Image
-            style={{height: 15, width: 15}}
-            source={{uri: team.imageTeam}}
-          />
-          <Text
-            style={[
-              styles.text,
-              {
-                paddingRight: Platform.OS === 'ios' ? 5 : 40,
-                paddingLeft: Platform.OS === 'ios' ? 8 : 8,
-              },
-            ]}>
-            {team.team}
-          </Text>
-        </View>
-
-        <View style={styles.teamScore}>
-          <Text style={styles.score}>{team.win}</Text>
-          <Text style={styles.score}>{team.draw}</Text>
-          <Text style={styles.score}>{team.lose}</Text>
-          <Text style={styles.score}>{team.Ga}</Text>
-          <Text style={styles.score}>{team.Gd}</Text>
-          <Text style={styles.score}>{team.Pts}</Text>
-        </View>
-      </View> */}
-
       <View
         style={
           team.place > 3 && team.place < 6

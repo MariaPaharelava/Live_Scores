@@ -96,6 +96,36 @@ const HomeStack = ({navigation, route}) => (
   </Stack.Navigator>
 );
 
+const StandingsStack = ({navigation, route}) => (
+  <Stack.Navigator
+    screenOptions={{
+      headerBackTitleVisible: false,
+      headerTitleAlign: 'center',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#181829',
+        shadowColor: '#181829',
+        elevation: 0,
+      },
+    }}>
+    <Stack.Screen
+      name="Standings Screen"
+      component={StandingsScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+
+    <Stack.Screen
+      name="StandingsDetail"
+      component={StandingsDetailScreen}
+      options={({route}) => ({
+        title: route.params.title,
+      })}
+    />
+  </Stack.Navigator>
+);
+
 const MainTabScreen = ({navigation}) => {
   return (
     <Tab.Navigator
@@ -163,7 +193,7 @@ const MainTabScreen = ({navigation}) => {
       />
       <Tab.Screen
         name="Standings"
-        component={StandingsScreen}
+        component={StandingsStack}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={styles.container}>
