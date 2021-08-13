@@ -64,9 +64,9 @@ const OtherMatches = ({
     matchesrequest();
   }, []);
 
-  if (matchesLoading) {
-    return <Indicator />; //loader
-  }
+  // if (matchesLoading) {
+  //   return <Indicator />; //loader
+  // }
   if (!matchesData) {
     return null; //null
   }
@@ -74,11 +74,17 @@ const OtherMatches = ({
     return <Error />; //error
   }
   return (
-    <View>
+    <View style={styles.container}>
       <ScrollView>
         {rednderOtherMathes(matchesData)}
         <View style={{height: 75}}></View>
       </ScrollView>
+
+      {matchesLoading && (
+        <View style={styles.loading}>
+          <Indicator />
+        </View>
+      )}
     </View>
   );
 };
@@ -86,6 +92,15 @@ export default OtherMatches;
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
   },

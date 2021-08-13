@@ -56,7 +56,8 @@ const StandingsScreen = ({navigation}) => {
             liga={liga}
             onPress={() =>
               navigation.push('StandingsDetail', {
-                liga: liga,
+                image: liga.imageUrl,
+                matchID: liga.matches[0].id,
                 title: liga.ligaName,
               })
             }

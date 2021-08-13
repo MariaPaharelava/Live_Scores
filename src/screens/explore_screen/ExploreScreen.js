@@ -16,7 +16,7 @@ import {IMAGES, SPORTS_IMAGES} from '../../images/Images';
 import {SportsButton} from '../../buttons/SportsButton';
 import {Ligs} from '../../component/Ligs';
 import {ExploreMatchButton} from '../../buttons/ExploreMatchButton';
-
+import TeamShedule from '../../component/TeamShedule';
 const ExploreScreen = ({navigation}) => {
   const [view, setView] = useState('soccer');
   const options = [
@@ -48,18 +48,19 @@ const ExploreScreen = ({navigation}) => {
     },
   ];
 
-  const rednderLigs = ({item}) => {
-    return item.matches.map(match => {
-      return (
-        <View key={match.id}>
-          <ExploreMatchButton
-            matches={match}
-            // onPress={() => match}
-          />
-        </View>
-      );
-    });
-  };
+  // const rednderLigs = ({item}) => {
+  //   return item.matches.map(match => {
+  //     console.log(match);
+  //     return (
+  //       <View key={match.id}>
+  //         <ExploreMatchButton
+  //           matches={match}
+  //           // onPress={() => match}
+  //         />
+  //       </View>
+  //     );
+  //   });
+  // };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#181829'}}>
@@ -95,12 +96,13 @@ const ExploreScreen = ({navigation}) => {
             ))}
           </ScrollView>
         </View>
-
+        <TeamShedule Ligs={Ligs} />
+        {/* 
         <FlatList
           data={Ligs}
           renderItem={rednderLigs}
           keyExtractor={item => item.id}
-        />
+        /> */}
       </View>
     </SafeAreaView>
   );

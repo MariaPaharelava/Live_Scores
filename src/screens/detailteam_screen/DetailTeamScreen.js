@@ -47,6 +47,9 @@ const DetailTeamScreen = ({navigation, route}) => {
 
   useEffect(() => {
     matchrequest();
+    return () => {
+      setMatchData();
+    };
   }, []);
 
   const selectedView = () => {

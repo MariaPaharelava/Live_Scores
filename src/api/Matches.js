@@ -848,3 +848,78 @@ export const getOtherMatches = id => {
     }, 2000);
   });
 };
+
+export const getAllTableMatches = id => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let alltable;
+      for (let liga of Ligas) {
+        let match = liga.matches.find(match => match.id === id);
+
+        if (match) {
+          alltable = liga.alltable;
+          break;
+        }
+      }
+      if (!alltable) {
+        reject(new Error('Error'));
+      } else {
+        resolve(alltable);
+      }
+    }, 2000);
+  });
+};
+
+export const getHomeTableMatches = id => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let hometable;
+      for (let liga of Ligas) {
+        let match = liga.matches.find(match => match.id === id);
+
+        if (match) {
+          hometable = liga.hometable;
+          break;
+        }
+      }
+      if (!hometable) {
+        reject(new Error('Error'));
+      } else {
+        resolve(hometable);
+      }
+    }, 2000);
+  });
+};
+
+export const getAwayTableMatches = id => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      let awaytable;
+      for (let liga of Ligas) {
+        let match = liga.matches.find(match => match.id === id);
+
+        if (match) {
+          awaytable = liga.awaytable;
+          break;
+        }
+      }
+      if (!awaytable) {
+        reject(new Error('Error'));
+      } else {
+        resolve(awaytable);
+      }
+    }, 2000);
+  });
+};
+
+export const getSheduleMatches = Ligs => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (!Ligs) {
+        reject(new Error('Error'));
+      } else {
+        resolve(Ligs);
+      }
+    }, 2000);
+  });
+};
