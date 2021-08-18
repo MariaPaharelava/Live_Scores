@@ -14,7 +14,7 @@ import Show from '../../icons/login/Show.svg';
 import {AuthContext} from '../../navigations/AuthProvider';
 const SignUpScreen = ({navigation}) => {
   const {register} = useContext(AuthContext);
-  const [data, setData] = useState({
+  const [dataSignUP, setDataSignUP] = useState({
     email: '',
     password: '',
     confirm_password: '',
@@ -29,15 +29,15 @@ const SignUpScreen = ({navigation}) => {
 
   const textInputChange = val => {
     if (val.trim().length >= 6) {
-      setData({
-        ...data,
+      setDataSignUP({
+        ...dataSignUP,
         email: val,
         check_textInputChange: true,
         isValidUser: true,
       });
     } else {
-      setData({
-        ...data,
+      setDataSignUP({
+        ...dataSignUP,
         email: val,
         check_textInputChange: false,
         isValidUser: false,
@@ -47,14 +47,14 @@ const SignUpScreen = ({navigation}) => {
 
   const handlePasswordChange = val => {
     if (val.trim().length >= 8) {
-      setData({
-        ...data,
+      setDataSignUP({
+        ...dataSignUP,
         password: val,
         isValidPassword: true,
       });
     } else {
-      setData({
-        ...data,
+      setDataSignUP({
+        ...dataSignUP,
         password: val,
         isValidPassword: false,
       });
@@ -62,37 +62,37 @@ const SignUpScreen = ({navigation}) => {
   };
   const handleConfirmPasswordChange = val => {
     if (val.trim().length >= 8) {
-      setData({
-        ...data,
+      setDataSignUP({
+        ...dataSignUP,
         confirm_password: val,
         isValidConfirmPassword: true,
       });
     } else {
-      setData({
-        ...data,
+      setDataSignUP({
+        ...dataSignUP,
         confirm_password: val,
         isValidConfirmPassword: false,
       });
     }
   };
   const hanldeSignUp = () => {
-    if (data.password == data.confirm_password) {
-      register(data.email, data.password);
+    if (dataSignUP.password == dataSignUP.confirm_password) {
+      register(dataSignUP.email, dataSignUP.password);
     } else {
       Alert.alert('Password mismatch');
     }
   };
 
   const updateSecureTextEntry = () => {
-    setData({
-      ...data,
-      secureTextEntry: !data.secureTextEntry,
+    setDataSignUP({
+      ...dataSignUP,
+      secureTextEntry: !dataSignUP.secureTextEntry,
     });
   };
   const updateConfirmSecureTextEntry = () => {
-    setData({
-      ...data,
-      confirm_secureTextEntry: !data.confirm_secureTextEntry,
+    setDataSignUP({
+      ...dataSignUP,
+      confirm_secureTextEntry: !dataSignUP.confirm_secureTextEntry,
     });
   };
 
@@ -112,7 +112,7 @@ const SignUpScreen = ({navigation}) => {
               onChangeText={val => textInputChange(val)}
             />
           </View>
-          {data.isValidUser ? null : (
+          {dataSignUP.isValidUser ? null : (
             <Animatable.View animation="fadeInLeft" duration={500}>
               <Text style={styles.errorMsg}>
                 Email must be 6 characters long.
@@ -132,16 +132,16 @@ const SignUpScreen = ({navigation}) => {
           <View style={styles.action}>
             <TextInput
               placeholder="Your Password"
-              secureTextEntry={data.secureTextEntry ? true : false}
+              secureTextEntry={dataSignUP.secureTextEntry ? true : false}
               style={styles.textInput}
               autoCapitalize="none"
               onChangeText={val => handlePasswordChange(val)}
             />
             <TouchableOpacity onPress={updateSecureTextEntry}>
-              {data.secureTextEntry ? <Hide /> : <Show />}
+              {dataSignUP.secureTextEntry ? <Hide /> : <Show />}
             </TouchableOpacity>
           </View>
-          {data.isValidPassword ? null : (
+          {dataSignUP.isValidPassword ? null : (
             <Animatable.View animation="fadeInLeft" duration={500}>
               <Text style={styles.errorMsg}>
                 Password must be 8 characters long.
@@ -161,16 +161,18 @@ const SignUpScreen = ({navigation}) => {
           <View style={styles.action}>
             <TextInput
               placeholder="Confirm Your Password"
-              secureTextEntry={data.confirm_secureTextEntry ? true : false}
+              secureTextEntry={
+                dataSignUP.confirm_secureTextEntry ? true : false
+              }
               style={styles.textInput}
               autoCapitalize="none"
               onChangeText={val => handleConfirmPasswordChange(val)}
             />
             <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
-              {data.confirm_secureTextEntry ? <Hide /> : <Show />}
+              {dataSignUP.confirm_secureTextEntry ? <Hide /> : <Show />}
             </TouchableOpacity>
           </View>
-          {data.isValidConfirmPassword ? null : (
+          {dataSignUP.isValidConfirmPassword ? null : (
             <Animatable.View animation="fadeInLeft" duration={500}>
               <Text style={styles.errorMsg}>must be 8 characters long.</Text>
             </Animatable.View>
