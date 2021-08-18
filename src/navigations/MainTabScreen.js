@@ -3,7 +3,7 @@ import {View, Text, Image, Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {createStackNavigator} from '@react-navigation/stack';
-import {TAB_IMAGES} from '../images/Images';
+import {IMAGES, TAB_IMAGES} from '../images/Images';
 
 import HomeScreen from '../screens/home_screen/HomeScreen';
 import ExploreScreen from '../screens/explore_screen/ExploreScreen';
@@ -125,6 +125,45 @@ const StandingsStack = ({navigation, route}) => (
     />
   </Stack.Navigator>
 );
+const tabRender = (view, focused) => {
+  let title;
+  let icon;
+  switch (view) {
+    case 'home':
+      title = 'Home';
+      icon = TAB_IMAGES.HOME_IMAGE;
+      break;
+    case 'explore':
+      title = 'Explore';
+      icon = TAB_IMAGES.DISCOVERY_IMAGE;
+      break;
+
+    case 'standings':
+      title = 'Standings';
+      icon = TAB_IMAGES.CHART_IMAGE;
+      break;
+
+    case 'profile':
+      title = 'Profile';
+      icon = TAB_IMAGES.PROFILE_IMAGE;
+      break;
+
+    default:
+      break;
+  }
+  return (
+    <View style={styles.container}>
+      {focused ? (
+        <View style={styles.button}>
+          <Text style={styles.text}>{title}</Text>
+          <View style={styles.circle} />
+        </View>
+      ) : (
+        <Image source={icon} resizeMode="contain" style={styles.image} />
+      )}
+    </View>
+  );
+};
 
 const MainTabScreen = ({navigation}) => {
   return (
@@ -143,88 +182,28 @@ const MainTabScreen = ({navigation}) => {
         name="Home"
         component={HomeStack}
         options={{
-          tabBarIcon: ({focused}) => (
-            <View style={styles.container}>
-              {focused ? (
-                <View style={styles.button}>
-                  <Text style={styles.text}>Home</Text>
-                  <View style={styles.circle} />
-                </View>
-              ) : (
-                <Image
-                  source={TAB_IMAGES.HOME_IMAGE}
-                  resizeMode="contain"
-                  style={styles.image}
-                />
-              )}
-            </View>
-          ),
+          tabBarIcon: ({focused}) => tabRender('home', focused),
         }}
       />
       <Tab.Screen
         name="Explore"
         component={ExploreScreen}
         options={{
-          tabBarIcon: ({focused}) => (
-            <View style={styles.container}>
-              {focused ? (
-                <View style={styles.button}>
-                  <Text style={styles.text}>Explore</Text>
-                  <View style={styles.circle} />
-                </View>
-              ) : (
-                <Image
-                  source={TAB_IMAGES.DISCOVERY_IMAGE}
-                  resizeMode="contain"
-                  style={styles.image}
-                />
-              )}
-            </View>
-          ),
+          tabBarIcon: ({focused}) => tabRender('explore', focused),
         }}
       />
       <Tab.Screen
         name="Standings"
         component={StandingsStack}
         options={{
-          tabBarIcon: ({focused}) => (
-            <View style={styles.container}>
-              {focused ? (
-                <View style={styles.button}>
-                  <Text style={styles.text}>Standings</Text>
-                  <View style={styles.circle} />
-                </View>
-              ) : (
-                <Image
-                  source={TAB_IMAGES.CHART_IMAGE}
-                  resizeMode="contain"
-                  style={styles.image}
-                />
-              )}
-            </View>
-          ),
+          tabBarIcon: ({focused}) => tabRender('standings', focused),
         }}
       />
       <Tab.Screen
         name="My Profile"
         component={ProfileStack}
         options={{
-          tabBarIcon: ({focused}) => (
-            <View style={styles.container}>
-              {focused ? (
-                <View style={styles.button}>
-                  <Text style={styles.text}>My Profile</Text>
-                  <View style={styles.circle} />
-                </View>
-              ) : (
-                <Image
-                  source={TAB_IMAGES.PROFILE_IMAGE}
-                  resizeMode="contain"
-                  style={styles.image}
-                />
-              )}
-            </View>
-          ),
+          tabBarIcon: ({focused}) => tabRender('profile', focused),
         }}
       />
     </Tab.Navigator>
