@@ -68,4 +68,5 @@ export const styles = StyleSheet.create({
     borderRadius: 25,
     marginRight: 2,
   },
+  dimensions: {height: 30, width: 30},
 });

@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, ImageBackground, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  Image,
+  Platform,
+} from 'react-native';
 import {SPORTS_IMAGES} from '../images/Images';
 const TeamScheme = ({
   navigation,
@@ -15,71 +22,60 @@ const TeamScheme = ({
       return (
         <Image
           style={{marginLeft: -5}}
-          source={require('../icons/other/captain.png')}></Image>
+          source={require('../icons/other/captain.png')}
+        />
       );
     }
     if (pl.card) {
       return (
         <Image
           style={{marginLeft: -5}}
-          source={require('../icons/other/yellowcard.png')}></Image>
+          source={require('../icons/other/yellowcard.png')}
+        />
       );
     }
     if (pl.goal) {
       return (
         <Image
           style={{marginLeft: -8}}
-          source={require('../icons/other/ball.png')}></Image>
+          source={require('../icons/other/ball.png')}
+        />
       );
     }
   };
 
   return (
     <View style={styles.container}>
-      {/* <Image source={require('../icons/other/captain.png')}></Image> */}
       <ImageBackground
         source={SPORTS_IMAGES.FIELD_IMAGE}
         resizeMode="center"
         style={styles.image}>
         {Object.keys(team.players).map(position => (
-          <View
-            key={position}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-              width: '100%',
-            }}>
+          <View key={position} style={styles.position}>
             {team.players[position].map(player => (
               <View
                 key={player.name}
-                style={{
-                  alignItems: 'center',
-                  padding:
-                    team.formation.length > 3
-                      ? Platform.OS === 'ios'
-                        ? 5
-                        : 0
-                      : Platform.OS === 'ios'
-                      ? 12
-                      : 5,
-                  marginHorizontal: Platform.OS === 'ios' ? -10 : -35,
-                }}>
+                style={[
+                  styles.namesPlayers,
+                  {
+                    padding:
+                      team.formation.length > 3
+                        ? Platform.OS === 'ios'
+                          ? 5
+                          : 0
+                        : Platform.OS === 'ios'
+                        ? 12
+                        : 5,
+                  },
+                ]}>
                 <View style={styles.captain}>
                   <View style={styles.number}>
-                    <Text style={{color: 'white', fontWeight: 'bold'}}>
-                      {player.number}
-                    </Text>
+                    <Text style={styles.text}>{player.number}</Text>
                   </View>
                   {hasIcon(player)}
                 </View>
                 <View style={styles.name}>
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontWeight: 'bold',
-                    }}>
-                    {player.name}
-                  </Text>
+                  <Text style={styles.text}>{player.name}</Text>
                 </View>
               </View>
             ))}
@@ -119,5 +115,18 @@ const styles = StyleSheet.create({
   },
   captain: {
     flexDirection: 'row',
+  },
+  position: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    width: '100%',
+  },
+  namesPlayers: {
+    marginHorizontal: Platform.OS === 'ios' ? -10 : -35,
+    alignItems: 'center',
+  },
+  text: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });

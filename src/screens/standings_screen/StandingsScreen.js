@@ -1,22 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import {
   View,
-  Text,
-  Button,
   StyleSheet,
   SafeAreaView,
   TextInput,
-  FlatList,
   ScrollView,
-  TouchableOpacity,
+  Platform,
 } from 'react-native';
 
 import Search from '../../icons/other/Search.svg';
-import {IMAGES, SPORTS_IMAGES} from '../../images/Images';
+import Error from '../../component/ErrorIndicator';
+import Indicator from '../../component/ActivityIndicator';
+import {SPORTS_IMAGES} from '../../images/Images';
 import {SportsButton} from '../../buttons/SportsButton';
-import {Ligs} from '../../component/Ligs';
 import {LigaButton} from '../../buttons/LigaButton';
 import {StandingsTable} from '../../component/StandingsTable';
+import {getLigs} from '../../api/Matches';
 const StandingsScreen = ({navigation}) => {
   const [view, setView] = useState('soccer');
   const options = [
@@ -48,6 +47,30 @@ const StandingsScreen = ({navigation}) => {
     },
   ];
 
+  const [ligsData, setligsData] = useState([]);
+  const [ligsError, setligsError] = useState();
+  const [ligsLoading, setligsLoading] = useState();
+
+  const ligsrequest = async () => {
+    setligsLoading(true);
+    try {
+      const table = await getLigs();
+      setligsData(table);
+    } catch (error) {
+      setligsError(error);
+      console.log(error);
+    } finally {
+      setligsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    ligsrequest();
+    return () => {
+      setligsData();
+    };
+  }, []);
+
   const rednderLigs = ligs => {
     return ligs.map(liga => {
       return (
@@ -58,6 +81,7 @@ const StandingsScreen = ({navigation}) => {
               navigation.push('StandingsDetail', {
                 image: liga.imageUrl,
                 matchID: liga.matches[0].id,
+                ligaID: liga.id,
                 title: liga.ligaName,
               })
             }
@@ -68,6 +92,13 @@ const StandingsScreen = ({navigation}) => {
       );
     });
   };
+
+  if (!ligsData) {
+    return null;
+  }
+  if (ligsError) {
+    return <Error />;
+  }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#181829'}}>
@@ -88,11 +119,11 @@ const StandingsScreen = ({navigation}) => {
             {options.map(item => (
               <SportsButton
                 key={item.label}
-                title={view == item.value ? item.label : ''}
+                title={view === item.value ? item.label : ''}
                 image={item.image}
-                width={view == item.value ? 120 : 50}
-                height={view == item.value ? 50 : 50}
-                color={view == item.value ? '#ED6B4E' : '#222232'}
+                width={view === item.value ? 120 : 50}
+                height={view === item.value ? 50 : 50}
+                color={view === item.value ? '#ED6B4E' : '#222232'}
                 onPress={() => {
                   setView(item.value);
                 }}
@@ -102,8 +133,9 @@ const StandingsScreen = ({navigation}) => {
         </View>
 
         <ScrollView style={styles.content}>
-          {rednderLigs(Ligs)}
-          <View style={styles.lastView}></View>
+          {rednderLigs(ligsData)}
+          <View style={styles.lastView} />
+          {ligsLoading && <Indicator />}
         </ScrollView>
       </View>
     </SafeAreaView>

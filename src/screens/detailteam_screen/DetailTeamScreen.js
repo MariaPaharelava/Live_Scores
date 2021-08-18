@@ -1,24 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import {styles} from './DetailTeamScreenStyles';
-import {NavigateButton} from '../../buttons/NavigateButton';
+import {View, Text, Image} from 'react-native';
 import MatchDetail from '../../component/MatchDetail';
 import LineUp from '../../component/LineUp';
 import H2H from '../../component/H2H';
-import {getMatch} from '../../api/Matches';
-import Indicator from '../../api/ActivityIndicator';
-import Error from '../../api/ErrorIndicator';
+import Error from '../../component/ErrorIndicator';
+import Indicator from '../../component/ActivityIndicator';
+import {styles} from './DetailTeamScreenStyles';
+import {NavigateButton} from '../../buttons/NavigateButton';
+import {getMatchById} from '../../api/Matches';
 
 const DetailTeamScreen = ({navigation, route}) => {
-  const {matchID} = route.params;
+  const {matchID, ligaID} = route.params;
 
   const [matchData, setMatchData] = useState();
   const [matchError, setMatchError] = useState();
@@ -32,25 +24,24 @@ const DetailTeamScreen = ({navigation, route}) => {
     {label: ' H2H', value: 'h2h'},
   ];
 
-  const matchrequest = async () => {
-    setMatchLoading(true);
-    try {
-      const match = await getMatch(matchID);
-      setMatchData(match);
-    } catch (error) {
-      setMatchError(error);
-      console.log(error);
-    } finally {
-      setMatchLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const matchrequest = async () => {
+      setMatchLoading(true);
+      try {
+        const match = await getMatchById(matchID);
+        setMatchData(match);
+      } catch (error) {
+        setMatchError(error);
+        console.log(error);
+      } finally {
+        setMatchLoading(false);
+      }
+    };
     matchrequest();
     return () => {
       setMatchData();
     };
-  }, []);
+  }, [matchID]);
 
   const selectedView = () => {
     switch (view) {
@@ -60,7 +51,7 @@ const DetailTeamScreen = ({navigation, route}) => {
             navigation={navigation}
             currentmatch={matchData}
             matchID={matchID}
-            // othermatch={othermatch}
+            ligaID={ligaID}
           />
         );
       case 'lineUp':
@@ -72,40 +63,14 @@ const DetailTeamScreen = ({navigation, route}) => {
     }
   };
 
-  // const [matches] = React.useState(route.params.matches);
-
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     matches: matches,
-  //   });
-  // }, [navigation, matches]);
-
-  // const rednderLigs = (othermatch, currentmutch) => {
-  //   return othermatch.map(match => {
-  //     if (match != currentmutch)
-  //       return (
-  //         <View style={{paddingTop: 20}} key={match.id}>
-  //           <MatchButton
-  //             matches={match}
-  //             onPress={() =>
-  //               navigation.navigate('DetailTeam', {
-  //                 match: match,
-  //                 othermatch: othermatch,
-  //               })
-  //             }
-  //           />
-  //         </View>
-  //       );
-  //   });
-  // };
   if (matchLoading) {
-    return <Indicator />; //loader
+    return <Indicator />;
   }
   if (!matchData) {
-    return null; //null
+    return null;
   }
   if (matchError) {
-    return <Error />; //error
+    return <Error />;
   }
   return (
     <View style={styles.container}>
@@ -157,7 +122,7 @@ const DetailTeamScreen = ({navigation, route}) => {
             title={item.label}
             width={100}
             height={50}
-            color={view == item.value ? '#ED6B4E' : '#00000000'}
+            color={view === item.value ? '#ED6B4E' : '#00000000'}
             onPress={() => {
               setView(item.value);
             }}

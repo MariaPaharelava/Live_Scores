@@ -1,21 +1,19 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
-  Button,
   StyleSheet,
   SafeAreaView,
   TextInput,
-  FlatList,
+  Platform,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
 
 import Search from '../../icons/other/Search.svg';
-import {IMAGES, SPORTS_IMAGES} from '../../images/Images';
+import {SPORTS_IMAGES} from '../../images/Images';
 import {SportsButton} from '../../buttons/SportsButton';
 import {Ligs} from '../../component/Ligs';
-import {ExploreMatchButton} from '../../buttons/ExploreMatchButton';
 import TeamShedule from '../../component/TeamShedule';
 const ExploreScreen = ({navigation}) => {
   const [view, setView] = useState('soccer');
@@ -48,24 +46,10 @@ const ExploreScreen = ({navigation}) => {
     },
   ];
 
-  // const rednderLigs = ({item}) => {
-  //   return item.matches.map(match => {
-  //     console.log(match);
-  //     return (
-  //       <View key={match.id}>
-  //         <ExploreMatchButton
-  //           matches={match}
-  //           // onPress={() => match}
-  //         />
-  //       </View>
-  //     );
-  //   });
-  // };
-
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#181829'}}>
-      <View style={styles.container}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <View>
+        <View style={styles.wrapper}>
           <View style={styles.search}>
             <Search />
             <TextInput
@@ -79,16 +63,17 @@ const ExploreScreen = ({navigation}) => {
             <Text style={{color: 'white'}}>Cancel</Text>
           </TouchableOpacity>
         </View>
+
         <View style={styles.navigate}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             {options.map(item => (
               <SportsButton
                 key={item.label}
-                title={view == item.value ? item.label : ''}
+                title={view === item.value ? item.label : ''}
                 image={item.image}
-                width={view == item.value ? 120 : 50}
-                height={view == item.value ? 50 : 50}
-                color={view == item.value ? '#ED6B4E' : '#222232'}
+                width={view === item.value ? 120 : 50}
+                height={view === item.value ? 50 : 50}
+                color={view === item.value ? '#ED6B4E' : '#222232'}
                 onPress={() => {
                   setView(item.value);
                 }}
@@ -96,13 +81,9 @@ const ExploreScreen = ({navigation}) => {
             ))}
           </ScrollView>
         </View>
-        <TeamShedule Ligs={Ligs} />
-        {/* 
-        <FlatList
-          data={Ligs}
-          renderItem={rednderLigs}
-          keyExtractor={item => item.id}
-        /> */}
+        <View style={styles.container}>
+          <TeamShedule />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -112,10 +93,15 @@ export default ExploreScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#181829',
+  },
+  wrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: Platform.OS === 'ios' ? 10 : 20,
   },
   itemStyle: {
     padding: 15,
@@ -132,20 +118,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: 50,
     paddingLeft: 20,
-    margin: 5,
+    marginHorizontal: Platform.OS === 'ios' ? 10 : 15,
+
     borderColor: '#222232',
     backgroundColor: '#222232',
   },
   navigate: {
     flexDirection: 'row',
-    marginTop: Platform.OS === 'ios' ? 40 : 30,
+    marginTop: Platform.OS === 'ios' ? 40 : 40,
     marginHorizontal: 15,
     marginBottom: 20,
   },
   content: {
-    marginTop: Platform.OS === 'ios' ? 40 : 30,
+    marginTop: Platform.OS === 'ios' ? 40 : 40,
 
     backgroundColor: '#181829',
   },
-  lastView: {height: 75},
 });

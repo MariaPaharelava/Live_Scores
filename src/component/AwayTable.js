@@ -1,50 +1,46 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Button, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, Platform} from 'react-native';
+import Indicator from './ActivityIndicator';
+import Error from './ErrorIndicator';
 import {TeamTable} from './TeamTable';
 import {getAwayTableMatches} from '../api/Matches';
-import Indicator from '../api/ActivityIndicator';
-import Error from '../api/ErrorIndicator';
 
-const AwayTable = ({navigation, matchID}) => {
+const AwayTable = ({navigation, ligaID}) => {
   const [tablematchesData, setTableMatchesData] = useState([]);
   const [tablematchesError, setTableMatchesError] = useState();
   const [tablematchesLoading, setTableMatchesLoading] = useState();
 
-  const tablematchesrequest = async () => {
-    setTableMatchesLoading(true);
-    try {
-      const table = await getAwayTableMatches(matchID);
-      setTableMatchesData(table);
-    } catch (error) {
-      setTableMatchesError(error);
-      console.log(error);
-    } finally {
-      setTableMatchesLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const tablematchesrequest = async () => {
+      setTableMatchesLoading(true);
+      try {
+        const table = await getAwayTableMatches(ligaID);
+        setTableMatchesData(table);
+      } catch (error) {
+        setTableMatchesError(error);
+        console.log(error);
+      } finally {
+        setTableMatchesLoading(false);
+      }
+    };
     tablematchesrequest();
     return () => {
       setTableMatchesData();
     };
-  }, []);
+  }, [ligaID]);
 
-  // if (tablematchesLoading) {
-  //   return <Indicator />; //loader
-  // }
   if (!tablematchesData) {
-    return null; //null
+    return null;
   }
   if (tablematchesError) {
-    return <Error />; //error
+    return <Error />;
   }
 
-  const renderTeam = tablematchesData => {
-    return tablematchesData.map(team => {
+  const renderTeam = table => {
+    return table.map(team => {
       return (
         <View key={team.team}>
-          <TeamTable team={team} onPress={() => match} />
+          <TeamTable team={team} />
         </View>
       );
     });
@@ -53,7 +49,7 @@ const AwayTable = ({navigation, matchID}) => {
     <View style={styles.container}>
       <ScrollView style={styles.content}>
         {renderTeam(tablematchesData)}
-        <View style={styles.lastView}></View>
+        <View style={styles.lastView} />
       </ScrollView>
       {tablematchesLoading && (
         <View style={styles.loading}>

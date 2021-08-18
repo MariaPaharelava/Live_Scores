@@ -12,3 +12,9 @@ export const SPORTS_IMAGES = {
   VOLLEYBALL_IMAGE: require('./sports_images/volleyball.png'),
   FIELD_IMAGE: require('./images/field.jpg'),
 };
+export const TAB_IMAGES = {
+  HOME_IMAGE: require('./tab/Home.png'),
+  DISCOVERY_IMAGE: require('./tab/Discovery.png'),
+  CHART_IMAGE: require('./tab/Chart.png'),
+  PROFILE_IMAGE: require('./tab/Profile.png'),
+};

@@ -1,11 +1,10 @@
 import React from 'react';
+import {TouchableOpacity, Text, Image, View} from 'react-native';
 import {styles} from './MatchButtonStyle';
 
-import {TouchableOpacity, Text, Image, View} from 'react-native';
 export const MatchButton = ({
   onPress,
   noBackground = false,
-  liga,
   matches,
   ...props
 }) => {
@@ -16,13 +15,13 @@ export const MatchButton = ({
           <View style={styles.wrapper}>
             <View style={styles.backImage}>
               <Image
-                style={{height: 30, width: 30}}
+                style={styles.dimensions}
                 source={{uri: matches.firstTeam.teamDetails.imageUrl}}
               />
             </View>
             <View style={styles.backImage}>
               <Image
-                style={{height: 30, width: 30}}
+                style={styles.dimensions}
                 source={{uri: matches.secondTeam.teamDetails.imageUrl}}
               />
             </View>

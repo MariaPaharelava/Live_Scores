@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Platform} from 'react-native';
 import {colors} from '../constant/colors';
 import {fonts} from '../constant/fonts';
 import {NavigateButton} from '../buttons/NavigateButton';
@@ -27,15 +27,7 @@ const LineUp = ({
       formation: match.secondTeam.formation,
     },
   ];
-  // const rednderFormation = match => {
-  //   return match.map(team => {
-  //     if (team == match.firstTeam) {
-  //       return <Text style={styles.scheme}>({team.firstTeam.formation})</Text>;
-  //     } else {
-  //       return <Text style={styles.scheme}>({team.firstTeam.formation})</Text>;
-  //     }
-  //   });
-  // };
+
   const selectedTeam = () => {
     switch (team) {
       case match.firstTeam.teamDetails.id:
@@ -61,9 +53,10 @@ const LineUp = ({
             title={item.label}
             width={100}
             height={35}
-            color={team == item.value ? '#ED6B4E' : '#00000000'}
+            color={team === item.value ? '#ED6B4E' : '#00000000'}
             onPress={() => {
-              setTeam(item.value), setFormation(item.formation);
+              setTeam(item.value);
+              setFormation(item.formation);
             }}
           />
         ))}
@@ -93,10 +86,8 @@ const styles = StyleSheet.create({
   scheme: {color: '#C4C4C4', ...fonts.defaultFont, fontSize: 14},
   navigate: {
     flexDirection: 'row',
-    // justifyContent: 'flex-start',
     justifyContent: 'center',
     marginTop: Platform.OS === 'ios' ? 20 : 10,
-    // marginLeft: 20,
   },
   params: {
     marginTop: Platform.OS === 'ios' ? 50 : 0,

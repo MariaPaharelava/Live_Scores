@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {TouchableOpacity, Text, Image, View} from 'react-native';
+import {TouchableOpacity, Text, View} from 'react-native';
 import {styles} from './NavigateButtonStyles';
 export const NavigateButton = ({
   onPress,

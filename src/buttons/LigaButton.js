@@ -1,8 +1,8 @@
 import React from 'react';
-import {styles} from './LigaButtonStyles';
-import Icon from 'react-native-ico-flags';
-
 import {TouchableOpacity, Text, Image, View} from 'react-native';
+import Icon from 'react-native-ico-flags';
+import {styles} from './LigaButtonStyles';
+
 export const LigaButton = ({
   onPress,
   liga,

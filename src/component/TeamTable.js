@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {TouchableOpacity, Text, Image, View, StyleSheet} from 'react-native';
+import {Text, Image, View, StyleSheet, Platform} from 'react-native';
 export const TeamTable = ({
   onPress,
   noBackground = false,
@@ -22,10 +22,7 @@ export const TeamTable = ({
         }>
         <View style={styles.teamName}>
           <Text style={styles.text}>{team.place}</Text>
-          <Image
-            style={{height: 15, width: 15, marginHorizontal: 10}}
-            source={{uri: team.imageTeam}}
-          />
+          <Image style={styles.dimensions} source={{uri: team.imageTeam}} />
           <Text style={[styles.text, {marginRight: 5}]}>{team.team}</Text>
         </View>
 
@@ -52,7 +49,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#14274D',
     height: 50,
     paddingHorizontal: 5,
-    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 15,
@@ -77,5 +73,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginLeft: Platform.OS === 'ios' ? 15 : 50,
+  },
+  dimensions: {
+    height: 15,
+    width: 15,
+    marginHorizontal: 10,
   },
 });
