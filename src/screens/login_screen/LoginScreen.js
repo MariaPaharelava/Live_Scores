@@ -1,20 +1,17 @@
 import React, {useState} from 'react';
+
+import {Modal, Text, Pressable, View, TouchableOpacity} from 'react-native';
+
 import {RoundedButton} from '../../buttons/RoundedButton';
-import styles from './ModalStyles';
 
 import CheckBox from '@react-native-community/checkbox';
 import {LoginButton} from '../../buttons/LoginButton';
+import PropTypes from 'prop-types';
+import styles from './LoginScreenStyles';
 
-import {
-  Modal,
-  Text,
-  Pressable,
-  View,
-  TextInput,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-const LoginScreen = ({visible, setVisible}) => {
+import {useNavigation} from '@react-navigation/native';
+function LoginScreen({visible, setVisible}) {
+  const navigation = useNavigation();
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const [data, setData] = useState({
     password: '',
@@ -75,7 +72,13 @@ const LoginScreen = ({visible, setVisible}) => {
             </View>
 
             <View style={styles.roundedButton}>
-              <RoundedButton title="Sign in" />
+              <RoundedButton
+                title="Sign in"
+                onPress={() => {
+                  navigation.navigate('SportsSelectionScreen'),
+                    setVisible(false);
+                }}
+              />
             </View>
 
             <View style={styles.lastView}>
@@ -89,6 +92,10 @@ const LoginScreen = ({visible, setVisible}) => {
       </Modal>
     </View>
   );
+}
+LoginScreen.propTypes = {
+  visiable: PropTypes.bool,
+  setVisible: PropTypes.func,
 };
 
 export default LoginScreen;

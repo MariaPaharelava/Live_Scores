@@ -1,19 +1,15 @@
 import React, {useState} from 'react';
-import {fonts} from '../../constant/fonts';
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
+import Notification from '../../icons/other/Notification.svg';
+import {IMAGES} from '../../images/Images';
 import {SPORTS_IMAGES} from '../../images/Images';
-import {RoundedButton} from '../../buttons/RoundedButton';
-import {styles} from './SplashScreenStyle';
+import Tabs from '../../navigations/Tabs';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  Button,
-  Modal,
-} from 'react-native';
+import Search from '../../icons/other/Search.svg';
+import styles from './HomeScreenStyles';
+
 const SPORTS = [
   {
     name: 'Soccer',
@@ -46,7 +42,8 @@ const SPORTS = [
     image: SPORTS_IMAGES.VOLLEYBALL_IMAGE,
   },
 ];
-function SplashScreen() {
+
+function HomeScreen() {
   const [types, setTypes] = useState([]);
 
   const HandleSportPress = type => {
@@ -56,14 +53,22 @@ function SplashScreen() {
       setTypes([...types, type]);
     }
   };
-
   return (
     <View style={styles.container}>
-      <View style={styles.containerText}>
-        <Text style={styles.question}>What sport do you interest?</Text>
-        <Text style={styles.chooseText}>You can choose more than one</Text>
+      <View style={styles.title}>
+        <Text style={styles.titleText}>LiveScore</Text>
+        <TouchableOpacity>
+          <Search />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{paddingLeft: 20}}>
+          <Notification />
+        </TouchableOpacity>
       </View>
-      <View style={styles.sportImages}>
+
+      <Image style={styles.image} source={IMAGES.HOMESCREEN_IMAGE} />
+
+      <ScrollView horizontal={true}>
         {SPORTS.map(item => (
           <View style={styles.sportImages2} key={item.type}>
             <TouchableOpacity
@@ -79,15 +84,12 @@ function SplashScreen() {
             <Text style={styles.textUnderButton}>{item.name}</Text>
           </View>
         ))}
-      </View>
-      <View style={styles.roundedButton}>
-        <RoundedButton title="Continue" />
-        <TouchableOpacity style={styles.skipButton}>
-          <Text style={{color: 'white', fontSize: 16}}>Skip</Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
+      <ScrollView style={styles.content}>
+        <Text>La liga</Text>
+      </ScrollView>
     </View>
   );
 }
 
-export default SplashScreen;
+export default HomeScreen;

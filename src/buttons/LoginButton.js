@@ -1,12 +1,13 @@
 import React from 'react';
-import {styles} from './LoginButtonStyle';
-import PropTypes from 'prop-types';
+import {View, TextInput, TouchableOpacity} from 'react-native';
+
 import Message from '../icons/login/Message.svg';
 import Hide from '../icons/login/Hide.svg';
 import Password from '../icons/login/Password.svg';
 import Show from '../icons/login/Show.svg';
+import {styles} from './LoginButtonStyle';
+import PropTypes from 'prop-types';
 
-import {View, TextInput, TouchableOpacity} from 'react-native';
 export const LoginButton = ({
   onChangeText,
   onPress,
@@ -41,6 +42,7 @@ export const LoginButton = ({
           autoCapitalize="none"
           onChangeText={onChangeText}
         />
+
         <TouchableOpacity onPress={onPress}>
           {data.secureTextEntry ? (
             <Hide style={styles.imageStyleHide} />
