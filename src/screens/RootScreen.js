@@ -3,17 +3,18 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Onboarding from './onboarding/Onboarding';
-import HomeScreen from './home_screen/HomeScreen';
-import LoginScreen from './login_screen/LoginScreen';
+import SignInScreen from './signin_screen/SignInScreen';
+import SignUpScreen from './signup_screen/SignUpScreen';
 import SportsSelectionScreen from './sportsselector_screen/SportsSelectionScreen';
-import Tabs from '../navigations/Tabs';
+import Tabs from '../navigations/MainTabScreen';
 
 const RootStack = createStackNavigator();
 
-const RootStackScreen = () => (
+const RootStackScreen = ({navigation}) => (
   <RootStack.Navigator headerMode="none">
     <RootStack.Screen name="Onboarding" component={Onboarding} />
-    <RootStack.Screen name="LoginScreen" component={LoginScreen} />
+    <RootStack.Screen name="SignInScreen" component={SignInScreen} />
+    <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
     <RootStack.Screen
       name="SportsSelectionScreen"
       component={SportsSelectionScreen}

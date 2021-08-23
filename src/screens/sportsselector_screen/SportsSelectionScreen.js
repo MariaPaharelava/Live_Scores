@@ -5,7 +5,6 @@ import {SPORTS_IMAGES} from '../../images/Images';
 import {RoundedButton} from '../../buttons/RoundedButton';
 import {styles} from './SportsSelectionScreenStyles';
 
-import {useNavigation} from '@react-navigation/native';
 const SPORTS = [
   {
     name: 'Soccer',
@@ -38,9 +37,7 @@ const SPORTS = [
     image: SPORTS_IMAGES.VOLLEYBALL_IMAGE,
   },
 ];
-function SplashScreen() {
-  const navigation = useNavigation();
-
+function SportsSelectionScreen({navigation}) {
   const [types, setTypes] = useState([]);
 
   const HandleSportPress = type => {
@@ -91,4 +88,4 @@ function SplashScreen() {
   );
 }
 
-export default SplashScreen;
+export default SportsSelectionScreen;

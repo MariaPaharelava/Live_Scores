@@ -1,13 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {RoundedButton} from '../../buttons/RoundedButton';
-import LoginScreen from '../login_screen/LoginScreen';
 import styles from './OnboardingStyles';
 import {IMAGES} from '../../images/Images';
 
-function Onboarding() {
-  const [modalVisible, setModalVisible] = useState(false);
-
+function Onboarding({navigation}) {
   return (
     <View style={styles.container}>
       <Image style={styles.onboardingImage} source={IMAGES.ONBOARDING_IMAGE} />
@@ -19,10 +16,14 @@ function Onboarding() {
         </Text>
       </View>
       <View style={styles.buttons}>
-        <RoundedButton title="Sign in" onPress={() => setModalVisible(true)} />
-        <LoginScreen visible={modalVisible} setVisible={setModalVisible} />
+        <RoundedButton
+          title="Sign in"
+          onPress={() => navigation.navigate('SignInScreen')}
+        />
 
-        <TouchableOpacity style={styles.signupButton}>
+        <TouchableOpacity
+          style={styles.signupButton}
+          onPress={() => navigation.navigate('SignUpScreen')}>
           <Text style={styles.signupButtonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>

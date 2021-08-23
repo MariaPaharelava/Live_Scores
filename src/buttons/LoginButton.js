@@ -12,6 +12,8 @@ export const LoginButton = ({
   onChangeText,
   onPress,
   data,
+  onEndEditing,
+  onChangeTextPass,
   noBackground = false,
   ...props
 }) => {
@@ -26,6 +28,8 @@ export const LoginButton = ({
           style={styles.textInput}
           color="white"
           autoCapitalize="none"
+          onEndEditing={onEndEditing}
+          onChangeText={onChangeText}
         />
       </View>
 
@@ -40,15 +44,11 @@ export const LoginButton = ({
           style={styles.textInput}
           secureTextEntry={data.secureTextEntry ? true : false}
           autoCapitalize="none"
-          onChangeText={onChangeText}
+          onChangeText={onChangeTextPass}
         />
 
         <TouchableOpacity onPress={onPress}>
-          {data.secureTextEntry ? (
-            <Hide style={styles.imageStyleHide} />
-          ) : (
-            <Show />
-          )}
+          {data.secureTextEntry ? <Hide /> : <Show />}
         </TouchableOpacity>
       </View>
     </View>
