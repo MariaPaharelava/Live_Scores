@@ -104,16 +104,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 150,
   },
-<<<<<<< Updated upstream
-  pressable: {},
-=======
->>>>>>> Stashed changes
   rememberText: {
     color: 'gray',
     paddingRight: Platform.OS === 'ios' ? 30 : 80,
   },
-<<<<<<< Updated upstream
-=======
   password: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -134,6 +128,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     margin: 5,
   },
->>>>>>> Stashed changes
 });
 export default styles;
