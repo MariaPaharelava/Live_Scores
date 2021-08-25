@@ -3,7 +3,7 @@ import {View, Text, Image, Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {createStackNavigator} from '@react-navigation/stack';
-import {IMAGES, TAB_IMAGES} from '../images/Images';
+import {TAB_IMAGES} from '../images/Images';
 
 import HomeScreen from '../screens/home_screen/HomeScreen';
 import ExploreScreen from '../screens/explore_screen/ExploreScreen';

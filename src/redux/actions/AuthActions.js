@@ -71,10 +71,6 @@ export const signupCompleted = user => ({
   payload: user,
 });
 
-// export const loadUser = ({email, password}) => ({
-//   type: LOAD_USER,
-//   payload: {email, password},
-// });
 export const loadUser = () => ({
   type: LOAD_USER,
 });

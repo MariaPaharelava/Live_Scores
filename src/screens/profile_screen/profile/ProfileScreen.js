@@ -1,15 +1,13 @@
-import React, {useContext, useState} from 'react';
+import React from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   Image,
   SafeAreaView,
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {AuthContext} from '../../../navigations/AuthProvider';
 import {IMAGES} from '../../../images/Images';
 import {ProfileButton} from '../../../buttons/ProfileButton';
 import styles from './ProfileScreenStyles';
