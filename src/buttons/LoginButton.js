@@ -1,16 +1,19 @@
 import React from 'react';
+import {View, TextInput, TouchableOpacity} from 'react-native';
+
+import Message from '../icons/login/Message.svg';
+import Hide from '../icons/login/Hide.svg';
+import Password from '../icons/login/Password.svg';
+import Show from '../icons/login/Show.svg';
 import {styles} from './LoginButtonStyle';
 import PropTypes from 'prop-types';
-import Message from '../icons/Message.svg';
-import Hide from '../icons/Hide.svg';
-import Password from '../icons/Password.svg';
-import Show from '../icons/Show.svg';
 
-import {View, TextInput, TouchableOpacity} from 'react-native';
 export const LoginButton = ({
   onChangeText,
   onPress,
   data,
+  onEndEditing,
+  onChangeTextPass,
   noBackground = false,
   ...props
 }) => {
@@ -25,6 +28,8 @@ export const LoginButton = ({
           style={styles.textInput}
           color="white"
           autoCapitalize="none"
+          onEndEditing={onEndEditing}
+          onChangeText={onChangeText}
         />
       </View>
 
@@ -39,14 +44,11 @@ export const LoginButton = ({
           style={styles.textInput}
           secureTextEntry={data.secureTextEntry ? true : false}
           autoCapitalize="none"
-          onChangeText={onChangeText}
+          onChangeText={onChangeTextPass}
         />
+
         <TouchableOpacity onPress={onPress}>
-          {data.secureTextEntry ? (
-            <Hide style={styles.imageStyleHide} />
-          ) : (
-            <Show />
-          )}
+          {data.secureTextEntry ? <Hide /> : <Show />}
         </TouchableOpacity>
       </View>
     </View>

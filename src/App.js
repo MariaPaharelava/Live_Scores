@@ -1,18 +1,8 @@
 import React from 'react';
-import Onboarding from './screens/onboarding/Onboarding';
-
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import Providers from './navigations/index';
 
 const App = () => {
-  return <Onboarding></Onboarding>;
+  return <Providers />;
 };
 
 export default App;

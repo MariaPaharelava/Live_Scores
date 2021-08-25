@@ -16,7 +16,6 @@ export const styles = StyleSheet.create({
   },
   text: {
     color: colors.white,
-    width: 60,
     ...fonts.defaultFont,
   },
 });
