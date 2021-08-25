@@ -50,17 +50,15 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
-    color: '#05375a',
+    color: 'white',
   },
   errorMsg: {
     color: '#FF0000',
     fontSize: 14,
   },
   button: {
-    alignItems: 'center',
-    marginTop: Platform.OS === 'ios' ? '30%' : '10%',
+    marginTop: Platform.OS === 'ios' ? '10%' : '5%',
   },
   signIn: {
     width: '100%',
@@ -106,10 +104,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 150,
   },
+<<<<<<< Updated upstream
   pressable: {},
+=======
+>>>>>>> Stashed changes
   rememberText: {
     color: 'gray',
     paddingRight: Platform.OS === 'ios' ? 30 : 80,
   },
+<<<<<<< Updated upstream
+=======
+  password: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#181829',
+    margin: 8,
+    borderRadius: 16,
+    borderWidth: 1,
+    paddingHorizontal: Platform.OS === 'ios' ? 10 : 5,
+    padding: Platform.OS === 'ios' ? 10 : 0,
+  },
+  imageStyle: {
+    padding: 10,
+    margin: 5,
+  },
+  errors: {
+    fontSize: 14,
+    color: 'red',
+    fontWeight: 'bold',
+    margin: 5,
+  },
+>>>>>>> Stashed changes
 });
 export default styles;

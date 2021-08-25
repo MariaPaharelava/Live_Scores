@@ -1,24 +1,27 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
-import {AuthContext} from './AuthProvider';
 import AuthStack from './AuthStack';
 import AppStackScreen from './AppStack';
+import {useDispatch, useSelector} from 'react-redux';
+import {loadUser} from '../redux/actions/AuthActions';
+import SplashScreen from 'react-native-splash-screen';
 const Routes = () => {
-  const {user, setUser} = useContext(AuthContext);
-  const [initializing, setInitializing] = useState(true);
+  const user = useSelector(state => state.AuthReducer.user);
+  const dispatch = useDispatch();
 
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
+  const userLoading = useSelector(
+    state => state.AuthReducer.loadUserProcessing,
+  );
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  }, []);
+    dispatch(loadUser());
+  }, [dispatch]);
 
-  if (initializing) return null;
+  useEffect(() => {
+    if (userLoading) {
+      SplashScreen.hide();
+    }
+  }, [userLoading]);
 
   return (
     <NavigationContainer>

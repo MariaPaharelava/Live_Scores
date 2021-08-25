@@ -7,29 +7,43 @@ import SignUpScreen from '../screens/signup_screen/SignUpScreen';
 const Stack = createStackNavigator();
 
 const AuthStack = () => {
-  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
-  let routeName;
+  // const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+  // let routeName;
 
-  useEffect(() => {
-    AsyncStorage.getItem('alreadyLaunched').then(value => {
-      if (value == null) {
-        AsyncStorage.setItem('alreadyLaunched', 'true');
-        setIsFirstLaunch(true);
-      } else {
-        setIsFirstLaunch(false);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   AsyncStorage.getItem('alreadyLaunched').then(value => {
+  //     if (value == null) {
+  //       AsyncStorage.setItem('alreadyLaunched', 'true');
+  //       setIsFirstLaunch(true);
+  //     } else {
+  //       setIsFirstLaunch(false);
+  //     }
+  //   });
+  // }, []);
+  // useEffect(() => {
+  //   // AsyncStorage.clear();
+  //   AsyncStorage.getItem('alreadyLaunched').then(value => {
+  //     if (value == null) {
+  //       console.log(value);
 
-  if (isFirstLaunch === null) {
-    return null;
-  } else if (isFirstLaunch === true) {
-    routeName = 'Onboarding';
-  } else {
-    routeName = 'SignInScreen';
-  }
+  //       setIsFirstLaunch(true);
+  //     } else {
+  //       console.log(value);
+
+  //       setIsFirstLaunch(false);
+  //     }
+  //   });
+  // }, []);
+
+  // if (isFirstLaunch === null) {
+  //   return null;
+  // } else if (isFirstLaunch === true) {
+  //   routeName = 'Onboarding';
+  // } else {
+  //   routeName = 'SignInScreen';
+  // }
   return (
-    <Stack.Navigator initialRouteName={routeName}>
+    <Stack.Navigator>
       <Stack.Screen
         name="Onboarding"
         component={Onboarding}
