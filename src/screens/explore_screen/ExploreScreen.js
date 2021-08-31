@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import firestore from '@react-native-firebase/firestore';
 
 import Search from '../../icons/other/Search.svg';
 import {SPORTS_IMAGES} from '../../images/Images';
@@ -16,6 +17,22 @@ import {SportsButton} from '../../buttons/SportsButton';
 import TeamShedule from '../../component/TeamShedule';
 const ExploreScreen = ({navigation}) => {
   const [view, setView] = useState('soccer');
+  const [value, setValue] = useState('');
+  // const [value, setValue] = useState('');
+
+  // useEffect(() => {
+  //   firestore()
+  //     .collection('soccer_matches')
+  //     // Filter results
+  //     .where('age', '>=', 18)
+  //     // Limit results
+  //     .limit(20)
+  //     .get()
+  //     .then(querySnapshot => {
+  //       /* ... */
+  //     });
+  // }, [value]);
+
   const options = [
     {label: 'Soccer', value: 'soccer', image: SPORTS_IMAGES.SOOCER_IMAGE},
     {
@@ -56,6 +73,8 @@ const ExploreScreen = ({navigation}) => {
               color="white"
               placeholderTextColor="#65656B"
               placeholder="Search your team..."
+              onChange={event => setValue(event.target.value)}
+              value={value}
             />
           </View>
           <TouchableOpacity>

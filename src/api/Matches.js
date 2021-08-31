@@ -1,4 +1,12 @@
-import firestore from '@react-native-firebase/firestore';
+// import firestore from '@react-native-firebase/firestore';
+import firestore, {
+  collection,
+  query,
+  orderBy,
+  startAfter,
+  limit,
+  getDocs,
+} from '@react-native-firebase/firestore';
 
 export const getLigs = async () => {
   const querySnapshot = await firestore().collection('Soccer').get();
@@ -16,6 +24,36 @@ export const getLigs = async () => {
   await Promise.all(promises);
 
   return ligs;
+};
+export const getMatches = async matchPerLoad => {
+  const querySnapshot = await firestore()
+    .collection('soccer_matches')
+    .limit(matchPerLoad)
+    .get();
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+  const matches = [];
+  querySnapshot.forEach(documentSnapshot => {
+    matches.push(documentSnapshot.data());
+  });
+
+  console.log(matches);
+  return {matches, lastVisible};
+};
+
+export const fetchMoreMatches = async (startAfter, matchPerLoad) => {
+  const querySnapshot = await firestore()
+    .collection('soccer_matches')
+    .startAfter(startAfter)
+    .limit(matchPerLoad)
+    .get();
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+  const matches = [];
+  querySnapshot.forEach(documentSnapshot => {
+    matches.push(documentSnapshot.data());
+  });
+
+  console.log(matches);
+  return {matches, lastVisible};
 };
 
 export const getMatchById = async id => {
