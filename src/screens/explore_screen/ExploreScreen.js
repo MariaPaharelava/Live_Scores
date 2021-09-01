@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,59 +8,112 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
-
+import {getMatches} from '../../api/Matches';
+import {fetchMoreMatches} from '../../api/Matches';
 import Search from '../../icons/other/Search.svg';
 import {SPORTS_IMAGES} from '../../images/Images';
 import {SportsButton} from '../../buttons/SportsButton';
-import TeamShedule from '../../component/TeamShedule';
+import {ExploreMatchButton} from '../../buttons/ExploreMatchButton';
+import Indicator from '../../component/ActivityIndicator';
+import Error from '../../component/ErrorIndicator';
+const options = [
+  {label: 'Soccer', value: 'soccer', image: SPORTS_IMAGES.SOOCER_IMAGE},
+  {
+    label: 'Basketball',
+    value: 'basketball',
+    image: SPORTS_IMAGES.BASKETBALL_IMAGE,
+  },
+  {
+    label: ' Football',
+    value: 'football',
+    image: SPORTS_IMAGES.FOOTBALL_IMAGE,
+  },
+  {
+    label: ' Baseball',
+    value: 'baseball',
+    image: SPORTS_IMAGES.BASEBALL_IMAGE,
+  },
+  {
+    label: ' Tennis',
+    value: 'tennis',
+    image: SPORTS_IMAGES.TENNIS_IMAGE,
+  },
+  {
+    label: ' Volleyball',
+    value: 'volleyball',
+    image: SPORTS_IMAGES.VOLLEYBALL_IMAGE,
+  },
+];
 const ExploreScreen = ({navigation}) => {
+  const [matchesData, setMatchesData] = useState([]);
+  const [matchesError, setMatchesError] = useState();
+  const [matchesLoading, setMatchesLoading] = useState();
+  const [startAfter, setStartAfter] = useState({});
+  const [matchPerLoad] = useState(2);
+  const [lastMatch, setLastMatch] = useState(false);
   const [view, setView] = useState('soccer');
   const [value, setValue] = useState('');
-  // const [value, setValue] = useState('');
 
-  // useEffect(() => {
-  //   firestore()
-  //     .collection('soccer_matches')
-  //     // Filter results
-  //     .where('age', '>=', 18)
-  //     // Limit results
-  //     .limit(20)
-  //     .get()
-  //     .then(querySnapshot => {
-  //       /* ... */
-  //     });
-  // }, [value]);
+  useEffect(() => {
+    const matchesrequest = async () => {
+      setMatchesLoading(true);
+      try {
+        const matchesdata = await getMatches(matchPerLoad);
+        setMatchesData([...matchesData, ...matchesdata.matches]);
+        setStartAfter(matchesdata.lastVisible);
+      } catch (error) {
+        setMatchesError(error);
+        console.log(error);
+      } finally {
+        setMatchesLoading(false);
+      }
+    };
+    matchesrequest();
+  }, []);
 
-  const options = [
-    {label: 'Soccer', value: 'soccer', image: SPORTS_IMAGES.SOOCER_IMAGE},
-    {
-      label: 'Basketball',
-      value: 'basketball',
-      image: SPORTS_IMAGES.BASKETBALL_IMAGE,
-    },
-    {
-      label: ' Football',
-      value: 'football',
-      image: SPORTS_IMAGES.FOOTBALL_IMAGE,
-    },
-    {
-      label: ' Baseball',
-      value: 'baseball',
-      image: SPORTS_IMAGES.BASEBALL_IMAGE,
-    },
-    {
-      label: ' Tennis',
-      value: 'tennis',
-      image: SPORTS_IMAGES.TENNIS_IMAGE,
-    },
-    {
-      label: ' Volleyball',
-      value: 'volleyball',
-      image: SPORTS_IMAGES.VOLLEYBALL_IMAGE,
-    },
-  ];
+  const getMoreMatches = async () => {
+    try {
+      if (!lastMatch) {
+        const matchesdata = await fetchMoreMatches(startAfter, matchPerLoad);
+        setMatchesData([...matchesData, ...matchesdata.matches]);
+        setStartAfter(matchesdata.lastVisible);
+        matchesdata.matches.length === 0
+          ? setLastMatch(true)
+          : setLastMatch(false);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setMatchesLoading(false);
+    }
+  };
+
+  if (matchesLoading) {
+    return <Indicator />;
+  }
+  if (!matchesData) {
+    return null;
+  }
+  if (matchesError) {
+    return <Error />;
+  }
+
+  const rednderLigs = ({item}) => {
+    return (
+      <View key={item.id}>
+        <ExploreMatchButton matches={item} />
+      </View>
+    );
+  };
+
+  if (!matchesData) {
+    return null;
+  }
+  if (matchesError) {
+    return <Error />;
+  }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#181829'}}>
@@ -99,8 +152,20 @@ const ExploreScreen = ({navigation}) => {
             ))}
           </ScrollView>
         </View>
-        <View style={styles.container}>
-          <TeamShedule />
+
+        <View style={[styles.container, {height: 100}]}>
+          <FlatList
+            data={matchesData}
+            renderItem={rednderLigs}
+            keyExtractor={item => item.id}
+            style={{height: Platform.OS === 'ios' ? '90%' : '67%'}}
+            onEndReached={getMoreMatches}
+            onEndReachedThreshold={0.01}
+            scrollEventThrottle={150}
+            ListFooterComponent={() =>
+              matchesLoading || !lastMatch ? <Indicator /> : null
+            }
+          />
         </View>
       </View>
     </SafeAreaView>
