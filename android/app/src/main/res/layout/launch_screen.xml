@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="411dp"
-        android:layout_height="657dp"
+        android:layout_height="500dp"
         android:gravity="center"
         android:text="Sports App"
         android:textColor="#fff"
@@ -20,7 +20,7 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="389dp"
+        android:layout_height="38dp"
         android:gravity="center"
         android:text="Powered by iTechArt"
         android:textColor="#f00000"

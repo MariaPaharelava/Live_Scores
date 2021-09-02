@@ -1,12 +1,4 @@
-// import firestore from '@react-native-firebase/firestore';
-import firestore, {
-  collection,
-  query,
-  orderBy,
-  startAfter,
-  limit,
-  getDocs,
-} from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 
 export const getLigs = async () => {
   const querySnapshot = await firestore().collection('Soccer').get();
@@ -25,6 +17,7 @@ export const getLigs = async () => {
 
   return ligs;
 };
+
 export const getMatches = async matchPerLoad => {
   const querySnapshot = await firestore()
     .collection('soccer_matches')
@@ -39,21 +32,83 @@ export const getMatches = async matchPerLoad => {
   console.log(matches);
   return {matches, lastVisible};
 };
+export const getTeamMatches = async (matchPerLoad, search) => {
+  console.log(search);
+  let matches = [];
+  let lastVisible;
+  let find = false;
 
-export const fetchMoreMatches = async (startAfter, matchPerLoad) => {
-  const querySnapshot = await firestore()
+  const queryFirstTeamSnapshot = await firestore()
     .collection('soccer_matches')
-    .startAfter(startAfter)
+    .where('firstTeam.teamDetails.name', '==', search)
+
     .limit(matchPerLoad)
     .get();
-  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
-  const matches = [];
-  querySnapshot.forEach(documentSnapshot => {
+  queryFirstTeamSnapshot.forEach(documentSnapshot => {
     matches.push(documentSnapshot.data());
   });
+  const querySecondTeamSnapshot = await firestore()
+    .collection('soccer_matches')
+    .where('secondTeam.teamDetails.name', '==', search)
+    .limit(matchPerLoad)
+    .get();
+  lastVisible =
+    querySecondTeamSnapshot.docs[querySecondTeamSnapshot.docs.length - 1];
+  querySecondTeamSnapshot.forEach(documentSnapshot => {
+    matches.push(documentSnapshot.data());
+  });
+  if (matches.length !== 0) {
+    find = true;
+  }
 
   console.log(matches);
-  return {matches, lastVisible};
+  return {matches, lastVisible, find};
+};
+
+export const fetchMoreMatches = async (startAfter, matchPerLoad, search) => {
+  if (search !== '') {
+    let matches = [];
+    let lastVisible;
+
+    const queryFirstTeamSnapshot = await firestore()
+      .collection('soccer_matches')
+      .where('firstTeam.teamDetails.name', '==', search)
+      .startAfter(startAfter)
+      .limit(matchPerLoad)
+      .get();
+
+    queryFirstTeamSnapshot.forEach(documentSnapshot => {
+      matches.push(documentSnapshot.data());
+    });
+    const querySecondTeamSnapshot = await firestore()
+      .collection('soccer_matches')
+      .where('secondTeam.teamDetails.name', '==', search)
+      .startAfter(startAfter)
+      .limit(matchPerLoad)
+      .get();
+
+    querySecondTeamSnapshot.forEach(documentSnapshot => {
+      matches.push(documentSnapshot.data());
+    });
+
+    return {matches, lastVisible};
+  } else {
+    const querySnapshot = await firestore()
+      .collection('soccer_matches')
+      .startAfter(startAfter)
+      .limit(matchPerLoad)
+      .get();
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+    const matches = [];
+    querySnapshot.forEach(documentSnapshot => {
+      matches.push(documentSnapshot.data());
+    });
+
+    console.log(matches);
+    console.log(lastVisible);
+
+    return {matches, lastVisible};
+  }
 };
 
 export const getMatchById = async id => {

@@ -12,12 +12,14 @@ import {
 } from 'react-native';
 import {getMatches} from '../../api/Matches';
 import {fetchMoreMatches} from '../../api/Matches';
+import {getTeamMatches} from '../../api/Matches';
 import Search from '../../icons/other/Search.svg';
 import {SPORTS_IMAGES} from '../../images/Images';
 import {SportsButton} from '../../buttons/SportsButton';
 import {ExploreMatchButton} from '../../buttons/ExploreMatchButton';
 import Indicator from '../../component/ActivityIndicator';
 import Error from '../../component/ErrorIndicator';
+import styles from './ExploreScreenStyles';
 const options = [
   {label: 'Soccer', value: 'soccer', image: SPORTS_IMAGES.SOOCER_IMAGE},
   {
@@ -51,32 +53,62 @@ const ExploreScreen = ({navigation}) => {
   const [matchesError, setMatchesError] = useState();
   const [matchesLoading, setMatchesLoading] = useState();
   const [startAfter, setStartAfter] = useState({});
-  const [matchPerLoad] = useState(2);
+  const [matchPerLoad] = useState(8);
   const [lastMatch, setLastMatch] = useState(false);
   const [view, setView] = useState('soccer');
   const [value, setValue] = useState('');
 
-  useEffect(() => {
-    const matchesrequest = async () => {
-      setMatchesLoading(true);
-      try {
-        const matchesdata = await getMatches(matchPerLoad);
+  const matchesrequest = async (refresh = false) => {
+    setMatchesLoading(true);
+    try {
+      const matchesdata = await getMatches(matchPerLoad);
+      if (refresh) {
+        setLastMatch(false);
+        setMatchesData(matchesdata.matches);
+      } else {
         setMatchesData([...matchesData, ...matchesdata.matches]);
-        setStartAfter(matchesdata.lastVisible);
-      } catch (error) {
-        setMatchesError(error);
-        console.log(error);
-      } finally {
-        setMatchesLoading(false);
       }
-    };
+      setMatchesData(matchesdata.matches);
+      setStartAfter(matchesdata.lastVisible);
+    } catch (error) {
+      setMatchesError(error);
+      console.log(error);
+    } finally {
+      setMatchesLoading(false);
+    }
+  };
+  const onInput = async text => {
+    setMatchesLoading(true);
+    try {
+      setValue(text);
+      const matchesdata = await getTeamMatches(matchPerLoad, text);
+      setMatchesData(matchesdata.matches);
+      if (text === '') {
+        matchesrequest();
+      }
+      setStartAfter(matchesdata.lastVisible);
+    } catch (error) {
+      setMatchesError(error);
+      console.log(error);
+    } finally {
+      setMatchesLoading(false);
+    }
+  };
+  console.log(value);
+
+  useEffect(() => {
+    console.log('useeffect');
     matchesrequest();
   }, []);
 
   const getMoreMatches = async () => {
     try {
       if (!lastMatch) {
-        const matchesdata = await fetchMoreMatches(startAfter, matchPerLoad);
+        const matchesdata = await fetchMoreMatches(
+          startAfter,
+          matchPerLoad,
+          value,
+        );
         setMatchesData([...matchesData, ...matchesdata.matches]);
         setStartAfter(matchesdata.lastVisible);
         matchesdata.matches.length === 0
@@ -90,17 +122,7 @@ const ExploreScreen = ({navigation}) => {
     }
   };
 
-  if (matchesLoading) {
-    return <Indicator />;
-  }
-  if (!matchesData) {
-    return null;
-  }
-  if (matchesError) {
-    return <Error />;
-  }
-
-  const rednderLigs = ({item}) => {
+  const RednderLigs = ({item}) => {
     return (
       <View key={item.id}>
         <ExploreMatchButton matches={item} />
@@ -126,11 +148,15 @@ const ExploreScreen = ({navigation}) => {
               color="white"
               placeholderTextColor="#65656B"
               placeholder="Search your team..."
-              onChange={event => setValue(event.target.value)}
+              onChangeText={onInput}
               value={value}
             />
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setValue('');
+              matchesrequest(true);
+            }}>
             <Text style={{color: 'white'}}>Cancel</Text>
           </TouchableOpacity>
         </View>
@@ -153,10 +179,10 @@ const ExploreScreen = ({navigation}) => {
           </ScrollView>
         </View>
 
-        <View style={[styles.container, {height: 100}]}>
+        <View style={styles.container}>
           <FlatList
             data={matchesData}
-            renderItem={rednderLigs}
+            renderItem={RednderLigs}
             keyExtractor={item => item.id}
             style={{height: Platform.OS === 'ios' ? '90%' : '67%'}}
             onEndReached={getMoreMatches}
@@ -173,48 +199,3 @@ const ExploreScreen = ({navigation}) => {
 };
 
 export default ExploreScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#181829',
-  },
-  wrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: Platform.OS === 'ios' ? 10 : 20,
-  },
-  itemStyle: {
-    padding: 15,
-    color: 'white',
-  },
-  textInput: {
-    paddingLeft: 15,
-  },
-  search: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderRadius: 16,
-    width: '70%',
-    borderWidth: 1,
-    height: 50,
-    paddingLeft: 20,
-    marginHorizontal: Platform.OS === 'ios' ? 10 : 15,
-
-    borderColor: '#222232',
-    backgroundColor: '#222232',
-  },
-  navigate: {
-    flexDirection: 'row',
-    marginTop: Platform.OS === 'ios' ? 40 : 40,
-    marginHorizontal: 15,
-    marginBottom: 20,
-  },
-  content: {
-    marginTop: Platform.OS === 'ios' ? 40 : 40,
-
-    backgroundColor: '#181829',
-  },
-});
