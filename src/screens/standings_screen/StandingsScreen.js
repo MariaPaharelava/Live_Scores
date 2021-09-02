@@ -54,7 +54,7 @@ const StandingsScreen = ({navigation}) => {
   const [ligsError, setligsError] = useState();
   const [ligsLoading, setligsLoading] = useState();
   const [startAfter, setStartAfter] = useState({});
-  const [ligsPerload] = useState(8);
+  const [ligsPerload] = useState(2);
   const [lastLigs, setLastLigs] = useState(false);
   const [value, setValue] = useState('');
   const [timoutHandler, settimoutHandler] = useState();
@@ -79,6 +79,9 @@ const StandingsScreen = ({navigation}) => {
       const ligsdata = await getLiga(ligsPerload, text);
       setligsData(ligsdata.ligs);
       if (text === '') {
+        setLastLigs(false);
+
+        setligsData([]);
         ligsrequest();
       }
       setStartAfter(ligsdata.lastVisible);

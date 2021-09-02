@@ -53,7 +53,7 @@ const ExploreScreen = ({navigation}) => {
   const [matchesError, setMatchesError] = useState();
   const [matchesLoading, setMatchesLoading] = useState();
   const [startAfter, setStartAfter] = useState({});
-  const [matchPerLoad] = useState(8);
+  const [matchPerLoad] = useState(2);
   const [lastMatch, setLastMatch] = useState(false);
   const [view, setView] = useState('soccer');
   const [value, setValue] = useState('');
@@ -85,6 +85,8 @@ const ExploreScreen = ({navigation}) => {
       console.log(text);
 
       if (text === '') {
+        setLastMatch(false);
+        setMatchesData([]);
         matchesrequest();
       }
       setStartAfter(matchesdata.lastVisible);
