@@ -57,6 +57,7 @@ const ExploreScreen = ({navigation}) => {
   const [lastMatch, setLastMatch] = useState(false);
   const [view, setView] = useState('soccer');
   const [value, setValue] = useState('');
+  const [timoutHandler, settimoutHandler] = useState();
 
   const matchesrequest = async (refresh = false) => {
     setMatchesLoading(true);
@@ -68,7 +69,6 @@ const ExploreScreen = ({navigation}) => {
       } else {
         setMatchesData([...matchesData, ...matchesdata.matches]);
       }
-      setMatchesData(matchesdata.matches);
       setStartAfter(matchesdata.lastVisible);
     } catch (error) {
       setMatchesError(error);
@@ -80,9 +80,10 @@ const ExploreScreen = ({navigation}) => {
   const onInput = async text => {
     setMatchesLoading(true);
     try {
-      setValue(text);
       const matchesdata = await getTeamMatches(matchPerLoad, text);
       setMatchesData(matchesdata.matches);
+      console.log(text);
+
       if (text === '') {
         matchesrequest();
       }
@@ -94,10 +95,8 @@ const ExploreScreen = ({navigation}) => {
       setMatchesLoading(false);
     }
   };
-  console.log(value);
 
   useEffect(() => {
-    console.log('useeffect');
     matchesrequest();
   }, []);
 
@@ -148,7 +147,15 @@ const ExploreScreen = ({navigation}) => {
               color="white"
               placeholderTextColor="#65656B"
               placeholder="Search your team..."
-              onChangeText={onInput}
+              onChangeText={text => {
+                setValue(text);
+
+                if (timoutHandler) {
+                  clearTimeout(timoutHandler);
+                }
+                const timout = setTimeout(() => onInput(text), 300);
+                settimoutHandler(timout);
+              }}
               value={value}
             />
           </View>

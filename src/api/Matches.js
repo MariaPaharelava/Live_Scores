@@ -17,6 +17,75 @@ export const getLigs = async () => {
 
   return ligs;
 };
+export const getLigsTable = async ligsPerload => {
+  const querySnapshot = await firestore()
+    .collection('Soccer')
+    .limit(ligsPerload)
+    .get();
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+  const ligs = [];
+  querySnapshot.forEach(documentSnapshot => {
+    ligs.push(documentSnapshot.data());
+  });
+
+  const promises = ligs.map(async liga => {
+    const promis = liga.matches.map(
+      async matchID => await getMatchById(matchID),
+    );
+    liga.matches = await Promise.all(promis);
+  });
+  await Promise.all(promises);
+
+  return {ligs, lastVisible};
+};
+export const getLiga = async (ligsPerload, search) => {
+  const querySnapshot = await firestore()
+    .collection('Soccer')
+    .where('ligaName', '==', search)
+    .limit(ligsPerload)
+    .get();
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+  const ligs = [];
+  querySnapshot.forEach(documentSnapshot => {
+    ligs.push(documentSnapshot.data());
+  });
+
+  const promises = ligs.map(async liga => {
+    const promis = liga.matches.map(
+      async matchID => await getMatchById(matchID),
+    );
+    liga.matches = await Promise.all(promis);
+  });
+  await Promise.all(promises);
+
+  return {ligs, lastVisible};
+};
+
+export const fetchMoreLigs = async (startAfter, ligsPerload) => {
+  const querySnapshot = await firestore()
+    .collection('Soccer')
+    .startAfter(startAfter)
+    .limit(ligsPerload)
+    .get();
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+  const ligs = [];
+  querySnapshot.forEach(documentSnapshot => {
+    ligs.push(documentSnapshot.data());
+  });
+
+  const promises = ligs.map(async liga => {
+    const promis = liga.matches.map(
+      async matchID => await getMatchById(matchID),
+    );
+    liga.matches = await Promise.all(promis);
+  });
+  await Promise.all(promises);
+
+  return {ligs, lastVisible};
+};
 
 export const getMatches = async matchPerLoad => {
   const querySnapshot = await firestore()
@@ -29,14 +98,11 @@ export const getMatches = async matchPerLoad => {
     matches.push(documentSnapshot.data());
   });
 
-  console.log(matches);
   return {matches, lastVisible};
 };
 export const getTeamMatches = async (matchPerLoad, search) => {
-  console.log(search);
   let matches = [];
   let lastVisible;
-  let find = false;
 
   const queryFirstTeamSnapshot = await firestore()
     .collection('soccer_matches')
@@ -57,16 +123,13 @@ export const getTeamMatches = async (matchPerLoad, search) => {
   querySecondTeamSnapshot.forEach(documentSnapshot => {
     matches.push(documentSnapshot.data());
   });
-  if (matches.length !== 0) {
-    find = true;
-  }
 
-  console.log(matches);
-  return {matches, lastVisible, find};
+  return {matches, lastVisible};
 };
 
 export const fetchMoreMatches = async (startAfter, matchPerLoad, search) => {
   if (search !== '') {
+    console.log(search);
     let matches = [];
     let lastVisible;
 
@@ -103,9 +166,6 @@ export const fetchMoreMatches = async (startAfter, matchPerLoad, search) => {
     querySnapshot.forEach(documentSnapshot => {
       matches.push(documentSnapshot.data());
     });
-
-    console.log(matches);
-    console.log(lastVisible);
 
     return {matches, lastVisible};
   }

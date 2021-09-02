@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {
   View,
-  StyleSheet,
   SafeAreaView,
   TextInput,
   ScrollView,
   Platform,
+  FlatList,
 } from 'react-native';
 
 import Search from '../../icons/other/Search.svg';
@@ -15,7 +15,10 @@ import {SPORTS_IMAGES} from '../../images/Images';
 import {SportsButton} from '../../buttons/SportsButton';
 import {LigaButton} from '../../buttons/LigaButton';
 import {StandingsTable} from '../../component/StandingsTable';
-import {getLigs} from '../../api/Matches';
+import {getLigsTable} from '../../api/Matches';
+import {fetchMoreLigs} from '../../api/Matches';
+import {getLiga} from '../../api/Matches';
+import styles from './StandingScreenStyles';
 const StandingsScreen = ({navigation}) => {
   const [view, setView] = useState('soccer');
   const options = [
@@ -50,12 +53,35 @@ const StandingsScreen = ({navigation}) => {
   const [ligsData, setligsData] = useState([]);
   const [ligsError, setligsError] = useState();
   const [ligsLoading, setligsLoading] = useState();
+  const [startAfter, setStartAfter] = useState({});
+  const [ligsPerload] = useState(8);
+  const [lastLigs, setLastLigs] = useState(false);
+  const [value, setValue] = useState('');
+  const [timoutHandler, settimoutHandler] = useState();
 
   const ligsrequest = async () => {
     setligsLoading(true);
     try {
-      const table = await getLigs();
-      setligsData(table);
+      const ligsdata = await getLigsTable(ligsPerload);
+      setligsData([...ligsData, ...ligsdata.ligs]);
+      setStartAfter(ligsdata.lastVisible);
+    } catch (error) {
+      setligsError(error);
+      console.log(error);
+    } finally {
+      setligsLoading(false);
+    }
+  };
+  const onInput = async text => {
+    console.log(text);
+    setligsLoading(true);
+    try {
+      const ligsdata = await getLiga(ligsPerload, text);
+      setligsData(ligsdata.ligs);
+      if (text === '') {
+        ligsrequest();
+      }
+      setStartAfter(ligsdata.lastVisible);
     } catch (error) {
       setligsError(error);
       console.log(error);
@@ -66,31 +92,41 @@ const StandingsScreen = ({navigation}) => {
 
   useEffect(() => {
     ligsrequest();
-    return () => {
-      setligsData();
-    };
   }, []);
 
-  const rednderLigs = ligs => {
-    return ligs.map(liga => {
-      return (
-        <View key={liga.id}>
-          <LigaButton
-            liga={liga}
-            onPress={() =>
-              navigation.push('StandingsDetail', {
-                image: liga.imageUrl,
-                matchID: liga.matches[0].id,
-                ligaID: liga.id,
-                title: liga.ligaName,
-              })
-            }
-          />
+  const getMoreLigs = async () => {
+    try {
+      if (!lastLigs) {
+        const ligsdata = await fetchMoreLigs(startAfter, ligsPerload);
+        setligsData([...ligsData, ...ligsdata.ligs]);
+        setStartAfter(ligsdata.lastVisible);
+        ligsdata.ligs.length === 0 ? setLastLigs(true) : setLastLigs(false);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setligsLoading(false);
+    }
+  };
 
-          <StandingsTable teams={liga.alltable} />
-        </View>
-      );
-    });
+  const RednderLigs = ({item}) => {
+    return (
+      <View key={item.id}>
+        <LigaButton
+          liga={item}
+          onPress={() =>
+            navigation.push('StandingsDetail', {
+              image: item.imageUrl,
+              matchID: item.matches[0].id,
+              ligaID: item.id,
+              title: item.ligaName,
+            })
+          }
+        />
+
+        <StandingsTable teams={item.alltable} />
+      </View>
+    );
   };
 
   if (!ligsData) {
@@ -111,6 +147,16 @@ const StandingsScreen = ({navigation}) => {
               color="white"
               placeholderTextColor="#65656B"
               placeholder="Search your competition..."
+              onChangeText={text => {
+                setValue(text);
+
+                if (timoutHandler) {
+                  clearTimeout(timoutHandler);
+                }
+                const timout = setTimeout(() => onInput(text), 300);
+                settimoutHandler(timout);
+              }}
+              value={value}
             />
           </View>
         </View>
@@ -132,54 +178,23 @@ const StandingsScreen = ({navigation}) => {
           </ScrollView>
         </View>
 
-        <ScrollView style={styles.content}>
-          {rednderLigs(ligsData)}
-          <View style={styles.lastView} />
-          {ligsLoading && <Indicator />}
-        </ScrollView>
+        <View style={styles.content}>
+          <FlatList
+            data={ligsData}
+            renderItem={RednderLigs}
+            keyExtractor={item => item.id}
+            style={{height: Platform.OS === 'ios' ? '90%' : '67%'}}
+            onEndReached={getMoreLigs}
+            onEndReachedThreshold={0.01}
+            scrollEventThrottle={150}
+            ListFooterComponent={() =>
+              ligsLoading || !lastLigs ? <Indicator /> : null
+            }
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
 };
 
 export default StandingsScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#181829',
-  },
-  itemStyle: {
-    padding: 15,
-    color: 'white',
-  },
-  textInput: {
-    paddingLeft: 15,
-  },
-  search: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderRadius: 16,
-    width: '90%',
-    borderWidth: 1,
-    height: 50,
-    margin: 5,
-    paddingHorizontal: 15,
-    borderColor: '#222232',
-    backgroundColor: '#222232',
-  },
-  navigate: {
-    flexDirection: 'row',
-    marginTop: Platform.OS === 'ios' ? 40 : 30,
-    marginHorizontal: 15,
-    marginBottom: 20,
-  },
-  content: {
-    width: '100%',
-    height: Platform.OS === 'ios' ? '50%' : '40%',
-    backgroundColor: '#181829',
-  },
-  lastView: {height: 65},
-});
