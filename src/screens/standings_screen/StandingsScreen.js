@@ -100,7 +100,7 @@ const StandingsScreen = ({navigation}) => {
   const getMoreLigs = async () => {
     try {
       if (!lastLigs) {
-        const ligsdata = await fetchMoreLigs(startAfter, ligsPerload);
+        const ligsdata = await fetchMoreLigs(startAfter, ligsPerload, value);
         setligsData([...ligsData, ...ligsdata.ligs]);
         setStartAfter(ligsdata.lastVisible);
         ligsdata.ligs.length === 0 ? setLastLigs(true) : setLastLigs(false);
