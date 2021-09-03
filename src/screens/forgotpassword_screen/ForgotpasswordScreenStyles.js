@@ -23,15 +23,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 30,
   },
+  forgotHeader: {alignItems: 'center', marginTop: 20},
   text_header: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 30,
+    alignItems: 'center',
   },
   text_footer: {
+    fontSize: 26,
     color: 'white',
     paddingBottom: 20,
-    fontSize: 26,
   },
   action: {
     alignItems: 'center',

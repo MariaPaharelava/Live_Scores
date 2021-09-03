@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Onboarding from '../screens/onboarding/Onboarding';
 import SignInScreen from '../screens/signin_screen/SignInScreen';
 import SignUpScreen from '../screens/signup_screen/SignUpScreen';
+import ForgotPasswordScreen from '../screens/forgotpassword_screen/ForgotpasswordScreen';
 const Stack = createStackNavigator();
 
 const AuthStack = () => {
@@ -43,6 +44,11 @@ const AuthStack = () => {
       <Stack.Screen
         name="SignUpScreen"
         component={SignUpScreen}
+        options={{header: () => null}}
+      />
+      <Stack.Screen
+        name="ForgotPasswordScreen"
+        component={ForgotPasswordScreen}
         options={{header: () => null}}
       />
     </Stack.Navigator>

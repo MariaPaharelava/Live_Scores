@@ -9,34 +9,24 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Message from '../../icons/login/Message.svg';
-import Password from '../../icons/login/Password.svg';
-import Hide from '../../icons/login/Hide.svg';
-import Show from '../../icons/login/Show.svg';
-import styles from './SignInScreenStyles';
+
+import styles from './ForgotpasswordScreenStyles';
 import Indicator from '../../component/ActivityIndicator';
-import {loginUser} from '../../redux/actions/AuthActions';
+import {forgotPasswordUser} from '../../redux/actions/AuthActions';
 import {RoundedButton} from '../../buttons/RoundedButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {IMAGES} from '../../images/Images';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 
-const loginValidationSchema = yup.object().shape({
+const forgotValidationSchema = yup.object().shape({
   email: yup
     .string()
     .email('Please enter valid email')
     .required('Email adress is required'),
-  password: yup
-    .string()
-    .min(8, ({min}) => `Password must be at least ${min} characters`)
-    .required('Password  is required')
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character',
-    ),
 });
 
-const SignInScreen = ({navigation}) => {
+const ForgotPasswordScreen = ({navigation}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const loading = useSelector(state => state.AuthReducer.loginProcessing);
@@ -49,17 +39,16 @@ const SignInScreen = ({navigation}) => {
 
   return (
     <Formik
-      initialValues={{email: '', password: ''}}
+      initialValues={{email: ''}}
       validateOnMount={true}
       onSubmit={values =>
         dispatch(
-          loginUser({
+          forgotPasswordUser({
             email: values.email,
-            password: values.password,
           }),
         )
       }
-      validationSchema={loginValidationSchema}>
+      validationSchema={forgotValidationSchema}>
       {({
         handleChange,
         handleBlur,
@@ -76,10 +65,12 @@ const SignInScreen = ({navigation}) => {
           />
 
           <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-            <Pressable onPress={() => navigation.navigate('Onboarding')}>
+            <Pressable onPress={() => navigation.navigate('SignInScreen')}>
               <View style={styles.hideLine} />
             </Pressable>
-            <Text style={styles.text_footer}>Welcome</Text>
+            <View style={styles.forgotHeader}>
+              <Text style={styles.text_footer}>Forgot Password?</Text>
+            </View>
 
             <View>
               <View style={styles.password}>
@@ -99,7 +90,7 @@ const SignInScreen = ({navigation}) => {
                 <Text style={styles.errors}> {errors.email} </Text>
               )}
 
-              <View style={styles.password}>
+              {/* <View style={styles.password}>
                 <Password style={styles.imageStyle} />
 
                 <TextInput
@@ -121,12 +112,12 @@ const SignInScreen = ({navigation}) => {
               </View>
               {errors.password && touched.password && (
                 <Text style={styles.errors}> {errors.password} </Text>
-              )}
+              )} */}
             </View>
 
             <View style={styles.button}>
               <RoundedButton
-                title="Sign in"
+                title="Send Email"
                 onPress={handleSubmit}
                 isValid={!isValid}
               />
@@ -138,14 +129,6 @@ const SignInScreen = ({navigation}) => {
                   <Text style={styles.signupButtonText}>Sign Up</Text>
                 </TouchableOpacity>
               </View>
-              <View style={styles.forgotPassword}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('ForgotPasswordScreen')}>
-                  <Text style={styles.forgotPasswordText}>
-                    Forgot password?
-                  </Text>
-                </TouchableOpacity>
-              </View>
             </View>
           </Animatable.View>
         </View>
@@ -154,4 +137,4 @@ const SignInScreen = ({navigation}) => {
   );
 };
 
-export default SignInScreen;
+export default ForgotPasswordScreen;

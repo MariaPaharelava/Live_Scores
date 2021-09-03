@@ -13,6 +13,9 @@ import {
   signupStarted,
   loadUserSratred,
   loadUserCompleted,
+  forgotPasswordUserCompleted,
+  forgotPasswordUserStarted,
+  forgotPasswordUserError,
 } from '../actions/AuthActions';
 
 import {
@@ -20,6 +23,7 @@ import {
   SIGNUP_USER,
   LOGOUT_USER,
   LOAD_USER,
+  FORGOTPASSWORD_USER,
 } from '../actions/types';
 import {Alert} from 'react-native';
 
@@ -34,7 +38,6 @@ function* loginUser(params) {
     );
 
     yield call(AsyncStorage.setItem, 'User', result.user.uid);
-    // yield call(AsyncStorage.setItem, 'User', result);
     yield call(console.log, result);
 
     yield call(console.log, result.user.uid);
@@ -105,11 +108,32 @@ function* loadUser() {
   }
 }
 
+function* forgotPasswordUser(params) {
+  try {
+    yield put(forgotPasswordUserStarted());
+    const authManager = auth();
+    const result = yield call(
+      [authManager, authManager.sendPasswordResetEmail],
+      params.payload.email,
+    );
+
+    yield put(forgotPasswordUserCompleted(result));
+  } catch (e) {
+    let errorMessage = 'Server Error. Please try again later!';
+    if (e.message) {
+      errorMessage = e.message;
+    }
+    yield put(forgotPasswordUserError(errorMessage));
+    Alert.alert(errorMessage);
+  }
+}
+
 function* authSaga() {
   yield takeEvery(LOGIN_USER, loginUser);
   yield takeEvery(SIGNUP_USER, signupUser);
   yield takeEvery(LOGOUT_USER, logoutUser);
   yield takeEvery(LOAD_USER, loadUser);
+  yield takeEvery(FORGOTPASSWORD_USER, forgotPasswordUser);
 }
 
 export default authSaga;

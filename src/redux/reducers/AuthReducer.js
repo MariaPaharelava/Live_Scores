@@ -10,6 +10,9 @@ import {
   SIGNUP_USER_STARTED,
   LOAD_USER_STARTED,
   LOAD_USER_COMPLETED,
+  FORGOTPASSWORD_USER_STARTED,
+  FORGOTPASSWORD_USER_COMPLETED,
+  FORGOTPASSWORD_USER_ERROR,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -24,6 +27,9 @@ const INITIAL_STATE = {
   signupProcessing: false,
 
   loadUserProcessing: false,
+
+  forgotPasswordError: '',
+  forgotPasswordProcessing: false,
 };
 
 export default function AuthReducer(state = INITIAL_STATE, action) {
@@ -54,6 +60,22 @@ export default function AuthReducer(state = INITIAL_STATE, action) {
 
     case LOAD_USER_COMPLETED:
       return {...state, user: action.payload, loadUserProcessing: true};
+
+    case FORGOTPASSWORD_USER_STARTED:
+      return {
+        ...state,
+        forgotPasswordError: null,
+        forgotPasswordProcessing: true,
+        user: null,
+      };
+    case FORGOTPASSWORD_USER_ERROR:
+      return {
+        ...state,
+        forgotPasswordError: action.payload,
+        forgotPasswordProcessing: false,
+      };
+    case FORGOTPASSWORD_USER_COMPLETED:
+      return {...state, user: action.payload, forgotPasswordProcessing: false};
 
     default:
       return state;

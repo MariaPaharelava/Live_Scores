@@ -14,6 +14,10 @@ import {
   LOAD_USER,
   LOAD_USER_COMPLETED,
   LOAD_USER_STARTED,
+  FORGOTPASSWORD_USER,
+  FORGOTPASSWORD_USER_STARTED,
+  FORGOTPASSWORD_USER_COMPLETED,
+  FORGOTPASSWORD_USER_ERROR,
 } from './types';
 
 export const loginUser = ({email, password}) => ({
@@ -81,5 +85,24 @@ export const loadUserSratred = () => ({
 
 export const loadUserCompleted = user => ({
   type: LOAD_USER_COMPLETED,
+  payload: user,
+});
+
+export const forgotPasswordUser = ({email}) => ({
+  type: FORGOTPASSWORD_USER,
+  payload: {email},
+});
+
+export const forgotPasswordUserStarted = () => ({
+  type: FORGOTPASSWORD_USER_STARTED,
+});
+
+export const forgotPasswordUserError = error => ({
+  type: FORGOTPASSWORD_USER_ERROR,
+  payload: error,
+});
+
+export const forgotPasswordUserCompleted = user => ({
+  type: FORGOTPASSWORD_USER_COMPLETED,
   payload: user,
 });
