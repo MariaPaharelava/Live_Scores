@@ -42,7 +42,7 @@ const DetailTeamScreen = ({navigation, route}) => {
       setMatchData();
     };
   }, [matchID]);
-
+  console.log(matchData);
   const selectedView = () => {
     switch (view) {
       case 'details':
@@ -57,7 +57,14 @@ const DetailTeamScreen = ({navigation, route}) => {
       case 'lineUp':
         return <LineUp navigation={navigation} match={matchData} />;
       case 'h2h':
-        return <H2H />;
+        return (
+          <H2H
+            navigation={navigation}
+            currentmatch={matchData}
+            matchID={matchID}
+            ligaID={ligaID}
+          />
+        );
       default:
         return;
     }

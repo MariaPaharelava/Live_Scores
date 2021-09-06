@@ -117,7 +117,6 @@ function HomeScreen({navigation}) {
             </View>
           ))}
         </ScrollView>
-
         {rednderLigs(ligsData)}
         <View style={styles.lastView} />
       </ScrollView>

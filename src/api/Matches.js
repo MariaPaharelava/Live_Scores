@@ -223,3 +223,15 @@ export const getLigaByID = async id => {
 
   return liga;
 };
+
+export const getH2HMatches = async id => {
+  const documentSnapshot = await firestore().collection('Soccer').doc(id).get();
+  let liga;
+  if (documentSnapshot.exists) {
+    liga = documentSnapshot.data();
+  }
+  const promis = liga.matches.map(async matchID => await getMatchById(matchID));
+  liga.matches = await Promise.all(promis);
+
+  return liga;
+};
