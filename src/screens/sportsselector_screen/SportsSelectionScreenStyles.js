@@ -33,13 +33,14 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   sportImages2: {
-    margin: 10,
+    marginBottom: 10,
   },
 
   roundedButton: {
     flex: 0.5,
     padding: 30,
     textAlign: 'center',
+    marginTop: Platform.OS === 'ios' ? 0 : 45,
   },
   skipButton: {alignItems: 'center', marginTop: 15},
   button: {alignItems: 'center', justifyContent: 'center', padding: 20},

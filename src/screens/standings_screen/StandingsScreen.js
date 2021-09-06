@@ -194,6 +194,7 @@ const StandingsScreen = ({navigation}) => {
               ligsLoading || !lastLigs ? <Indicator /> : null
             }
           />
+          <View style={styles.lastView} />
         </View>
       </View>
     </SafeAreaView>

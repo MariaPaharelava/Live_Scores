@@ -65,9 +65,12 @@ const ForgotPasswordScreen = ({navigation}) => {
           />
 
           <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-            <Pressable onPress={() => navigation.navigate('SignInScreen')}>
-              <View style={styles.hideLine} />
-            </Pressable>
+            <View style={{alignItems: 'center'}}>
+              <Pressable onPress={() => navigation.navigate('SignInScreen')}>
+                <View style={styles.hideLine} />
+              </Pressable>
+            </View>
+
             <View style={styles.forgotHeader}>
               <Text style={styles.text_footer}>Forgot Password?</Text>
             </View>
@@ -89,30 +92,6 @@ const ForgotPasswordScreen = ({navigation}) => {
               {errors.email && touched.email && (
                 <Text style={styles.errors}> {errors.email} </Text>
               )}
-
-              {/* <View style={styles.password}>
-                <Password style={styles.imageStyle} />
-
-                <TextInput
-                  placeholderTextColor="#65656B"
-                  placeholder="Password"
-                  style={styles.textInput}
-                  color="white"
-                  secureTextEntry={!showPassword}
-                  autoCapitalize="none"
-                  onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
-                  value={values.password}
-                />
-
-                <TouchableOpacity
-                  onPress={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <Show /> : <Hide />}
-                </TouchableOpacity>
-              </View>
-              {errors.password && touched.password && (
-                <Text style={styles.errors}> {errors.password} </Text>
-              )} */}
             </View>
 
             <View style={styles.button}>

@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    height: '70%',
+    height: Platform.OS === 'ios' ? '70%' : 'auto',
+
     width: '100%',
     backgroundColor: '#222232',
     borderTopLeftRadius: 30,
@@ -30,8 +31,9 @@ const styles = StyleSheet.create({
   },
   text_footer: {
     color: 'white',
-    paddingBottom: 20,
+    paddingBottom: 15,
     fontSize: 26,
+    marginLeft: 10,
   },
   action: {
     alignItems: 'center',
@@ -113,7 +115,6 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 75,
     alignItems: 'center',
-    marginLeft: 150,
   },
   rememberText: {
     color: 'gray',

@@ -96,34 +96,28 @@ function HomeScreen({navigation}) {
     <View style={styles.container}>
       <View style={styles.title}>
         <Text style={styles.titleText}>LiveScore</Text>
-        <TouchableOpacity>
-          <Search />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{paddingLeft: 20}}>
-          <Notification />
-        </TouchableOpacity>
       </View>
 
-      <Image style={styles.image} source={IMAGES.HOMESCREEN_IMAGE} />
-
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        {SPORTS.map(item => (
-          <View style={styles.sportImages2} key={item.type}>
-            <TouchableOpacity
-              style={[
-                styles.touchableOpacity,
-                types.includes(item.type) && {backgroundColor: 'orange'},
-              ]}
-              onPress={() => HandleSportPress(item.type)}>
-              <Image style={styles.button} source={item.image} />
-            </TouchableOpacity>
-            <Text style={styles.textUnderButton}>{item.name}</Text>
-          </View>
-        ))}
-      </ScrollView>
-
       <ScrollView style={styles.content}>
+        <View style={{alignItems: 'center'}}>
+          <Image style={styles.image} source={IMAGES.HOMESCREEN_IMAGE} />
+        </View>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {SPORTS.map(item => (
+            <View style={styles.sportImages2} key={item.type}>
+              <TouchableOpacity
+                style={[
+                  styles.touchableOpacity,
+                  types.includes(item.type) && {backgroundColor: 'orange'},
+                ]}
+                onPress={() => HandleSportPress(item.type)}>
+                <Image style={styles.button} source={item.image} />
+              </TouchableOpacity>
+              <Text style={styles.textUnderButton}>{item.name}</Text>
+            </View>
+          ))}
+        </ScrollView>
+
         {rednderLigs(ligsData)}
         <View style={styles.lastView} />
       </ScrollView>

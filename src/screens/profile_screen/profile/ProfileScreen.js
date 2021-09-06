@@ -14,42 +14,48 @@ import styles from './ProfileScreenStyles';
 const ProfileScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#181829'}}>
-      <ScrollView
+      {/* <View
         style={styles.container}
         contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
-        showsVerticalScrollIndicator={false}>
-        <View>
-          <ImageBackground style={styles.userImg} source={IMAGES.PROFILE_IMAGE}>
-            <TouchableOpacity style={styles.userEditContainer}>
-              <Image
-                style={styles.userEditImg}
-                source={require('../../../images/profile/ProfileEdit.png')}
-              />
-            </TouchableOpacity>
-          </ImageBackground>
-        </View>
+        showsVerticalScrollIndicator={false}> */}
+      <View style={styles.containerImage}>
+        <ImageBackground style={styles.userImg} source={IMAGES.PROFILE_IMAGE}>
+          <TouchableOpacity style={styles.userEditContainer}>
+            <Image
+              style={styles.userEditImg}
+              source={require('../../../images/profile/ProfileEdit.png')}
+            />
+          </TouchableOpacity>
+        </ImageBackground>
         <Text style={styles.userName}>Brian Imanuel</Text>
-        <View style={styles.userBtnWrapper}>
-          <TouchableOpacity
-            style={[styles.userBtn, {backgroundColor: 'orange'}]}>
-            <Text style={styles.userBtnTxt}>My Profile</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.userBtn}
-            onPress={() => {
-              navigation.navigate('ActivityProfile');
-            }}>
-            <Text style={styles.userBtnTxt}>Activity</Text>
-          </TouchableOpacity>
+      </View>
+      <View style={styles.userBtnWrapper}>
+        <TouchableOpacity style={[styles.userBtn, {backgroundColor: 'orange'}]}>
+          <Text style={styles.userBtnTxt}>My Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.userBtn}
+          onPress={() => {
+            navigation.navigate('ActivityProfile');
+          }}>
+          <Text style={styles.userBtnTxt}>Activity</Text>
+        </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.userBtn}
-            onPress={() => {
-              navigation.navigate('SettingsProfile');
-            }}>
-            <Text style={styles.userBtnTxt}>Settings</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.userBtn}
+          onPress={() => {
+            navigation.navigate('SettingsProfile');
+          }}>
+          <Text style={styles.userBtnTxt}>Settings</Text>
+        </TouchableOpacity>
+      </View>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        showsVerticalScrollIndicator={false}>
         <ProfileButton
           title="Name"
           titleInfo="Brian Imanuel"
@@ -74,6 +80,7 @@ const ProfileScreen = ({navigation}) => {
           image={require('../../../images/profile/ProfileAdress.png')}
           onPress={() => navigation.navigate('EditProfile')}
         />
+        <View style={styles.lastView} />
       </ScrollView>
     </SafeAreaView>
   );

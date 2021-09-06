@@ -52,7 +52,6 @@ function SportsSelectionScreen({navigation}) {
     <View style={styles.container}>
       <View style={styles.containerText}>
         <Text style={styles.question}>What sport do you interest?</Text>
-        <Text style={styles.chooseText}>You can choose more than one</Text>
       </View>
       <View style={styles.sportImages}>
         {SPORTS.map(item => (

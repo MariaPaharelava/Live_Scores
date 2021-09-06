@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
   secondSection: {
     color: '#65656B',
     fontSize: 16,
-    marginLeft: 'auto',
     marginTop: 'auto',
     left: 18,
   },
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
     height: 50,
     marginRight: 40,
     top: 10,
-    marginLeft: 50,
+    marginLeft: Platform.OS === 'ios' ? 50 : 30,
   },
   signupButtonText: {
     fontSize: 18,

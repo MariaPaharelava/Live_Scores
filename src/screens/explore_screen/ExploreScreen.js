@@ -201,6 +201,7 @@ const ExploreScreen = ({navigation}) => {
               matchesLoading || !lastMatch ? <Indicator /> : null
             }
           />
+          <View style={styles.lastView} />
         </View>
       </View>
     </SafeAreaView>

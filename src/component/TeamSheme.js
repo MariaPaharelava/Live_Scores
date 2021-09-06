@@ -7,6 +7,7 @@ import {
   Image,
   Platform,
 } from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import {SPORTS_IMAGES} from '../images/Images';
 const TeamScheme = ({
   navigation,

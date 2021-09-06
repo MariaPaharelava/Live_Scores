@@ -2,9 +2,14 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#181829',
     padding: 20,
+  },
+  containerImage: {
+    backgroundColor: '#181829',
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   userImg: {
     height: 150,
@@ -66,6 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   userEditImg: {height: 45, width: 45},
+  lastView: {height: 75},
 });
 
 export default styles;

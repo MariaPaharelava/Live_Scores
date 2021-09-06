@@ -11,14 +11,17 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: 'white',
-    marginRight: 140,
     fontSize: 24,
     fontWeight: '400',
     fontStyle: 'normal',
   },
   touchableOpacity: {
-    width: 105,
-    height: 105,
+    // width: 105,
+    // height: 105,
+    width: Platform.OS === 'ios' ? 105 : 90,
+
+    height: Platform.OS === 'ios' ? 105 : 90,
+
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
   image: {marginBottom: 15},
   button: {alignItems: 'center', justifyContent: 'center', padding: 20},
   sportImages2: {
-    margin: 10,
+    marginLeft: 10,
   },
   content: {
     width: '100%',

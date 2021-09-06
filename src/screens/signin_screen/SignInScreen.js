@@ -76,9 +76,11 @@ const SignInScreen = ({navigation}) => {
           />
 
           <Animatable.View animation="fadeInUpBig" style={styles.footer}>
-            <Pressable onPress={() => navigation.navigate('Onboarding')}>
-              <View style={styles.hideLine} />
-            </Pressable>
+            <View style={{alignItems: 'center'}}>
+              <Pressable onPress={() => navigation.navigate('Onboarding')}>
+                <View style={styles.hideLine} />
+              </Pressable>
+            </View>
             <Text style={styles.text_footer}>Welcome</Text>
 
             <View>

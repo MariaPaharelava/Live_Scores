@@ -114,8 +114,6 @@ const styles = StyleSheet.create({
     opacity: 0.3,
     padding: 10,
     width: 75,
-    alignItems: 'center',
-    marginLeft: 150,
   },
   rememberText: {
     color: 'gray',

@@ -36,6 +36,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#181829',
     marginBottom: Platform.OS === 'ios' ? 50 : 30,
   },
-  lastView: {height: 65},
+  lastView: {height: 35},
 });
 export default styles;

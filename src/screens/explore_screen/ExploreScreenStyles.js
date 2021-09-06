@@ -42,5 +42,6 @@ const styles = StyleSheet.create({
 
     backgroundColor: '#181829',
   },
+  lastView: {height: 75},
 });
 export default styles;
