@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
-import Notification from '../../icons/other/Notification.svg';
-import Search from '../../icons/other/Search.svg';
 import styles from './HomeScreenStyles';
 import Indicator from '../../component/ActivityIndicator';
 import Error from '../../component/ErrorIndicator';
@@ -11,16 +9,13 @@ import {MatchButton} from '../../buttons/MatchButton';
 import {SPORTS} from '../../constant/Sport';
 import {IMAGES} from '../../images/Images';
 
-function HomeScreen({navigation}) {
-  const [types, setTypes] = useState([]);
+function HomeScreen({navigation, route}) {
+  const {sport} = route.params;
+  console.log(sport);
+  const [types, setTypes] = useState([sport]);
   const HandleSportPress = type => {
-    if (types.includes(type)) {
-      setTypes(types.filter(sportType => sportType !== type));
-    } else {
-      setTypes([...types, type]);
-    }
+    setTypes(type);
   };
-
   const [ligsData, setligsData] = useState();
   const [ligsError, setligsError] = useState();
   const [ligsLoading, setligsLoading] = useState();

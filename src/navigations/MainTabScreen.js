@@ -73,7 +73,7 @@ const HomeStack = ({navigation, route}) => (
       },
     }}>
     <Stack.Screen
-      name="Home Screen"
+      name="HomeScreen"
       component={HomeScreen}
       options={{
         headerShown: false,
@@ -165,7 +165,7 @@ const tabRender = (view, focused) => {
   );
 };
 
-const MainTabScreen = ({navigation}) => {
+const MainTabScreen = ({navigation, route}) => {
   return (
     <Tab.Navigator
       tabBarOptions={{

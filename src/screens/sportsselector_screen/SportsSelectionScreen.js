@@ -39,15 +39,9 @@ const SPORTS = [
 ];
 function SportsSelectionScreen({navigation}) {
   const [types, setTypes] = useState([]);
-
   const HandleSportPress = type => {
-    if (types.includes(type)) {
-      setTypes(types.filter(sportType => sportType !== type));
-    } else {
-      setTypes([...types, type]);
-    }
+    setTypes(type);
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.containerText}>
@@ -72,12 +66,33 @@ function SportsSelectionScreen({navigation}) {
       <View style={styles.roundedButton}>
         <RoundedButton
           title="Continue"
-          onPress={() => navigation.navigate('MainTabScreen')}
+          onPress={() => {
+            navigation.navigate('MainTabScreen', {
+              screen: 'Home',
+              params: {
+                screen: 'HomeScreen',
+                params: {
+                  sport: types,
+                },
+              },
+            });
+          }}
         />
+
         <TouchableOpacity style={styles.skipButton}>
           <Text
             style={styles.textSkip}
-            onPress={() => navigation.navigate('MainTabScreen')}>
+            onPress={() => {
+              navigation.navigate('MainTabScreen', {
+                screen: 'Home',
+                params: {
+                  screen: 'HomeScreen',
+                  params: {
+                    sport: '',
+                  },
+                },
+              });
+            }}>
             Skip
           </Text>
         </TouchableOpacity>
