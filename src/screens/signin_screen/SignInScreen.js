@@ -37,7 +37,6 @@ const loginValidationSchema = yup.object().shape({
 });
 
 const SignInScreen = ({navigation}) => {
-  const [toggleCheckBox, setToggleCheckBox] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const loading = useSelector(state => state.AuthReducer.loginProcessing);
 

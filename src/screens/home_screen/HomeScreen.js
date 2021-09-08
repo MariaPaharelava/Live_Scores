@@ -8,11 +8,25 @@ import {getLigs} from '../../api/Matches';
 import {MatchButton} from '../../buttons/MatchButton';
 import {SPORTS} from '../../constant/Sport';
 import {IMAGES} from '../../images/Images';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function HomeScreen({navigation, route}) {
-  const {sport} = route.params;
+const HomeScreen = ({navigation, route}) => {
+  const [sport, setSport] = useState(null);
+
+  useEffect(() => {
+    AsyncStorage.getItem('@storage_Key').then(value => {
+      if (value === null) {
+        AsyncStorage.setItem('@storage_Key', '');
+        setTypes('');
+      } else {
+        setTypes(value);
+      }
+    });
+  }, []);
+  // const {sport} = route.params;
   console.log(sport);
-  const [types, setTypes] = useState([sport]);
+  const [types, setTypes] = useState('');
+  console.log(types);
   const HandleSportPress = type => {
     setTypes(type);
   };
@@ -103,7 +117,7 @@ function HomeScreen({navigation, route}) {
               <TouchableOpacity
                 style={[
                   styles.touchableOpacity,
-                  types.includes(item.type) && {backgroundColor: 'orange'},
+                  item.type === types && {backgroundColor: 'orange'},
                 ]}
                 onPress={() => HandleSportPress(item.type)}>
                 <Image style={styles.button} source={item.image} />
@@ -117,6 +131,6 @@ function HomeScreen({navigation, route}) {
       </ScrollView>
     </View>
   );
-}
+};
 
 export default HomeScreen;

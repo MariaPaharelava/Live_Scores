@@ -3,8 +3,16 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {RoundedButton} from '../../buttons/RoundedButton';
 import styles from './OnboardingStyles';
 import {IMAGES} from '../../images/Images';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Onboarding({navigation}) {
+  const storeData = async () => {
+    try {
+      await AsyncStorage.setItem('alreadyLaunched', 'true');
+    } catch (e) {
+      // saving error
+    }
+  };
   return (
     <View style={styles.container}>
       <Image style={styles.onboardingImage} source={IMAGES.ONBOARDING_IMAGE} />
@@ -18,12 +26,19 @@ function Onboarding({navigation}) {
       <View style={styles.buttons}>
         <RoundedButton
           title="Sign in"
-          onPress={() => navigation.navigate('SignInScreen')}
+          onPress={() => {
+            storeData();
+            navigation.navigate('SignInScreen');
+          }}
         />
 
         <TouchableOpacity
           style={styles.signupButton}
-          onPress={() => navigation.navigate('SignUpScreen')}>
+          onPress={() => {
+            storeData();
+
+            navigation.navigate('SignUpScreen');
+          }}>
           <Text style={styles.signupButtonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>

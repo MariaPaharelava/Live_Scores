@@ -13,10 +13,12 @@ const AuthStack = () => {
 
   useEffect(() => {
     AsyncStorage.getItem('alreadyLaunched').then(value => {
-      if (value == null) {
+      if (value === null) {
         AsyncStorage.setItem('alreadyLaunched', 'true');
         setIsFirstLaunch(true);
       } else {
+        AsyncStorage.setItem('alreadyLaunched', 'false');
+
         setIsFirstLaunch(false);
       }
     });
@@ -25,9 +27,9 @@ const AuthStack = () => {
   if (isFirstLaunch === null) {
     return null;
   } else if (isFirstLaunch === true) {
-    routeName = 'Onboarding';
-  } else {
     routeName = 'SignInScreen';
+  } else {
+    routeName = 'Onboarding';
   }
   return (
     <Stack.Navigator initialRouteName={routeName}>

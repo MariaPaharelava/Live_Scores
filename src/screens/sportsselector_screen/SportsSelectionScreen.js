@@ -4,6 +4,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {SPORTS_IMAGES} from '../../images/Images';
 import {RoundedButton} from '../../buttons/RoundedButton';
 import {styles} from './SportsSelectionScreenStyles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SPORTS = [
   {
@@ -39,6 +40,13 @@ const SPORTS = [
 ];
 function SportsSelectionScreen({navigation}) {
   const [types, setTypes] = useState([]);
+  const storeData = async type => {
+    try {
+      await AsyncStorage.setItem('@storage_Key', type);
+    } catch (e) {
+      // saving error
+    }
+  };
   const HandleSportPress = type => {
     setTypes(type);
   };
@@ -55,7 +63,10 @@ function SportsSelectionScreen({navigation}) {
                 styles.touchableOpacity,
                 types.includes(item.type) && {backgroundColor: 'orange'},
               ]}
-              onPress={() => HandleSportPress(item.type)}>
+              onPress={() => {
+                HandleSportPress(item.type);
+                storeData(item.type);
+              }}>
               <Image style={styles.button} source={item.image} />
             </TouchableOpacity>
 
