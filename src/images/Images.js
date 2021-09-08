@@ -11,3 +11,6 @@ export const SPORTS_IMAGES = {
   TENNIS_IMAGE: require('./sports_images/tennis.png'),
   VOLLEYBALL_IMAGE: require('./sports_images/volleyball.png'),
 };
+export const PROFILE_IMAGES = {
+  ARROW_IMAGE: require('./profile/Arrow.png'),
+};
