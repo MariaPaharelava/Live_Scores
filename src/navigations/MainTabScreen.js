@@ -28,6 +28,7 @@ const ProfileStack = ({navigation}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
+        height: Platform.OS === 'ios' ? 120 : 55,
       },
     }}>
     <Stack.Screen
@@ -70,6 +71,7 @@ const HomeStack = ({navigation, route}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
+        height: Platform.OS === 'ios' ? 120 : 55,
       },
     }}>
     <Stack.Screen
@@ -106,6 +108,7 @@ const StandingsStack = ({navigation, route}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
+        height: Platform.OS === 'ios' ? 120 : 55,
       },
     }}>
     <Stack.Screen

@@ -38,9 +38,7 @@ function* loginUser(params) {
     );
 
     yield call(AsyncStorage.setItem, 'User', result.user.uid);
-    yield call(console.log, result);
 
-    yield call(console.log, result.user.uid);
     yield put(loginCompleted(result));
   } catch (e) {
     let errorMessage = 'Server Error. Please try again later!';

@@ -23,10 +23,7 @@ const HomeScreen = ({navigation, route}) => {
       }
     });
   }, []);
-  // const {sport} = route.params;
-  console.log(sport);
   const [types, setTypes] = useState('');
-  console.log(types);
   const HandleSportPress = type => {
     setTypes(type);
   };

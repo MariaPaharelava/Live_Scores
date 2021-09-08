@@ -18,3 +18,10 @@ export const TAB_IMAGES = {
   CHART_IMAGE: require('./tab/Chart.png'),
   PROFILE_IMAGE: require('./tab/Profile.png'),
 };
+export const PROFILE_IMAGE = {
+  PROFILE_IMAGE: require('./profile/Profile.png'),
+  EMAIL_IMAGE: require('./profile/ProfileEmail.png'),
+  EDIT_IMAGE: require('./profile/ProfileEdit.png'),
+  LOGOUT_IMAGE: require('./profile/ProfileLogout.png'),
+  EDITIMAGE_IMAGE: require('./profile/ProfileImageEdit.png'),
+};

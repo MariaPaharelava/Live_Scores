@@ -1,13 +1,16 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#181829',
-    padding: 20,
   },
   containerImage: {
     backgroundColor: '#181829',
-    padding: 20,
+    marginTop: Platform.OS === 'ios' ? 60 : 20,
+
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -34,13 +37,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     width: '100%',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   userBtn: {
+    marginTop: 20,
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 12,
-    marginHorizontal: 5,
+    marginHorizontal: 25,
   },
   userBtnTxt: {
     color: 'white',
@@ -72,6 +76,13 @@ const styles = StyleSheet.create({
   },
   userEditImg: {height: 45, width: 45},
   lastView: {height: 75},
+  profileData: {
+    marginLeft: Platform.OS === 'ios' ? 25 : 35,
+  },
+  navigate: {
+    flexDirection: 'row',
+    marginTop: Platform.OS === 'ios' ? 30 : 20,
+  },
 });
 
 export default styles;

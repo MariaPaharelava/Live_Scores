@@ -82,7 +82,6 @@ const ExploreScreen = ({navigation}) => {
     try {
       const matchesdata = await getTeamMatches(matchPerLoad, text);
       setMatchesData(matchesdata.matches);
-      console.log(text);
 
       if (text === '') {
         setLastMatch(false);

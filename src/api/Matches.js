@@ -135,7 +135,6 @@ export const getTeamMatches = async (matchPerLoad, search) => {
 
 export const fetchMoreMatches = async (startAfter, matchPerLoad, search) => {
   if (search !== '') {
-    console.log(search);
     let matches = [];
     let lastVisible;
 

@@ -42,7 +42,6 @@ const DetailTeamScreen = ({navigation, route}) => {
       setMatchData();
     };
   }, [matchID]);
-  console.log(matchData);
   const selectedView = () => {
     switch (view) {
       case 'details':

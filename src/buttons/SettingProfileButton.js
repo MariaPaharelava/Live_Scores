@@ -1,8 +1,8 @@
 import React from 'react';
 import {TouchableOpacity, Text, Image, View} from 'react-native';
 
-import {styles} from './ProfileButtonStyle';
-export const ProfileButton = ({
+import {styles} from './SettingProfileButtonStyles';
+export const SettingProfileButton = ({
   onPress,
   noBackground = false,
   image,
@@ -17,11 +17,7 @@ export const ProfileButton = ({
             <Text style={[styles.text]} numberOfLines={1}>
               {props.title}
             </Text>
-            <Text style={[styles.textTitle]} numberOfLines={1}>
-              {props.titleInfo}
-            </Text>
           </View>
-          <Image source={require('../images/profile/Arrow.png')} />
         </TouchableOpacity>
       </View>
       <View style={styles.line} />

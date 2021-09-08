@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import styles from './ActivityProfileScreenStyles';
-const ActivityProfileScreen = () => {
+const ActivityProfileScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Activity Screen</Text>
