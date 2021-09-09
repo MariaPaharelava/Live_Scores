@@ -3,7 +3,29 @@ import {StyleSheet, Platform} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#181829',
+  },
+  containerImage: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  userImg: {
+    height: 150,
+    width: 150,
+    borderRadius: 75,
+  },
+  userEditContainer: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    flex: 1,
+  },
+  userEditImg: {height: 45, width: 45},
+  userName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 10,
+    color: 'white',
   },
   commandButton: {
     padding: 15,
@@ -79,7 +101,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
-    color: '#333333',
+    color: 'white',
   },
 });
 

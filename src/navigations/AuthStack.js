@@ -27,9 +27,9 @@ const AuthStack = () => {
   if (isFirstLaunch === null) {
     return null;
   } else if (isFirstLaunch === true) {
-    routeName = 'SignInScreen';
-  } else {
     routeName = 'Onboarding';
+  } else {
+    routeName = 'SignInScreen';
   }
   return (
     <Stack.Navigator initialRouteName={routeName}>

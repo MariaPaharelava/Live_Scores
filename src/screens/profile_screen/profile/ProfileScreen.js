@@ -6,17 +6,18 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
+  Platform,
 } from 'react-native';
 import {NavigateButton} from '../../../buttons/NavigateButton';
 import {ProfileData} from '../../../component/ProfileData';
 import styles from './ProfileScreenStyles';
 import ActivityProfileScreen from '../activity/ActivityProfileScreen';
 import SettingsProfileScreen from '../settings/SettingsProfileScreen';
-import {PROFILE_IMAGE} from '../../../images/Images';
 import firestore from '@react-native-firebase/firestore';
 import Error from '../../../component/ErrorIndicator';
 import Indicator from '../../../component/ActivityIndicator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {PROFILE_IMAGE} from '../../../images/Images';
 
 const ProfileScreen = ({navigation, route}) => {
   const [view, setView] = useState('profile');
@@ -57,7 +58,7 @@ const ProfileScreen = ({navigation, route}) => {
     {label: 'Activity', value: 'activity'},
     {label: ' Settings', value: 'settings'},
   ];
-  user;
+
   const selectedView = () => {
     switch (view) {
       case 'profile':
@@ -109,14 +110,8 @@ const ProfileScreen = ({navigation, route}) => {
               ? userData.userImg ||
                 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
               : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
-          }}>
-          <TouchableOpacity style={styles.userEditContainer}>
-            <Image
-              style={styles.userEditImg}
-              source={PROFILE_IMAGE.EDITIMAGE_IMAGE}
-            />
-          </TouchableOpacity>
-        </ImageBackground>
+          }}
+        />
         <Text style={styles.userName}>
           {userData ? userData.fname : ''} {userData ? userData.lname : ''}
         </Text>
