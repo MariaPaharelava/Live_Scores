@@ -73,7 +73,6 @@ const StandingsScreen = ({navigation}) => {
     }
   };
   const onInput = async text => {
-    console.log(text);
     setligsLoading(true);
     try {
       const ligsdata = await getLiga(ligsPerload, text);

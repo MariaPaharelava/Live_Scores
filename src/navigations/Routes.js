@@ -8,7 +8,6 @@ import SplashScreen from 'react-native-splash-screen';
 const Routes = () => {
   const user = useSelector(state => state.AuthReducer.user);
   const dispatch = useDispatch();
-
   const userLoading = useSelector(
     state => state.AuthReducer.loadUserProcessing,
   );

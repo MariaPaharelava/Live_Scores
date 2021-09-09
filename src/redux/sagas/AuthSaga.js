@@ -1,5 +1,7 @@
 import {call, put, takeEvery} from 'redux-saga/effects';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   loginCompleted,
@@ -60,6 +62,17 @@ function* signupUser(params) {
       params.payload.email,
       params.payload.password,
     );
+    firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .set({
+        fname: '',
+        lname: '',
+        email: params.payload.email,
+        createdAt: firestore.Timestamp.fromDate(new Date()),
+        userImg: null,
+      });
+    yield call(AsyncStorage.setItem, 'User', result.user.uid);
 
     yield put(signupCompleted(result));
   } catch (e) {
@@ -76,8 +89,8 @@ function* logoutUser(params) {
     yield put(logoutStarted());
 
     const authManager = auth();
-    yield call([authManager, authManager.signOut]);
     yield call(AsyncStorage.clear);
+    yield call([authManager, authManager.signOut]);
 
     yield put(logoutCompleted());
   } catch (e) {

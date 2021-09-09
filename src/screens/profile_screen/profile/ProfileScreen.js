@@ -1,41 +1,81 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   ScrollView,
   Image,
-  SafeAreaView,
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {IMAGES} from '../../../images/Images';
 import {NavigateButton} from '../../../buttons/NavigateButton';
 import {ProfileData} from '../../../component/ProfileData';
 import styles from './ProfileScreenStyles';
 import ActivityProfileScreen from '../activity/ActivityProfileScreen';
 import SettingsProfileScreen from '../settings/SettingsProfileScreen';
 import {PROFILE_IMAGE} from '../../../images/Images';
-const ProfileScreen = ({navigation}) => {
+import firestore from '@react-native-firebase/firestore';
+import Error from '../../../component/ErrorIndicator';
+import Indicator from '../../../component/ActivityIndicator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const ProfileScreen = ({navigation, route}) => {
   const [view, setView] = useState('profile');
+  const [userData, setUserData] = useState();
+  const [user, setUser] = useState();
+  const [userLoading, setuserLoading] = useState();
+  const [userError, setuserError] = useState();
+
+  const getUser = async () => {
+    try {
+      const currentUser = await firestore()
+        .collection('users')
+        .doc(user)
+        .get()
+        .then(documentSnapshot => {
+          if (documentSnapshot.exists) {
+            setUserData(documentSnapshot.data());
+          }
+        });
+    } catch (error) {
+      setuserError(error);
+      console.log(error);
+    } finally {
+      setuserLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    AsyncStorage.getItem('User').then(value => {
+      setUser(value);
+    });
+    getUser();
+    navigation.addListener('focus', () => setuserLoading(!userLoading));
+  }, [navigation, userLoading]);
 
   const options = [
     {label: 'My Profile', value: 'profile'},
     {label: 'Activity', value: 'activity'},
     {label: ' Settings', value: 'settings'},
   ];
+  user;
   const selectedView = () => {
     switch (view) {
       case 'profile':
         return (
           <View style={styles.profileData}>
             <ProfileData
-              title="Name"
-              titleInfo="Brian Imanuel"
+              title="First Name"
+              titleInfo={userData ? userData.fname : ''}
+              image={PROFILE_IMAGE.PROFILE_IMAGE}
+            />
+            <ProfileData
+              title="Last Name"
+              titleInfo={userData ? userData.lname : ''}
               image={PROFILE_IMAGE.PROFILE_IMAGE}
             />
             <ProfileData
               title="Email"
-              titleInfo="brians213@gmail.com"
+              titleInfo={userData ? userData.email : ''}
               image={PROFILE_IMAGE.EMAIL_IMAGE}
             />
           </View>
@@ -44,16 +84,32 @@ const ProfileScreen = ({navigation}) => {
       case 'activity':
         return <ActivityProfileScreen />;
       case 'settings':
-        return <SettingsProfileScreen navigation={navigation} />;
+        return (
+          <SettingsProfileScreen navigation={navigation} userData={userData} />
+        );
       default:
         return;
     }
   };
 
+  if (!userData) {
+    return <Indicator />;
+  }
+  if (userError) {
+    return <Error />;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.containerImage}>
-        <ImageBackground style={styles.userImg} source={IMAGES.PROFILE_IMAGE}>
+        <ImageBackground
+          style={styles.userImg}
+          source={{
+            uri: userData
+              ? userData.userImg ||
+                'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
+              : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+          }}>
           <TouchableOpacity style={styles.userEditContainer}>
             <Image
               style={styles.userEditImg}
@@ -61,7 +117,9 @@ const ProfileScreen = ({navigation}) => {
             />
           </TouchableOpacity>
         </ImageBackground>
-        <Text style={styles.userName}>Brian Imanuel</Text>
+        <Text style={styles.userName}>
+          {userData ? userData.fname : ''} {userData ? userData.lname : ''}
+        </Text>
       </View>
 
       <View style={styles.navigate}>
