@@ -32,6 +32,11 @@ const signUpValidationSchema = yup.object().shape({
   confirmPassword: yup
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords must match'),
+
+  name: yup
+    .string()
+    .min(4, ({min}) => `Name must be at least ${min} characters`)
+    .required('Name  is required'),
 });
 const SignUpScreen = ({navigation}) => {
   const loading = useSelector(state => state.AuthReducer.signupProcessing);
@@ -47,13 +52,14 @@ const SignUpScreen = ({navigation}) => {
 
   return (
     <Formik
-      initialValues={{email: '', password: '', confirmPassword: ''}}
+      initialValues={{email: '', password: '', confirmPassword: '', name: ''}}
       validateOnMount={true}
       onSubmit={values =>
         dispatch(
           signupUser({
             email: values.email,
             password: values.password,
+            name: values.name,
           }),
         )
       }
@@ -142,6 +148,28 @@ const SignUpScreen = ({navigation}) => {
               </View>
               {errors.confirmPassword && touched.confirmPassword && (
                 <Text style={styles.errors}> {errors.confirmPassword} </Text>
+              )}
+              <Text
+                style={[
+                  styles.text_footer,
+                  {
+                    marginTop: 35,
+                  },
+                ]}>
+                Name
+              </Text>
+              <View style={styles.action}>
+                <TextInput
+                  placeholder="Your Name"
+                  style={styles.textInput}
+                  autoCapitalize="none"
+                  onChangeText={handleChange('name')}
+                  onBlur={handleBlur('name')}
+                  value={values.name}
+                />
+              </View>
+              {errors.name && touched.name && (
+                <Text style={styles.errors}> {errors.name} </Text>
               )}
 
               <View style={styles.textPrivate}>

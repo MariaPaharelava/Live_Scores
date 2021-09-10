@@ -56,9 +56,9 @@ export const logoutCompleted = () => ({
   type: LOGOUT_USER_COMPLETED,
 });
 
-export const signupUser = ({email, password}) => ({
+export const signupUser = ({email, password, name}) => ({
   type: SIGNUP_USER,
-  payload: {email, password},
+  payload: {email, password, name},
 });
 
 export const signupStarted = () => ({

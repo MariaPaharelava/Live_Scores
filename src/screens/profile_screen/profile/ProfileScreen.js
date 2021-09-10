@@ -1,13 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  ImageBackground,
-  Platform,
-} from 'react-native';
+import {View, Text, ScrollView, ImageBackground} from 'react-native';
 import {NavigateButton} from '../../../buttons/NavigateButton';
 import {ProfileData} from '../../../component/ProfileData';
 import styles from './ProfileScreenStyles';
@@ -25,6 +17,7 @@ const ProfileScreen = ({navigation, route}) => {
   const [user, setUser] = useState();
   const [userLoading, setuserLoading] = useState();
   const [userError, setuserError] = useState();
+  const [imageLoading, setimageLoading] = useState();
 
   const getUser = async () => {
     try {
@@ -65,15 +58,11 @@ const ProfileScreen = ({navigation, route}) => {
         return (
           <View style={styles.profileData}>
             <ProfileData
-              title="First Name"
-              titleInfo={userData ? userData.fname : ''}
+              title="Name"
+              titleInfo={userData ? userData.name : ''}
               image={PROFILE_IMAGE.PROFILE_IMAGE}
             />
-            <ProfileData
-              title="Last Name"
-              titleInfo={userData ? userData.lname : ''}
-              image={PROFILE_IMAGE.PROFILE_IMAGE}
-            />
+
             <ProfileData
               title="Email"
               titleInfo={userData ? userData.email : ''}
@@ -111,10 +100,12 @@ const ProfileScreen = ({navigation, route}) => {
                 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
               : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
           }}
-        />
-        <Text style={styles.userName}>
-          {userData ? userData.fname : ''} {userData ? userData.lname : ''}
-        </Text>
+          onLoadStart={() => setimageLoading(true)}
+          onLoadEnd={() => setimageLoading(false)}>
+          {imageLoading && <Indicator />}
+        </ImageBackground>
+
+        <Text style={styles.userName}>{userData ? userData.name : ''}</Text>
       </View>
 
       <View style={styles.navigate}>

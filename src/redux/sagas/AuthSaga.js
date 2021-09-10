@@ -66,8 +66,7 @@ function* signupUser(params) {
       .collection('users')
       .doc(auth().currentUser.uid)
       .set({
-        fname: '',
-        lname: '',
+        name: params.payload.name,
         email: params.payload.email,
         createdAt: firestore.Timestamp.fromDate(new Date()),
         userImg: null,

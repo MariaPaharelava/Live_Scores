@@ -10,13 +10,12 @@ import {
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {PROFILE_IMAGE} from '../../../images/Images';
 import storage from '@react-native-firebase/storage';
-
 import firestore from '@react-native-firebase/firestore';
 import FormButton from '../../../component/FormButton';
-import styles from './EditProfileScreenStyles';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import styles from './EditProfileScreenStyles';
+import {PROFILE_IMAGE} from '../../../images/Images';
 const EditProfileScreen = ({navigation, route}) => {
   const [image, setImage] = useState(null);
 
@@ -26,6 +25,7 @@ const EditProfileScreen = ({navigation, route}) => {
 
   const [userData, setUserData] = useState(data);
   const [user, setUser] = useState();
+
   useEffect(() => {
     AsyncStorage.getItem('User').then(value => {
       setUser(value);
@@ -38,9 +38,11 @@ const EditProfileScreen = ({navigation, route}) => {
       cropping: true,
       compressImageQuality: 0.7,
     }).then(image => {
-      console.log(image);
-      // const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
-      setImage(image.path);
+      // console.log(image);
+      // // const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+      // setImage(image.path);
+      const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+      setImage(imageUri);
     });
   };
   const uploadImage = async () => {
@@ -102,8 +104,7 @@ const EditProfileScreen = ({navigation, route}) => {
       .collection('users')
       .doc(user)
       .update({
-        fname: userData.fname,
-        lname: userData.lname,
+        name: userData.name,
         userImg: imgUrl,
       })
       .then(() => {
@@ -136,28 +137,16 @@ const EditProfileScreen = ({navigation, route}) => {
             />
           </TouchableOpacity>
         </ImageBackground>
-        <Text style={styles.userName}>
-          {userData ? userData.fname : ''} {userData ? userData.lname : ''}
-        </Text>
+        <Text style={styles.userName}>{userData ? userData.name : ''}</Text>
       </View>
 
       <View style={styles.action}>
         <TextInput
-          placeholder="First Name"
+          placeholder="Name"
           placeholderTextColor="white"
           autoCorrect={false}
-          value={userData ? userData.fname : ''}
-          onChangeText={txt => setUserData({...userData, fname: txt})}
-          style={styles.textInput}
-        />
-      </View>
-      <View style={styles.action}>
-        <TextInput
-          placeholder="Last Name"
-          placeholderTextColor="white"
-          value={userData ? userData.lname : ''}
-          onChangeText={txt => setUserData({...userData, lname: txt})}
-          autoCorrect={false}
+          value={userData ? userData.name : ''}
+          onChangeText={txt => setUserData({...userData, name: txt})}
           style={styles.textInput}
         />
       </View>
