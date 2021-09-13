@@ -8,8 +8,36 @@ export const TeamTable = ({
   team,
   matches,
   color,
+  types,
   ...props
 }) => {
+  const selectedSport = () => {
+    switch (types) {
+      case 'soccer':
+        return (
+          <View style={styles.teamScoreSoccer}>
+            <Text style={styles.score}>{team.win}</Text>
+            <Text style={styles.score}>{team.draw}</Text>
+            <Text style={styles.score}>{team.lose}</Text>
+            <Text style={styles.score}>{team.Ga}</Text>
+            <Text style={styles.score}>{team.Gd}</Text>
+            <Text style={styles.score}>{team.Pts}</Text>
+          </View>
+        );
+      case 'basketball':
+        return (
+          <View style={styles.teamScoreBasketball}>
+            <Text style={styles.score}>{team.games}</Text>
+            <Text style={styles.score}>{team.win}</Text>
+            <Text style={styles.score}>{team.lose}</Text>
+            <Text style={styles.score}>{team.place}</Text>
+          </View>
+        );
+
+      default:
+        return;
+    }
+  };
   return (
     <View style={styles.container}>
       <View
@@ -25,15 +53,7 @@ export const TeamTable = ({
           <Image style={styles.dimensions} source={{uri: team.imageTeam}} />
           <Text style={[styles.text, {marginRight: 5}]}>{team.team}</Text>
         </View>
-
-        <View style={styles.teamScore}>
-          <Text style={styles.score}>{team.win}</Text>
-          <Text style={styles.score}>{team.draw}</Text>
-          <Text style={styles.score}>{team.lose}</Text>
-          <Text style={styles.score}>{team.Ga}</Text>
-          <Text style={styles.score}>{team.Gd}</Text>
-          <Text style={styles.score}>{team.Pts}</Text>
-        </View>
+        {selectedSport()}
       </View>
     </View>
   );
@@ -69,10 +89,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 2,
   },
-  teamScore: {
+  teamScoreSoccer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginLeft: Platform.OS === 'ios' ? 15 : 50,
+  },
+  teamScoreBasketball: {
+    flexDirection: 'row',
+    marginLeft: Platform.OS === 'ios' ? 45 : 65,
   },
   dimensions: {
     height: 15,

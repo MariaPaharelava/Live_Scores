@@ -5,7 +5,7 @@ import HomeTable from '../../component/HomeTable';
 import AllTable from '../../component/AllTable';
 import AwayTable from '../../component/AwayTable';
 const StandingsDetailScreen = ({navigation, route}) => {
-  const {ligaID, image} = route.params;
+  const {ligaID, image, types} = route.params;
 
   const [view, setView] = useState('all');
   const options = [
@@ -17,11 +17,36 @@ const StandingsDetailScreen = ({navigation, route}) => {
   const selectedView = () => {
     switch (view) {
       case 'all':
-        return <AllTable navigation={navigation} ligaID={ligaID} />;
+        return (
+          <AllTable navigation={navigation} ligaID={ligaID} types={types} />
+        );
       case 'home':
-        return <HomeTable navigation={navigation} ligaID={ligaID} />;
+        return (
+          <HomeTable navigation={navigation} ligaID={ligaID} types={types} />
+        );
       case 'away':
-        return <AwayTable navigation={navigation} ligaID={ligaID} />;
+        return (
+          <AwayTable navigation={navigation} ligaID={ligaID} types={types} />
+        );
+      default:
+        return;
+    }
+  };
+  const selectedSport = () => {
+    switch (types) {
+      case 'soccer':
+        return (
+          <Text style={styles.textPtsSoccer}>
+            {'  '} W {'   '} D {'   '} L {'  '} Ga {'   '} Gd {'   '} Pts
+          </Text>
+        );
+      case 'basketball':
+        return (
+          <Text style={styles.textPtsBasketball}>
+            {'   '} G {'    '} W {'    '} L {'    '} Pl
+          </Text>
+        );
+
       default:
         return;
     }
@@ -38,7 +63,7 @@ const StandingsDetailScreen = ({navigation, route}) => {
             title={item.label}
             width={100}
             height={50}
-            color={view == item.value ? '#ED6B4E' : '#00000000'}
+            color={view === item.value ? '#ED6B4E' : '#00000000'}
             onPress={() => {
               setView(item.value);
             }}
@@ -47,9 +72,7 @@ const StandingsDetailScreen = ({navigation, route}) => {
       </View>
       <View style={styles.indicators}>
         <Text style={styles.textTeam}># Team</Text>
-        <Text style={styles.textPts}>
-          {'  '} W {'   '} D {'   '} L {'  '} Ga {'   '} Gd {'   '} Pts
-        </Text>
+        {selectedSport()}
       </View>
       <View style={styles.line} />
 
@@ -88,8 +111,12 @@ const styles = StyleSheet.create({
   textTeam: {
     color: 'white',
   },
-  textPts: {
+  textPtsSoccer: {
     color: 'white',
+  },
+  textPtsBasketball: {
+    color: 'white',
+    paddingHorizontal: Platform.OS === 'ios' ? 0 : 8,
   },
   indicators: {
     flexDirection: 'row',

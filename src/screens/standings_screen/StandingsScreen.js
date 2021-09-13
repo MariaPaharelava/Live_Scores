@@ -11,44 +11,37 @@ import {
 import Search from '../../icons/other/Search.svg';
 import Error from '../../component/ErrorIndicator';
 import Indicator from '../../component/ActivityIndicator';
-import {SPORTS_IMAGES} from '../../images/Images';
 import {SportsButton} from '../../buttons/SportsButton';
 import {LigaButton} from '../../buttons/LigaButton';
 import {StandingsTable} from '../../component/StandingsTable';
-import {getSoccerLigsTable} from '../../api/Matches';
+import {
+  fetchBasketballMoreLigs,
+  getBasketballLiga,
+  getBasketballLigsTable,
+  getSoccerLigsTable,
+} from '../../api/Matches';
 import {fetchSoccerMoreLigs} from '../../api/Matches';
 import {getSoccerLiga} from '../../api/Matches';
+import {SPORTS} from '../../constant/Sport';
 import styles from './StandingScreenStyles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const StandingsScreen = ({navigation}) => {
-  const [view, setView] = useState('soccer');
-  const options = [
-    {label: 'Soccer', value: 'soccer', image: SPORTS_IMAGES.SOOCER_IMAGE},
-    {
-      label: 'Basketball',
-      value: 'basketball',
-      image: SPORTS_IMAGES.BASKETBALL_IMAGE,
-    },
-    {
-      label: ' Football',
-      value: 'football',
-      image: SPORTS_IMAGES.FOOTBALL_IMAGE,
-    },
-    {
-      label: ' Baseball',
-      value: 'baseball',
-      image: SPORTS_IMAGES.BASEBALL_IMAGE,
-    },
-    {
-      label: ' Tennis',
-      value: 'tennis',
-      image: SPORTS_IMAGES.TENNIS_IMAGE,
-    },
-    {
-      label: ' Volleyball',
-      value: 'volleyball',
-      image: SPORTS_IMAGES.VOLLEYBALL_IMAGE,
-    },
-  ];
+  const [types, setTypes] = useState('');
+  const HandleSportPress = type => {
+    setTypes(type);
+    setligsData([]);
+  };
+  useEffect(() => {
+    AsyncStorage.getItem('@storage_Key').then(value => {
+      if (value === null) {
+        AsyncStorage.setItem('@storage_Key', '');
+        setTypes('');
+      } else {
+        setTypes(value);
+      }
+    });
+  }, []);
+  console.log(types);
 
   const [ligsData, setligsData] = useState([]);
   const [ligsError, setligsError] = useState();
@@ -56,15 +49,22 @@ const StandingsScreen = ({navigation}) => {
   const [startAfter, setStartAfter] = useState({});
   const [ligsPerload] = useState(2);
   const [lastLigs, setLastLigs] = useState(false);
-  const [value, setValue] = useState('');
+  const [type, setType] = useState('');
   const [timoutHandler, settimoutHandler] = useState();
 
   const ligsrequest = async () => {
     setligsLoading(true);
     try {
-      const ligsdata = await getSoccerLigsTable(ligsPerload);
-      setligsData([...ligsData, ...ligsdata.ligs]);
-      setStartAfter(ligsdata.lastVisible);
+      if (types === 'soccer') {
+        const ligsdata = await getSoccerLigsTable(ligsPerload);
+        setligsData([...ligsData, ...ligsdata.ligs]);
+        setStartAfter(ligsdata.lastVisible);
+      }
+      if (types === 'basketball') {
+        const ligsdata = await getBasketballLigsTable(ligsPerload);
+        setligsData([...ligsData, ...ligsdata.ligs]);
+        setStartAfter(ligsdata.lastVisible);
+      }
     } catch (error) {
       setligsError(error);
       console.log(error);
@@ -75,15 +75,28 @@ const StandingsScreen = ({navigation}) => {
   const onInput = async text => {
     setligsLoading(true);
     try {
-      const ligsdata = await getSoccerLiga(ligsPerload, text);
-      setligsData(ligsdata.ligs);
-      if (text === '') {
-        setLastLigs(false);
+      if (types === 'soccer') {
+        const ligsdata = await getSoccerLiga(ligsPerload, text);
+        setligsData(ligsdata.ligs);
+        if (text === '') {
+          setLastLigs(false);
 
-        setligsData([]);
-        ligsrequest();
+          setligsData([]);
+          ligsrequest();
+        }
+        setStartAfter(ligsdata.lastVisible);
       }
-      setStartAfter(ligsdata.lastVisible);
+      if (types === 'basketball') {
+        const ligsdata = await getBasketballLiga(ligsPerload, text);
+        setligsData(ligsdata.ligs);
+        if (text === '') {
+          setLastLigs(false);
+
+          setligsData([]);
+          ligsrequest();
+        }
+        setStartAfter(ligsdata.lastVisible);
+      }
     } catch (error) {
       setligsError(error);
       console.log(error);
@@ -94,19 +107,31 @@ const StandingsScreen = ({navigation}) => {
 
   useEffect(() => {
     ligsrequest();
-  }, []);
+  }, [types]);
 
   const getMoreLigs = async () => {
     try {
       if (!lastLigs) {
-        const ligsdata = await fetchSoccerMoreLigs(
-          startAfter,
-          ligsPerload,
-          value,
-        );
-        setligsData([...ligsData, ...ligsdata.ligs]);
-        setStartAfter(ligsdata.lastVisible);
-        ligsdata.ligs.length === 0 ? setLastLigs(true) : setLastLigs(false);
+        if (types === 'soccer') {
+          const ligsdata = await fetchSoccerMoreLigs(
+            startAfter,
+            ligsPerload,
+            type,
+          );
+          setligsData([...ligsData, ...ligsdata.ligs]);
+          setStartAfter(ligsdata.lastVisible);
+          ligsdata.ligs.length === 0 ? setLastLigs(true) : setLastLigs(false);
+        }
+        if (types === 'basketball') {
+          const ligsdata = await fetchBasketballMoreLigs(
+            startAfter,
+            ligsPerload,
+            type,
+          );
+          setligsData([...ligsData, ...ligsdata.ligs]);
+          setStartAfter(ligsdata.lastVisible);
+          ligsdata.ligs.length === 0 ? setLastLigs(true) : setLastLigs(false);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -126,6 +151,7 @@ const StandingsScreen = ({navigation}) => {
               matchID: item.matches[0].id,
               ligaID: item.id,
               title: item.ligaName,
+              types: types,
             })
           }
         />
@@ -154,7 +180,7 @@ const StandingsScreen = ({navigation}) => {
               placeholderTextColor="#65656B"
               placeholder="Search your competition..."
               onChangeText={text => {
-                setValue(text);
+                setType(text);
 
                 if (timoutHandler) {
                   clearTimeout(timoutHandler);
@@ -162,22 +188,22 @@ const StandingsScreen = ({navigation}) => {
                 const timout = setTimeout(() => onInput(text), 300);
                 settimoutHandler(timout);
               }}
-              value={value}
+              value={type}
             />
           </View>
         </View>
         <View style={styles.navigate}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {options.map(item => (
+            {SPORTS.map(item => (
               <SportsButton
-                key={item.label}
-                title={view === item.value ? item.label : ''}
+                key={item.name}
+                title={types === item.type ? item.name : ''}
                 image={item.image}
-                width={view === item.value ? 120 : 50}
-                height={view === item.value ? 50 : 50}
-                color={view === item.value ? '#ED6B4E' : '#222232'}
+                width={types === item.type ? 120 : 50}
+                height={types === item.type ? 50 : 50}
+                color={types === item.type ? '#ED6B4E' : '#222232'}
                 onPress={() => {
-                  setView(item.value);
+                  HandleSportPress(item.type);
                 }}
               />
             ))}

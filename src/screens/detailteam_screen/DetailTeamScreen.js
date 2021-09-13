@@ -11,6 +11,7 @@ import {getSoccerMatchById} from '../../api/Matches';
 import {getBasketballMatchById} from '../../api/Matches';
 const DetailTeamScreen = ({navigation, route}) => {
   const {matchID, ligaID, types} = route.params;
+  console.log(types);
 
   const [matchData, setMatchData] = useState();
   const [matchError, setMatchError] = useState();

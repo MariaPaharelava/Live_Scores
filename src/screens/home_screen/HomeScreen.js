@@ -69,6 +69,7 @@ const HomeScreen = ({navigation, route}) => {
                 image: liga.imageUrl,
                 ligaID: liga.id,
                 title: liga.ligaName,
+                types: types,
               })
             }
           />

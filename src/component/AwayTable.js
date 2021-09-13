@@ -3,9 +3,12 @@ import {View, StyleSheet, ScrollView, Platform} from 'react-native';
 import Indicator from './ActivityIndicator';
 import Error from './ErrorIndicator';
 import {TeamTable} from './TeamTable';
-import {getAwayTableSoccerMatches} from '../api/Matches';
+import {
+  getAwayTableBasketballMatches,
+  getAwayTableSoccerMatches,
+} from '../api/Matches';
 
-const AwayTable = ({navigation, ligaID}) => {
+const AwayTable = ({navigation, ligaID, types}) => {
   const [tablematchesData, setTableMatchesData] = useState([]);
   const [tablematchesError, setTableMatchesError] = useState();
   const [tablematchesLoading, setTableMatchesLoading] = useState();
@@ -14,8 +17,14 @@ const AwayTable = ({navigation, ligaID}) => {
     const tablematchesrequest = async () => {
       setTableMatchesLoading(true);
       try {
-        const table = await getAwayTableSoccerMatches(ligaID);
-        setTableMatchesData(table);
+        if (types === 'soccer') {
+          const table = await getAwayTableSoccerMatches(ligaID);
+          setTableMatchesData(table);
+        }
+        if (types === 'basketball') {
+          const table = await getAwayTableBasketballMatches(ligaID);
+          setTableMatchesData(table);
+        }
       } catch (error) {
         setTableMatchesError(error);
         console.log(error);
@@ -40,7 +49,7 @@ const AwayTable = ({navigation, ligaID}) => {
     return table.map(team => {
       return (
         <View key={team.team}>
-          <TeamTable team={team} />
+          <TeamTable team={team} types={types} />
         </View>
       );
     });
