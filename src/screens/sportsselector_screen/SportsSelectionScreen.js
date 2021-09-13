@@ -6,40 +6,9 @@ import {RoundedButton} from '../../buttons/RoundedButton';
 import {styles} from './SportsSelectionScreenStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SPORTS} from '../../constant/Sport';
-// const SPORTS = [
-//   {
-//     name: 'Soccer',
-//     type: 'soccer',
-//     image: SPORTS_IMAGES.SOOCER_IMAGE,
-//   },
-//   {
-//     name: 'Basketball',
-//     type: 'basketball',
-//     image: SPORTS_IMAGES.BASKETBALL_IMAGE,
-//   },
-//   {
-//     name: 'Football',
-//     type: 'football',
-//     image: SPORTS_IMAGES.FOOTBALL_IMAGE,
-//   },
-//   {
-//     name: 'Baseball',
-//     type: 'baseball',
-//     image: SPORTS_IMAGES.BASEBALL_IMAGE,
-//   },
-//   {
-//     name: 'Tennis',
-//     type: 'tennis',
-//     image: SPORTS_IMAGES.TENNIS_IMAGE,
-//   },
-//   {
-//     name: 'Volleyball',
-//     type: 'volleyball',
-//     image: SPORTS_IMAGES.VOLLEYBALL_IMAGE,
-//   },
-// ];
+
 function SportsSelectionScreen({navigation}) {
-  const [types, setTypes] = useState([]);
+  const [types, setTypes] = useState('soccer');
   const storeData = async type => {
     try {
       await AsyncStorage.setItem('@storage_Key', type);
@@ -61,7 +30,8 @@ function SportsSelectionScreen({navigation}) {
             <TouchableOpacity
               style={[
                 styles.touchableOpacity,
-                types.includes(item.type) && {backgroundColor: 'orange'},
+                // types.includes(item.type) && {backgroundColor: 'orange'},
+                types === item.type && {backgroundColor: 'orange'},
               ]}
               onPress={() => {
                 HandleSportPress(item.type);
@@ -78,6 +48,8 @@ function SportsSelectionScreen({navigation}) {
         <RoundedButton
           title="Continue"
           onPress={() => {
+            storeData(types);
+
             navigation.navigate('MainTabScreen', {
               screen: 'Home',
               params: {
