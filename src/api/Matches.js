@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 
-export const getLigs = async () => {
+export const getSoccerLigs = async () => {
   const querySnapshot = await firestore().collection('Soccer').get();
   const ligs = [];
   querySnapshot.forEach(documentSnapshot => {
@@ -9,7 +9,7 @@ export const getLigs = async () => {
 
   const promises = ligs.map(async liga => {
     const promis = liga.matches.map(
-      async matchID => await getMatchById(matchID),
+      async matchID => await getSoccerMatchById(matchID),
     );
     liga.matches = await Promise.all(promis);
   });
@@ -17,7 +17,24 @@ export const getLigs = async () => {
 
   return ligs;
 };
-export const getLigsTable = async ligsPerload => {
+export const getBasketballLigs = async () => {
+  const querySnapshot = await firestore().collection('Basketball').get();
+  const ligs = [];
+  querySnapshot.forEach(documentSnapshot => {
+    ligs.push(documentSnapshot.data());
+  });
+
+  const promises = ligs.map(async liga => {
+    const promis = liga.matches.map(
+      async matchID => await getBasketballMatchById(matchID),
+    );
+    liga.matches = await Promise.all(promis);
+  });
+  await Promise.all(promises);
+
+  return ligs;
+};
+export const getSoccerLigsTable = async ligsPerload => {
   const querySnapshot = await firestore()
     .collection('Soccer')
     .limit(ligsPerload)
@@ -31,7 +48,7 @@ export const getLigsTable = async ligsPerload => {
 
   const promises = ligs.map(async liga => {
     const promis = liga.matches.map(
-      async matchID => await getMatchById(matchID),
+      async matchID => await getSoccerMatchById(matchID),
     );
     liga.matches = await Promise.all(promis);
   });
@@ -39,7 +56,29 @@ export const getLigsTable = async ligsPerload => {
 
   return {ligs, lastVisible};
 };
-export const getLiga = async (ligsPerload, search) => {
+export const getBasketballLigsTable = async ligsPerload => {
+  const querySnapshot = await firestore()
+    .collection('Basketball')
+    .limit(ligsPerload)
+    .get();
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+  const ligs = [];
+  querySnapshot.forEach(documentSnapshot => {
+    ligs.push(documentSnapshot.data());
+  });
+
+  const promises = ligs.map(async liga => {
+    const promis = liga.matches.map(
+      async matchID => await getBasketballMatchById(matchID),
+    );
+    liga.matches = await Promise.all(promis);
+  });
+  await Promise.all(promises);
+
+  return {ligs, lastVisible};
+};
+export const getSoccerLiga = async (ligsPerload, search) => {
   const querySnapshot = await firestore()
     .collection('Soccer')
     .where('ligaName', '==', search)
@@ -54,7 +93,30 @@ export const getLiga = async (ligsPerload, search) => {
 
   const promises = ligs.map(async liga => {
     const promis = liga.matches.map(
-      async matchID => await getMatchById(matchID),
+      async matchID => await getSoccerMatchById(matchID),
+    );
+    liga.matches = await Promise.all(promis);
+  });
+  await Promise.all(promises);
+
+  return {ligs, lastVisible};
+};
+export const getBasketballLiga = async (ligsPerload, search) => {
+  const querySnapshot = await firestore()
+    .collection('Basketball')
+    .where('ligaName', '==', search)
+    .limit(ligsPerload)
+    .get();
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+  const ligs = [];
+  querySnapshot.forEach(documentSnapshot => {
+    ligs.push(documentSnapshot.data());
+  });
+
+  const promises = ligs.map(async liga => {
+    const promis = liga.matches.map(
+      async matchID => await getBasketballMatchById(matchID),
     );
     liga.matches = await Promise.all(promis);
   });
@@ -63,7 +125,7 @@ export const getLiga = async (ligsPerload, search) => {
   return {ligs, lastVisible};
 };
 
-export const fetchMoreLigs = async (startAfter, ligsPerload, search) => {
+export const fetchSoccerMoreLigs = async (startAfter, ligsPerload, search) => {
   if (search !== '') {
     const ligs = [];
 
@@ -83,7 +145,7 @@ export const fetchMoreLigs = async (startAfter, ligsPerload, search) => {
 
     const promises = ligs.map(async liga => {
       const promis = liga.matches.map(
-        async matchID => await getMatchById(matchID),
+        async matchID => await getSoccerMatchById(matchID),
       );
       liga.matches = await Promise.all(promis);
     });
@@ -93,7 +155,41 @@ export const fetchMoreLigs = async (startAfter, ligsPerload, search) => {
   }
 };
 
-export const getMatches = async matchPerLoad => {
+export const fetchBasketballMoreLigs = async (
+  startAfter,
+  ligsPerload,
+  search,
+) => {
+  if (search !== '') {
+    const ligs = [];
+
+    return {ligs};
+  } else {
+    const querySnapshot = await firestore()
+      .collection('Basketball')
+      .startAfter(startAfter)
+      .limit(ligsPerload)
+      .get();
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    const ligs = [];
+    querySnapshot.forEach(documentSnapshot => {
+      ligs.push(documentSnapshot.data());
+    });
+
+    const promises = ligs.map(async liga => {
+      const promis = liga.matches.map(
+        async matchID => await getBasketballMatchById(matchID),
+      );
+      liga.matches = await Promise.all(promis);
+    });
+    await Promise.all(promises);
+
+    return {ligs, lastVisible};
+  }
+};
+
+export const getSoccerMatches = async matchPerLoad => {
   const querySnapshot = await firestore()
     .collection('soccer_matches')
     .limit(matchPerLoad)
@@ -106,7 +202,21 @@ export const getMatches = async matchPerLoad => {
 
   return {matches, lastVisible};
 };
-export const getTeamMatches = async (matchPerLoad, search) => {
+export const getBasketballMatches = async matchPerLoad => {
+  const querySnapshot = await firestore()
+    .collection('basketball_matches')
+    .limit(matchPerLoad)
+    .get();
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+  const matches = [];
+  querySnapshot.forEach(documentSnapshot => {
+    matches.push(documentSnapshot.data());
+  });
+
+  return {matches, lastVisible};
+};
+
+export const getTeamSoccerMatches = async (matchPerLoad, search) => {
   let matches = [];
   let lastVisible;
 
@@ -133,7 +243,38 @@ export const getTeamMatches = async (matchPerLoad, search) => {
   return {matches, lastVisible};
 };
 
-export const fetchMoreMatches = async (startAfter, matchPerLoad, search) => {
+export const getTeamBasketballMatches = async (matchPerLoad, search) => {
+  let matches = [];
+  let lastVisible;
+
+  const queryFirstTeamSnapshot = await firestore()
+    .collection('basketball_matches')
+    .where('firstTeam.teamDetails.name', '==', search)
+
+    .limit(matchPerLoad)
+    .get();
+  queryFirstTeamSnapshot.forEach(documentSnapshot => {
+    matches.push(documentSnapshot.data());
+  });
+  const querySecondTeamSnapshot = await firestore()
+    .collection('basketball_matches')
+    .where('secondTeam.teamDetails.name', '==', search)
+    .limit(matchPerLoad)
+    .get();
+  lastVisible =
+    querySecondTeamSnapshot.docs[querySecondTeamSnapshot.docs.length - 1];
+  querySecondTeamSnapshot.forEach(documentSnapshot => {
+    matches.push(documentSnapshot.data());
+  });
+
+  return {matches, lastVisible};
+};
+
+export const fetchMoreSoccerMatches = async (
+  startAfter,
+  matchPerLoad,
+  search,
+) => {
   if (search !== '') {
     let matches = [];
     let lastVisible;
@@ -176,15 +317,68 @@ export const fetchMoreMatches = async (startAfter, matchPerLoad, search) => {
   }
 };
 
-export const getMatchById = async id => {
+export const fetchMoreBasketballMatches = async (
+  startAfter,
+  matchPerLoad,
+  search,
+) => {
+  if (search !== '') {
+    let matches = [];
+    let lastVisible;
+
+    const queryFirstTeamSnapshot = await firestore()
+      .collection('basketball_matches')
+      .where('firstTeam.teamDetails.name', '==', search)
+      .startAfter(startAfter)
+      .limit(matchPerLoad)
+      .get();
+
+    queryFirstTeamSnapshot.forEach(documentSnapshot => {
+      matches.push(documentSnapshot.data());
+    });
+    const querySecondTeamSnapshot = await firestore()
+      .collection('basketball_matches')
+      .where('secondTeam.teamDetails.name', '==', search)
+      .startAfter(startAfter)
+      .limit(matchPerLoad)
+      .get();
+
+    querySecondTeamSnapshot.forEach(documentSnapshot => {
+      matches.push(documentSnapshot.data());
+    });
+
+    return {matches, lastVisible};
+  } else {
+    const querySnapshot = await firestore()
+      .collection('basketball_matches')
+      .startAfter(startAfter)
+      .limit(matchPerLoad)
+      .get();
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+    const matches = [];
+    querySnapshot.forEach(documentSnapshot => {
+      matches.push(documentSnapshot.data());
+    });
+
+    return {matches, lastVisible};
+  }
+};
+
+export const getSoccerMatchById = async id => {
   const matchData = (
     await firestore().collection('soccer_matches').doc(id).get()
   ).data();
   matchData.playtime = new Date(matchData.playtime.nanoseconds);
   return matchData;
 };
-
-export const getAllTableMatches = async id => {
+export const getBasketballMatchById = async id => {
+  const matchData = (
+    await firestore().collection('basketball_matches').doc(id).get()
+  ).data();
+  matchData.playtime = new Date(matchData.playtime.nanoseconds);
+  return matchData;
+};
+export const getAllTableSoccerMatches = async id => {
   const documentSnapshot = await firestore().collection('Soccer').doc(id).get();
   let tables;
   if (documentSnapshot.exists) {
@@ -193,7 +387,19 @@ export const getAllTableMatches = async id => {
   return tables;
 };
 
-export const getHomeTableMatches = async id => {
+export const getAllTableBasketballMatches = async id => {
+  const documentSnapshot = await firestore()
+    .collection('Basketball')
+    .doc(id)
+    .get();
+  let tables;
+  if (documentSnapshot.exists) {
+    tables = documentSnapshot.data().alltable;
+  }
+  return tables;
+};
+
+export const getHomeTableSoccerMatches = async id => {
   const documentSnapshot = await firestore().collection('Soccer').doc(id).get();
   let tables;
   if (documentSnapshot.exists) {
@@ -201,8 +407,19 @@ export const getHomeTableMatches = async id => {
   }
   return tables;
 };
+export const getHomeTableBasketballMatches = async id => {
+  const documentSnapshot = await firestore()
+    .collection('Basketball')
+    .doc(id)
+    .get();
+  let tables;
+  if (documentSnapshot.exists) {
+    tables = documentSnapshot.data().hometable;
+  }
+  return tables;
+};
 
-export const getAwayTableMatches = async id => {
+export const getAwayTableSoccerMatches = async id => {
   const documentSnapshot = await firestore().collection('Soccer').doc(id).get();
   let tables;
   if (documentSnapshot.exists) {
@@ -210,26 +427,44 @@ export const getAwayTableMatches = async id => {
   }
   return tables;
 };
+export const getAwayTableBasketballMatches = async id => {
+  const documentSnapshot = await firestore()
+    .collection('Basketball')
+    .doc(id)
+    .get();
+  let tables;
+  if (documentSnapshot.exists) {
+    tables = documentSnapshot.data().awaytable;
+  }
+  return tables;
+};
 
-export const getLigaByID = async id => {
+export const getSoccerLigaByID = async id => {
   const documentSnapshot = await firestore().collection('Soccer').doc(id).get();
   let liga;
   if (documentSnapshot.exists) {
     liga = documentSnapshot.data();
   }
-  const promis = liga.matches.map(async matchID => await getMatchById(matchID));
+  const promis = liga.matches.map(
+    async matchID => await getSoccerMatchById(matchID),
+  );
   liga.matches = await Promise.all(promis);
 
   return liga;
 };
 
-export const getH2HMatches = async id => {
-  const documentSnapshot = await firestore().collection('Soccer').doc(id).get();
+export const getBasketballLigaByID = async id => {
+  const documentSnapshot = await firestore()
+    .collection('Basketball')
+    .doc(id)
+    .get();
   let liga;
   if (documentSnapshot.exists) {
     liga = documentSnapshot.data();
   }
-  const promis = liga.matches.map(async matchID => await getMatchById(matchID));
+  const promis = liga.matches.map(
+    async matchID => await getBasketballMatchById(matchID),
+  );
   liga.matches = await Promise.all(promis);
 
   return liga;

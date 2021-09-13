@@ -1,6 +1,7 @@
 export const IMAGES = {
   ONBOARDING_IMAGE: require('./images/onboarding_image.png'),
   HOMESCREEN_IMAGE: require('./images/banner_homeScreen.png'),
+  HOMESCREEN2_IMAGE: require('./images/bryant_logo.png'),
   PROFILE_IMAGE: require('./images/photo_profile.png'),
 };
 export const SPORTS_IMAGES = {

@@ -10,9 +10,9 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {getMatches} from '../../api/Matches';
-import {fetchMoreMatches} from '../../api/Matches';
-import {getTeamMatches} from '../../api/Matches';
+import {getSoccerMatches} from '../../api/Matches';
+import {fetchMoreSoccerMatches} from '../../api/Matches';
+import {getTeamSoccerMatches} from '../../api/Matches';
 import Search from '../../icons/other/Search.svg';
 import {SPORTS_IMAGES} from '../../images/Images';
 import {SportsButton} from '../../buttons/SportsButton';
@@ -62,7 +62,7 @@ const ExploreScreen = ({navigation}) => {
   const matchesrequest = async (refresh = false) => {
     setMatchesLoading(true);
     try {
-      const matchesdata = await getMatches(matchPerLoad);
+      const matchesdata = await getSoccerMatches(matchPerLoad);
       if (refresh) {
         setLastMatch(false);
         setMatchesData(matchesdata.matches);
@@ -80,7 +80,7 @@ const ExploreScreen = ({navigation}) => {
   const onInput = async text => {
     setMatchesLoading(true);
     try {
-      const matchesdata = await getTeamMatches(matchPerLoad, text);
+      const matchesdata = await getTeamSoccerMatches(matchPerLoad, text);
       setMatchesData(matchesdata.matches);
 
       if (text === '') {
@@ -104,7 +104,7 @@ const ExploreScreen = ({navigation}) => {
   const getMoreMatches = async () => {
     try {
       if (!lastMatch) {
-        const matchesdata = await fetchMoreMatches(
+        const matchesdata = await fetchMoreSoccerMatches(
           startAfter,
           matchPerLoad,
           value,

@@ -15,9 +15,9 @@ import {SPORTS_IMAGES} from '../../images/Images';
 import {SportsButton} from '../../buttons/SportsButton';
 import {LigaButton} from '../../buttons/LigaButton';
 import {StandingsTable} from '../../component/StandingsTable';
-import {getLigsTable} from '../../api/Matches';
-import {fetchMoreLigs} from '../../api/Matches';
-import {getLiga} from '../../api/Matches';
+import {getSoccerLigsTable} from '../../api/Matches';
+import {fetchSoccerMoreLigs} from '../../api/Matches';
+import {getSoccerLiga} from '../../api/Matches';
 import styles from './StandingScreenStyles';
 const StandingsScreen = ({navigation}) => {
   const [view, setView] = useState('soccer');
@@ -62,7 +62,7 @@ const StandingsScreen = ({navigation}) => {
   const ligsrequest = async () => {
     setligsLoading(true);
     try {
-      const ligsdata = await getLigsTable(ligsPerload);
+      const ligsdata = await getSoccerLigsTable(ligsPerload);
       setligsData([...ligsData, ...ligsdata.ligs]);
       setStartAfter(ligsdata.lastVisible);
     } catch (error) {
@@ -75,7 +75,7 @@ const StandingsScreen = ({navigation}) => {
   const onInput = async text => {
     setligsLoading(true);
     try {
-      const ligsdata = await getLiga(ligsPerload, text);
+      const ligsdata = await getSoccerLiga(ligsPerload, text);
       setligsData(ligsdata.ligs);
       if (text === '') {
         setLastLigs(false);
@@ -99,7 +99,11 @@ const StandingsScreen = ({navigation}) => {
   const getMoreLigs = async () => {
     try {
       if (!lastLigs) {
-        const ligsdata = await fetchMoreLigs(startAfter, ligsPerload, value);
+        const ligsdata = await fetchSoccerMoreLigs(
+          startAfter,
+          ligsPerload,
+          value,
+        );
         setligsData([...ligsData, ...ligsdata.ligs]);
         setStartAfter(ligsdata.lastVisible);
         ligsdata.ligs.length === 0 ? setLastLigs(true) : setLastLigs(false);

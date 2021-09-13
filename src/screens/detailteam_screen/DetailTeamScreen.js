@@ -7,10 +7,10 @@ import Error from '../../component/ErrorIndicator';
 import Indicator from '../../component/ActivityIndicator';
 import {styles} from './DetailTeamScreenStyles';
 import {NavigateButton} from '../../buttons/NavigateButton';
-import {getMatchById} from '../../api/Matches';
-
+import {getSoccerMatchById} from '../../api/Matches';
+import {getBasketballMatchById} from '../../api/Matches';
 const DetailTeamScreen = ({navigation, route}) => {
-  const {matchID, ligaID} = route.params;
+  const {matchID, ligaID, types} = route.params;
 
   const [matchData, setMatchData] = useState();
   const [matchError, setMatchError] = useState();
@@ -28,8 +28,14 @@ const DetailTeamScreen = ({navigation, route}) => {
     const matchrequest = async () => {
       setMatchLoading(true);
       try {
-        const match = await getMatchById(matchID);
-        setMatchData(match);
+        if (types === 'soccer') {
+          const match = await getSoccerMatchById(matchID);
+          setMatchData(match);
+        }
+        if (types === 'basketball') {
+          const match = await getBasketballMatchById(matchID);
+          setMatchData(match);
+        }
       } catch (error) {
         setMatchError(error);
         console.log(error);
@@ -51,6 +57,7 @@ const DetailTeamScreen = ({navigation, route}) => {
             currentmatch={matchData}
             matchID={matchID}
             ligaID={ligaID}
+            types={types}
           />
         );
       case 'lineUp':

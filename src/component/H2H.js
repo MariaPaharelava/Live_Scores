@@ -4,7 +4,7 @@ import Indicator from './ActivityIndicator';
 import Error from './ErrorIndicator';
 import {colors} from '../constant/colors';
 import {fonts} from '../constant/fonts';
-import {getLigaByID} from '../api/Matches';
+import {getSoccerLigaByID} from '../api/Matches';
 import {MatchButton} from '../buttons/MatchButton';
 const H2H = ({
   navigation,
@@ -56,7 +56,7 @@ const H2H = ({
   useEffect(() => {
     const matchesrequest = async () => {
       try {
-        const matches = await getLigaByID(ligaID);
+        const matches = await getSoccerLigaByID(ligaID);
         setMatchesData(matches);
       } catch (error) {
         setMatchesError(error);

@@ -4,15 +4,15 @@ import styles from './HomeScreenStyles';
 import Indicator from '../../component/ActivityIndicator';
 import Error from '../../component/ErrorIndicator';
 import {LigaButton} from '../../buttons/LigaButton';
-import {getLigs} from '../../api/Matches';
+import {getBasketballLigs, getSoccerLigs} from '../../api/Matches';
 import {MatchButton} from '../../buttons/MatchButton';
 import {SPORTS} from '../../constant/Sport';
 import {IMAGES} from '../../images/Images';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = ({navigation, route}) => {
-  const [sport, setSport] = useState(null);
-
+  const [types, setTypes] = useState('');
+  const [image, setImage] = useState(IMAGES.HOMESCREEN_IMAGE);
   useEffect(() => {
     AsyncStorage.getItem('@storage_Key').then(value => {
       if (value === null) {
@@ -23,10 +23,10 @@ const HomeScreen = ({navigation, route}) => {
       }
     });
   }, []);
-  const [types, setTypes] = useState('');
   const HandleSportPress = type => {
     setTypes(type);
   };
+  console.log(types);
   const [ligsData, setligsData] = useState();
   const [ligsError, setligsError] = useState();
   const [ligsLoading, setligsLoading] = useState();
@@ -34,9 +34,16 @@ const HomeScreen = ({navigation, route}) => {
   const ligsrequest = async () => {
     setligsLoading(true);
     try {
-      const ligs = await getLigs();
-
-      setligsData(ligs);
+      if (types === 'soccer') {
+        const ligs = await getSoccerLigs();
+        setligsData(ligs);
+        setImage(IMAGES.HOMESCREEN_IMAGE);
+      }
+      if (types === 'basketball') {
+        const ligs = await getBasketballLigs();
+        setligsData(ligs);
+        setImage(IMAGES.HOMESCREEN2_IMAGE);
+      }
     } catch (error) {
       setligsError(error);
       console.log(error);
@@ -47,10 +54,7 @@ const HomeScreen = ({navigation, route}) => {
 
   useEffect(() => {
     ligsrequest();
-    return () => {
-      setligsData();
-    };
-  }, []);
+  }, [types]);
 
   const rednderLigs = ligs => {
     return ligs.map(liga => {
@@ -75,6 +79,7 @@ const HomeScreen = ({navigation, route}) => {
               navigation.push('DetailTeam', {
                 matchID: liga.matches[matchIndex].id,
                 ligaID: liga.id,
+                types: types,
               })
             }
           />
@@ -106,7 +111,7 @@ const HomeScreen = ({navigation, route}) => {
 
       <ScrollView style={styles.content}>
         <View style={{alignItems: 'center'}}>
-          <Image style={styles.image} source={IMAGES.HOMESCREEN_IMAGE} />
+          <Image style={styles.image} source={image} />
         </View>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           {SPORTS.map(item => (

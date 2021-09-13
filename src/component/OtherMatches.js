@@ -4,7 +4,7 @@ import Indicator from './ActivityIndicator';
 import Error from './ErrorIndicator';
 import {colors} from '../constant/colors';
 import {fonts} from '../constant/fonts';
-import {getLigaByID} from '../api/Matches';
+import {getBasketballLigaByID, getSoccerLigaByID} from '../api/Matches';
 import {MatchButton} from '../buttons/MatchButton';
 const OtherMatches = ({
   navigation,
@@ -16,6 +16,7 @@ const OtherMatches = ({
   liga,
   matchID,
   ligaID,
+  types,
   ...props
 }) => {
   const [matchesData, setMatchesData] = useState();
@@ -33,6 +34,7 @@ const OtherMatches = ({
                 await navigation.push('DetailTeam', {
                   matchID: match.id,
                   ligaID: ligaID,
+                  types: types,
                 })
               }
             />
@@ -44,8 +46,14 @@ const OtherMatches = ({
   useEffect(() => {
     const matchesrequest = async () => {
       try {
-        const matches = await getLigaByID(ligaID);
-        setMatchesData(matches);
+        if (types === 'soccer') {
+          const matches = await getSoccerLigaByID(ligaID);
+          setMatchesData(matches);
+        }
+        if (types === 'basketball') {
+          const matches = await getBasketballLigaByID(ligaID);
+          setMatchesData(matches);
+        }
       } catch (error) {
         setMatchesError(error);
         console.log(error);

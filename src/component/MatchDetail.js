@@ -14,6 +14,7 @@ const MatchDetail = ({
   liga,
   matchID,
   ligaID,
+  types,
   ...props
 }) => {
   return (
@@ -57,6 +58,7 @@ const MatchDetail = ({
         matchID={matchID}
         ligaID={ligaID}
         currentmatch={currentmatch}
+        types={types}
       />
     </View>
   );

@@ -3,7 +3,7 @@ import {View, StyleSheet, ScrollView, Platform} from 'react-native';
 import Indicator from './ActivityIndicator';
 import Error from './ErrorIndicator';
 import {TeamTable} from './TeamTable';
-import {getAwayTableMatches} from '../api/Matches';
+import {getAwayTableSoccerMatches} from '../api/Matches';
 
 const AwayTable = ({navigation, ligaID}) => {
   const [tablematchesData, setTableMatchesData] = useState([]);
@@ -14,7 +14,7 @@ const AwayTable = ({navigation, ligaID}) => {
     const tablematchesrequest = async () => {
       setTableMatchesLoading(true);
       try {
-        const table = await getAwayTableMatches(ligaID);
+        const table = await getAwayTableSoccerMatches(ligaID);
         setTableMatchesData(table);
       } catch (error) {
         setTableMatchesError(error);
