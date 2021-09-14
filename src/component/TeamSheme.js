@@ -15,6 +15,7 @@ const TeamScheme = ({
   noBackground = false,
   image,
   team,
+  types,
   othermatch,
   ...props
 }) => {
@@ -44,47 +45,77 @@ const TeamScheme = ({
       );
     }
   };
-
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={SPORTS_IMAGES.FIELD_IMAGE}
-        resizeMode="center"
-        style={styles.image}>
-        {Object.keys(team.players).map(position => (
-          <View key={position} style={styles.position}>
-            {team.players[position].map(player => (
-              <View
-                key={player.name}
-                style={[
-                  styles.namesPlayers,
-                  {
-                    padding:
-                      team.formation.length > 3
-                        ? Platform.OS === 'ios'
-                          ? 5
-                          : 0
-                        : Platform.OS === 'ios'
-                        ? 12
-                        : 5,
-                  },
-                ]}>
-                <View style={styles.captain}>
-                  <View style={styles.number}>
-                    <Text style={styles.text}>{player.number}</Text>
+  const selectedSport = () => {
+    switch (types) {
+      case 'soccer':
+        return (
+          <ImageBackground
+            source={SPORTS_IMAGES.FIELD_IMAGE}
+            style={styles.imageSoccer}>
+            {Object.keys(team.players).map(position => (
+              <View key={position} style={styles.positionSoccer}>
+                {team.players[position].map(player => (
+                  <View
+                    key={player.name}
+                    style={[
+                      styles.namesPlayers,
+                      {
+                        padding:
+                          team.formation.length > 3
+                            ? Platform.OS === 'ios'
+                              ? 5
+                              : 0
+                            : Platform.OS === 'ios'
+                            ? 12
+                            : 5,
+                      },
+                    ]}>
+                    <View style={styles.captain}>
+                      <View style={styles.number}>
+                        <Text style={styles.text}>{player.number}</Text>
+                      </View>
+                      {hasIcon(player)}
+                    </View>
+                    <View style={styles.name}>
+                      <Text style={styles.text}>{player.name}</Text>
+                    </View>
                   </View>
-                  {hasIcon(player)}
-                </View>
-                <View style={styles.name}>
-                  <Text style={styles.text}>{player.name}</Text>
-                </View>
+                ))}
               </View>
             ))}
-          </View>
-        ))}
-      </ImageBackground>
-    </View>
-  );
+          </ImageBackground>
+        );
+      case 'basketball':
+        return (
+          <ImageBackground
+            source={SPORTS_IMAGES.BASKETBALLFIELD_IMAGE}
+            style={styles.imageBasketball}>
+            {Object.keys(team.players).map(position => (
+              <View key={position} style={styles.positionBasketball}>
+                {team.players[position].map(player => (
+                  <View key={player.name} style={styles.namesPlayers}>
+                    <View style={styles.captain}>
+                      <View style={styles.number}>
+                        <Text style={styles.text}>{player.number}</Text>
+                      </View>
+                      {hasIcon(player)}
+                    </View>
+                    <View style={styles.name}>
+                      <Text style={styles.text}>{player.name}</Text>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            ))}
+          </ImageBackground>
+        );
+
+      default:
+        return;
+    }
+  };
+
+  return <View style={styles.container}>{selectedSport()}</View>;
 };
 export default TeamScheme;
 
@@ -93,7 +124,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  image: {
+  imageSoccer: {
+    width: '100%',
+    height: '83%',
+    alignItems: 'center',
+  },
+  imageBasketball: {
     width: '100%',
     height: '83%',
     alignItems: 'center',
@@ -117,10 +153,16 @@ const styles = StyleSheet.create({
   captain: {
     flexDirection: 'row',
   },
-  position: {
+  positionSoccer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width: '100%',
+  },
+  positionBasketball: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    width: '100%',
+    marginTop: 20,
   },
   namesPlayers: {
     marginHorizontal: Platform.OS === 'ios' ? -10 : -35,

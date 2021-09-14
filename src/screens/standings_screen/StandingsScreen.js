@@ -28,9 +28,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const StandingsScreen = ({navigation}) => {
   const [types, setTypes] = useState('');
   const HandleSportPress = type => {
-    setTypes(type);
-    setligsData([]);
+    if (type !== types) {
+      setTypes(type);
+      setligsData([]);
+    }
   };
+  console.log(types);
   useEffect(() => {
     AsyncStorage.getItem('@storage_Key').then(value => {
       if (value === null) {
@@ -41,7 +44,6 @@ const StandingsScreen = ({navigation}) => {
       }
     });
   }, []);
-  console.log(types);
 
   const [ligsData, setligsData] = useState([]);
   const [ligsError, setligsError] = useState();
@@ -156,7 +158,7 @@ const StandingsScreen = ({navigation}) => {
           }
         />
 
-        <StandingsTable teams={item.alltable} />
+        <StandingsTable teams={item.alltable} types={types} />
       </View>
     );
   };
@@ -185,7 +187,7 @@ const StandingsScreen = ({navigation}) => {
                 if (timoutHandler) {
                   clearTimeout(timoutHandler);
                 }
-                const timout = setTimeout(() => onInput(text), 300);
+                const timout = setTimeout(() => onInput(text), 100);
                 settimoutHandler(timout);
               }}
               value={type}

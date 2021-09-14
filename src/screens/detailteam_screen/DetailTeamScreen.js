@@ -11,7 +11,6 @@ import {getSoccerMatchById} from '../../api/Matches';
 import {getBasketballMatchById} from '../../api/Matches';
 const DetailTeamScreen = ({navigation, route}) => {
   const {matchID, ligaID, types} = route.params;
-  console.log(types);
 
   const [matchData, setMatchData] = useState();
   const [matchError, setMatchError] = useState();
@@ -62,7 +61,9 @@ const DetailTeamScreen = ({navigation, route}) => {
           />
         );
       case 'lineUp':
-        return <LineUp navigation={navigation} match={matchData} />;
+        return (
+          <LineUp navigation={navigation} match={matchData} types={types} />
+        );
       case 'h2h':
         return (
           <H2H
@@ -70,6 +71,7 @@ const DetailTeamScreen = ({navigation, route}) => {
             currentmatch={matchData}
             matchID={matchID}
             ligaID={ligaID}
+            types={types}
           />
         );
       default:

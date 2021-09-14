@@ -11,6 +11,7 @@ const LineUp = ({
   noBackground = false,
   image,
   match,
+  types,
   ...props
 }) => {
   const [team, setTeam] = useState(match.firstTeam.teamDetails.id);
@@ -27,13 +28,42 @@ const LineUp = ({
       formation: match.secondTeam.formation,
     },
   ];
+  const selectedSport = () => {
+    switch (types) {
+      case 'soccer':
+        return (
+          <View style={styles.wrapperScheme}>
+            <Text style={styles.formText}>Formation</Text>
+
+            <Text style={styles.scheme}>({formation.join('-')})</Text>
+          </View>
+        );
+      case 'basketball':
+        return <View style={styles.wrapperScheme}></View>;
+
+      default:
+        return;
+    }
+  };
 
   const selectedTeam = () => {
     switch (team) {
       case match.firstTeam.teamDetails.id:
-        return <TeamScheme navigation={navigation} team={match.firstTeam} />;
+        return (
+          <TeamScheme
+            navigation={navigation}
+            team={match.firstTeam}
+            types={types}
+          />
+        );
       case match.secondTeam.teamDetails.id:
-        return <TeamScheme navigation={navigation} team={match.secondTeam} />;
+        return (
+          <TeamScheme
+            navigation={navigation}
+            team={match.secondTeam}
+            types={types}
+          />
+        );
 
       default:
         return;
@@ -41,11 +71,7 @@ const LineUp = ({
   };
   return (
     <View style={styles.container}>
-      <View style={styles.wrapperScheme}>
-        <Text style={styles.formText}>Formation</Text>
-
-        <Text style={styles.scheme}>({formation.join('-')})</Text>
-      </View>
+      {selectedSport()}
       <View style={styles.navigate}>
         {teams.map(item => (
           <NavigateButton

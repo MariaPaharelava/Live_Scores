@@ -4,7 +4,7 @@ import Indicator from './ActivityIndicator';
 import Error from './ErrorIndicator';
 import {colors} from '../constant/colors';
 import {fonts} from '../constant/fonts';
-import {getSoccerLigaByID} from '../api/Matches';
+import {getBasketballLigaByID, getSoccerLigaByID} from '../api/Matches';
 import {MatchButton} from '../buttons/MatchButton';
 const H2H = ({
   navigation,
@@ -16,6 +16,7 @@ const H2H = ({
   liga,
   matchID,
   ligaID,
+  types,
   ...props
 }) => {
   const [matchesData, setMatchesData] = useState();
@@ -45,6 +46,7 @@ const H2H = ({
                 await navigation.push('DetailTeam', {
                   matchID: match.id,
                   ligaID: ligaID,
+                  types: types,
                 })
               }
             />
@@ -56,8 +58,14 @@ const H2H = ({
   useEffect(() => {
     const matchesrequest = async () => {
       try {
-        const matches = await getSoccerLigaByID(ligaID);
-        setMatchesData(matches);
+        if (types === 'soccer') {
+          const matches = await getSoccerLigaByID(ligaID);
+          setMatchesData(matches);
+        }
+        if (types === 'basketball') {
+          const matches = await getBasketballLigaByID(ligaID);
+          setMatchesData(matches);
+        }
       } catch (error) {
         setMatchesError(error);
         console.log(error);
