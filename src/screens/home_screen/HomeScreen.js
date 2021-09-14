@@ -26,7 +26,6 @@ const HomeScreen = ({navigation, route}) => {
   const HandleSportPress = type => {
     setTypes(type);
   };
-  console.log(types);
   const [ligsData, setligsData] = useState();
   const [ligsError, setligsError] = useState();
   const [ligsLoading, setligsLoading] = useState();

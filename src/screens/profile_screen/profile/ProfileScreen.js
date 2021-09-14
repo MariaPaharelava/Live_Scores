@@ -15,6 +15,7 @@ const ProfileScreen = ({navigation, route}) => {
   const [view, setView] = useState('profile');
   const [userData, setUserData] = useState();
   const [user, setUser] = useState();
+  const [sport, setSport] = useState();
   const [userLoading, setuserLoading] = useState();
   const [userError, setuserError] = useState();
   const [imageLoading, setimageLoading] = useState();
@@ -42,6 +43,9 @@ const ProfileScreen = ({navigation, route}) => {
     AsyncStorage.getItem('User').then(value => {
       setUser(value);
     });
+    AsyncStorage.getItem('@storage_Key').then(sport => {
+      setSport(sport);
+    });
     getUser();
     navigation.addListener('focus', () => setuserLoading(!userLoading));
   }, [navigation, userLoading]);
@@ -62,6 +66,11 @@ const ProfileScreen = ({navigation, route}) => {
               titleInfo={userData ? userData.name : ''}
               image={PROFILE_IMAGE.PROFILE_IMAGE}
             />
+            <ProfileData
+              title="Main Sport"
+              titleInfo={sport}
+              image={PROFILE_IMAGE.PROFILE_IMAGE}
+            />
 
             <ProfileData
               title="Email"
@@ -75,7 +84,11 @@ const ProfileScreen = ({navigation, route}) => {
         return <ActivityProfileScreen />;
       case 'settings':
         return (
-          <SettingsProfileScreen navigation={navigation} userData={userData} />
+          <SettingsProfileScreen
+            navigation={navigation}
+            userData={userData}
+            sport={sport}
+          />
         );
       default:
         return;

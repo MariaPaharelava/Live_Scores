@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Text,
+  Platform,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,16 +17,19 @@ import FormButton from '../../../component/FormButton';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import styles from './EditProfileScreenStyles';
 import {PROFILE_IMAGE} from '../../../images/Images';
+
 const EditProfileScreen = ({navigation, route}) => {
   const [image, setImage] = useState(null);
 
-  const {data} = route.params;
+  const {data, sport} = route.params;
   const [transferred, setTransferred] = useState(0);
   const [uploading, setUploading] = useState(false);
 
   const [userData, setUserData] = useState(data);
+  const [sportData, setSportData] = useState('');
   const [user, setUser] = useState();
-
+  console.log(sport);
+  console.log(sportData);
   useEffect(() => {
     AsyncStorage.getItem('User').then(value => {
       setUser(value);
@@ -38,9 +42,6 @@ const EditProfileScreen = ({navigation, route}) => {
       cropping: true,
       compressImageQuality: 0.7,
     }).then(image => {
-      // console.log(image);
-      // // const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
-      // setImage(image.path);
       const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
       setImage(imageUri);
     });
@@ -52,7 +53,6 @@ const EditProfileScreen = ({navigation, route}) => {
     const uploadUri = image;
     let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
 
-    // Add timestamp to File Name
     const extension = filename.split('.').pop();
     const name = filename.split('.').slice(0, -1).join('.');
     filename = name + Date.now() + '.' + extension;
@@ -63,7 +63,6 @@ const EditProfileScreen = ({navigation, route}) => {
     const storageRef = storage().ref(`photos/${filename}`);
     const task = storageRef.putFile(uploadUri);
 
-    // Set transferred state
     task.on('state_changed', taskSnapshot => {
       console.log(
         `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
@@ -96,7 +95,7 @@ const EditProfileScreen = ({navigation, route}) => {
 
   const handleUpdate = async () => {
     let imgUrl = await uploadImage();
-
+    AsyncStorage.setItem('@storage_Key', sportData);
     if (imgUrl == null && userData.userImg) {
       imgUrl = userData.userImg;
     }
@@ -148,6 +147,21 @@ const EditProfileScreen = ({navigation, route}) => {
           value={userData ? userData.name : ''}
           onChangeText={txt => setUserData({...userData, name: txt})}
           style={styles.textInput}
+        />
+      </View>
+      <View style={styles.action}>
+        <TextInput
+          style={styles.textInput}
+          placeholder={sport}
+          placeholderTextColor="white"
+          autoCorrect={false}
+          autoCapitalize="none"
+          // onChangeText={txt => setUserData({...userData, name: txt})}
+          // onChangeText={txt => setSportData(txt)}
+          onChangeText={text => {
+            setSportData(text);
+          }}
+          value={sportData}
         />
       </View>
 

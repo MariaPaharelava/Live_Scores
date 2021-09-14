@@ -6,7 +6,7 @@ import styles from './SettingsProfileScreenStyles';
 import {logoutUser} from '../../../redux/actions/AuthActions';
 import {PROFILE_IMAGE} from '../../../images/Images';
 import {SettingProfileButton} from '../../../buttons/SettingProfileButton';
-const SettingsProfileScreen = ({navigation, userData}) => {
+const SettingsProfileScreen = ({navigation, userData, sport}) => {
   const loading = useSelector(state => state.AuthReducer.logoutProcessing);
   const error = useSelector(state => state.AuthReducer.logoutError);
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ const SettingsProfileScreen = ({navigation, userData}) => {
         onPress={() =>
           navigation.navigate('EditProfile', {
             data: userData,
+            sport: sport,
           })
         }
       />

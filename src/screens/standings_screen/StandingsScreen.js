@@ -31,9 +31,9 @@ const StandingsScreen = ({navigation}) => {
     if (type !== types) {
       setTypes(type);
       setligsData([]);
+      setValue('');
     }
   };
-  console.log(types);
   useEffect(() => {
     AsyncStorage.getItem('@storage_Key').then(value => {
       if (value === null) {
@@ -51,7 +51,7 @@ const StandingsScreen = ({navigation}) => {
   const [startAfter, setStartAfter] = useState({});
   const [ligsPerload] = useState(2);
   const [lastLigs, setLastLigs] = useState(false);
-  const [type, setType] = useState('');
+  const [value, setValue] = useState('');
   const [timoutHandler, settimoutHandler] = useState();
 
   const ligsrequest = async () => {
@@ -118,7 +118,7 @@ const StandingsScreen = ({navigation}) => {
           const ligsdata = await fetchSoccerMoreLigs(
             startAfter,
             ligsPerload,
-            type,
+            value,
           );
           setligsData([...ligsData, ...ligsdata.ligs]);
           setStartAfter(ligsdata.lastVisible);
@@ -128,7 +128,7 @@ const StandingsScreen = ({navigation}) => {
           const ligsdata = await fetchBasketballMoreLigs(
             startAfter,
             ligsPerload,
-            type,
+            value,
           );
           setligsData([...ligsData, ...ligsdata.ligs]);
           setStartAfter(ligsdata.lastVisible);
@@ -182,7 +182,7 @@ const StandingsScreen = ({navigation}) => {
               placeholderTextColor="#65656B"
               placeholder="Search your competition..."
               onChangeText={text => {
-                setType(text);
+                setValue(text);
 
                 if (timoutHandler) {
                   clearTimeout(timoutHandler);
@@ -190,7 +190,7 @@ const StandingsScreen = ({navigation}) => {
                 const timout = setTimeout(() => onInput(text), 100);
                 settimoutHandler(timout);
               }}
-              value={type}
+              value={value}
             />
           </View>
         </View>

@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   SafeAreaView,
   TextInput,
   Platform,
@@ -10,44 +9,23 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {getSoccerMatches} from '../../api/Matches';
+import {
+  fetchMoreBasketballMatches,
+  getBasketballMatches,
+  getSoccerMatches,
+  getTeamBasketballMatches,
+} from '../../api/Matches';
 import {fetchMoreSoccerMatches} from '../../api/Matches';
 import {getTeamSoccerMatches} from '../../api/Matches';
 import Search from '../../icons/other/Search.svg';
-import {SPORTS_IMAGES} from '../../images/Images';
 import {SportsButton} from '../../buttons/SportsButton';
 import {ExploreMatchButton} from '../../buttons/ExploreMatchButton';
 import Indicator from '../../component/ActivityIndicator';
 import Error from '../../component/ErrorIndicator';
 import styles from './ExploreScreenStyles';
-const options = [
-  {label: 'Soccer', value: 'soccer', image: SPORTS_IMAGES.SOOCER_IMAGE},
-  {
-    label: 'Basketball',
-    value: 'basketball',
-    image: SPORTS_IMAGES.BASKETBALL_IMAGE,
-  },
-  {
-    label: ' Football',
-    value: 'football',
-    image: SPORTS_IMAGES.FOOTBALL_IMAGE,
-  },
-  {
-    label: ' Baseball',
-    value: 'baseball',
-    image: SPORTS_IMAGES.BASEBALL_IMAGE,
-  },
-  {
-    label: ' Tennis',
-    value: 'tennis',
-    image: SPORTS_IMAGES.TENNIS_IMAGE,
-  },
-  {
-    label: ' Volleyball',
-    value: 'volleyball',
-    image: SPORTS_IMAGES.VOLLEYBALL_IMAGE,
-  },
-];
+import {SPORTS} from '../../constant/Sport';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const ExploreScreen = ({navigation}) => {
   const [matchesData, setMatchesData] = useState([]);
   const [matchesError, setMatchesError] = useState();
@@ -55,21 +33,52 @@ const ExploreScreen = ({navigation}) => {
   const [startAfter, setStartAfter] = useState({});
   const [matchPerLoad] = useState(2);
   const [lastMatch, setLastMatch] = useState(false);
-  const [view, setView] = useState('soccer');
   const [value, setValue] = useState('');
   const [timoutHandler, settimoutHandler] = useState();
+  const [types, setTypes] = useState('');
+  const HandleSportPress = type => {
+    if (type !== types) {
+      setTypes(type);
+      setMatchesData([]);
+      setStartAfter({});
+      setLastMatch(false);
+      setValue('');
+    }
+  };
+  useEffect(() => {
+    AsyncStorage.getItem('@storage_Key').then(value => {
+      if (value === null) {
+        AsyncStorage.setItem('@storage_Key', '');
+        setTypes('');
+      } else {
+        setTypes(value);
+      }
+    });
+  }, []);
 
   const matchesrequest = async (refresh = false) => {
     setMatchesLoading(true);
     try {
-      const matchesdata = await getSoccerMatches(matchPerLoad);
-      if (refresh) {
-        setLastMatch(false);
-        setMatchesData(matchesdata.matches);
-      } else {
-        setMatchesData([...matchesData, ...matchesdata.matches]);
+      if (types === 'soccer') {
+        const matchesdata = await getSoccerMatches(matchPerLoad);
+        if (refresh) {
+          setLastMatch(false);
+          setMatchesData(matchesdata.matches);
+        } else {
+          setMatchesData([...matchesData, ...matchesdata.matches]);
+        }
+        setStartAfter(matchesdata.lastVisible);
       }
-      setStartAfter(matchesdata.lastVisible);
+      if (types === 'basketball') {
+        const matchesdata = await getBasketballMatches(matchPerLoad);
+        if (refresh) {
+          setLastMatch(false);
+          setMatchesData(matchesdata.matches);
+        } else {
+          setMatchesData([...matchesData, ...matchesdata.matches]);
+        }
+        setStartAfter(matchesdata.lastVisible);
+      }
     } catch (error) {
       setMatchesError(error);
       console.log(error);
@@ -80,15 +89,28 @@ const ExploreScreen = ({navigation}) => {
   const onInput = async text => {
     setMatchesLoading(true);
     try {
-      const matchesdata = await getTeamSoccerMatches(matchPerLoad, text);
-      setMatchesData(matchesdata.matches);
+      if (types === 'soccer') {
+        const matchesdata = await getTeamSoccerMatches(matchPerLoad, text);
+        setMatchesData(matchesdata.matches);
 
-      if (text === '') {
-        setLastMatch(false);
-        setMatchesData([]);
-        matchesrequest();
+        if (text === '') {
+          setLastMatch(false);
+          setMatchesData([]);
+          matchesrequest();
+        }
+        setStartAfter(matchesdata.lastVisible);
       }
-      setStartAfter(matchesdata.lastVisible);
+      if (types === 'basketball') {
+        const matchesdata = await getTeamBasketballMatches(matchPerLoad, text);
+        setMatchesData(matchesdata.matches);
+
+        if (text === '') {
+          setLastMatch(false);
+          setMatchesData([]);
+          matchesrequest();
+        }
+        setStartAfter(matchesdata.lastVisible);
+      }
     } catch (error) {
       setMatchesError(error);
       console.log(error);
@@ -99,21 +121,35 @@ const ExploreScreen = ({navigation}) => {
 
   useEffect(() => {
     matchesrequest();
-  }, []);
+  }, [types]);
 
   const getMoreMatches = async () => {
     try {
       if (!lastMatch) {
-        const matchesdata = await fetchMoreSoccerMatches(
-          startAfter,
-          matchPerLoad,
-          value,
-        );
-        setMatchesData([...matchesData, ...matchesdata.matches]);
-        setStartAfter(matchesdata.lastVisible);
-        matchesdata.matches.length === 0
-          ? setLastMatch(true)
-          : setLastMatch(false);
+        if (types === 'soccer') {
+          const matchesdata = await fetchMoreSoccerMatches(
+            startAfter,
+            matchPerLoad,
+            value,
+          );
+          setMatchesData([...matchesData, ...matchesdata.matches]);
+          setStartAfter(matchesdata.lastVisible);
+          matchesdata.matches.length === 0
+            ? setLastMatch(true)
+            : setLastMatch(false);
+        }
+        if (types === 'basketball') {
+          const matchesdata = await fetchMoreBasketballMatches(
+            startAfter,
+            matchPerLoad,
+            value,
+          );
+          setMatchesData([...matchesData, ...matchesdata.matches]);
+          setStartAfter(matchesdata.lastVisible);
+          matchesdata.matches.length === 0
+            ? setLastMatch(true)
+            : setLastMatch(false);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -171,16 +207,16 @@ const ExploreScreen = ({navigation}) => {
 
         <View style={styles.navigate}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {options.map(item => (
+            {SPORTS.map(item => (
               <SportsButton
-                key={item.label}
-                title={view === item.value ? item.label : ''}
+                key={item.name}
+                title={types === item.type ? item.name : ''}
                 image={item.image}
-                width={view === item.value ? 120 : 50}
-                height={view === item.value ? 50 : 50}
-                color={view === item.value ? '#ED6B4E' : '#222232'}
+                width={types === item.type ? 120 : 50}
+                height={types === item.type ? 50 : 50}
+                color={types === item.type ? '#ED6B4E' : '#222232'}
                 onPress={() => {
-                  setView(item.value);
+                  HandleSportPress(item.type);
                 }}
               />
             ))}
