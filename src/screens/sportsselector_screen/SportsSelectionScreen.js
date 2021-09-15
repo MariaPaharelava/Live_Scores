@@ -12,9 +12,7 @@ function SportsSelectionScreen({navigation}) {
   const storeData = async type => {
     try {
       await AsyncStorage.setItem('@storage_Key', type);
-    } catch (e) {
-      // saving error
-    }
+    } catch (e) {}
   };
   const HandleSportPress = type => {
     setTypes(type);
