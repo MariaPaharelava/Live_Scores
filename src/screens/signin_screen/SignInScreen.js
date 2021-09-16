@@ -92,16 +92,7 @@ const SignInScreen = ({navigation}) => {
           onPress={() => navigation.navigate('Onboarding')}>
           <View style={styles.hideLine} />
         </Pressable>
-        <Text
-          style={[
-            styles.text_footer,
-            {
-              color: 'white',
-              paddingBottom: 20,
-            },
-          ]}>
-          Welcome
-        </Text>
+        <Text style={styles.text_footer}>Welcome</Text>
 
         <LoginButton
           onChangeTextPass={value => handlePasswordChange(value)}

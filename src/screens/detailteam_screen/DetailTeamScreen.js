@@ -1,16 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import {styles} from './DetailTeamScreenStyles';
 import {NavigateButton} from '../../buttons/NavigateButton';
-import {LogBox} from 'react-native';
 
 import MatchDetail from '../../component/MatchDetail';
 import LineUp from '../../component/LineUp';
@@ -67,40 +58,14 @@ const DetailTeamScreen = ({navigation, route}) => {
     }
   };
 
-  // const [matches] = React.useState(route.params.matches);
-
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     matches: matches,
-  //   });
-  // }, [navigation, matches]);
-
-  // const rednderLigs = (othermatch, currentmutch) => {
-  //   return othermatch.map(match => {
-  //     if (match != currentmutch)
-  //       return (
-  //         <View style={{paddingTop: 20}} key={match.id}>
-  //           <MatchButton
-  //             matches={match}
-  //             onPress={() =>
-  //               navigation.navigate('DetailTeam', {
-  //                 match: match,
-  //                 othermatch: othermatch,
-  //               })
-  //             }
-  //           />
-  //         </View>
-  //       );
-  //   });
-  // };
   if (matchLoading) {
-    return null; //loader
+    return null;
   }
   if (!matchData) {
-    return null; //null
+    return null;
   }
   if (matchError) {
-    return null; //error
+    return null;
   }
   return (
     <View style={styles.container}>
