@@ -48,8 +48,8 @@ const ExploreScreen = ({navigation}) => {
   useEffect(() => {
     AsyncStorage.getItem('@storage_Key').then(value => {
       if (value === null) {
-        AsyncStorage.setItem('@storage_Key', '');
-        setTypes('');
+        AsyncStorage.setItem('@storage_Key', 'soccer');
+        setTypes('soccer');
       } else {
         setTypes(value);
       }

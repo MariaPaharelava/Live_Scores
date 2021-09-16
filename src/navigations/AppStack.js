@@ -15,7 +15,6 @@ const AppStackScreen = ({navigation}) => {
   useEffect(() => {
     AsyncStorage.getItem('alreadyLaunched').then(value => {
       if (value === 'false') {
-        // AsyncStorage.setItem('alreadyLaunched', 'true');
         setIsFirstLaunch(false);
       } else {
         setIsFirstLaunch(true);
