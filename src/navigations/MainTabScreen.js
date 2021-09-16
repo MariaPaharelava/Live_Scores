@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../screens/home_screen/HomeScreen';
@@ -11,11 +10,10 @@ import ProfileScreen from '../screens/profile_screen/profile/ProfileScreen';
 import ActivityProfileScreen from '../screens/profile_screen/activity/ActivityProfileScreen';
 import SettingsProfileScreen from '../screens/profile_screen/settings/SettingsProfileScreen';
 import EditProfileScreen from '../screens/profile_screen/edit/EditProfileScreen';
+import DetailTeamScreen from '../screens/detailteam_screen/DetailTeamScreen';
 
 import styles from './MainTabScreenStyles';
-import CameraScreen from '../screens/profile_screen/camera/CameraScreen';
 const Tab = createBottomTabNavigator();
-const Top = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 const ProfileStack = ({navigation}) => (
@@ -60,6 +58,34 @@ const ProfileStack = ({navigation}) => (
     />
   </Stack.Navigator>
 );
+const HomeStack = ({navigation, route}) => (
+  <Stack.Navigator
+    screenOptions={{
+      headerBackTitleVisible: false,
+      headerTitleAlign: 'center',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#181829',
+        shadowColor: '#181829',
+        elevation: 0,
+      },
+    }}>
+    <Stack.Screen
+      name="Home Screen"
+      component={HomeScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="DetailTeam"
+      component={DetailTeamScreen}
+      options={{
+        headerTitle: route.headerTitle,
+      }}
+    />
+  </Stack.Navigator>
+);
 
 const MainTabScreen = ({navigation}) => {
   return (
@@ -76,7 +102,7 @@ const MainTabScreen = ({navigation}) => {
       }}>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeStack}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={styles.container}>

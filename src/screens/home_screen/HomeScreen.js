@@ -1,44 +1,21 @@
-import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+  SafeAreaView,
+} from 'react-native';
 import Notification from '../../icons/other/Notification.svg';
 import {IMAGES} from '../../images/Images';
-import {SPORTS_IMAGES} from '../../images/Images';
-
 import Search from '../../icons/other/Search.svg';
 import styles from './HomeScreenStyles';
-
-const SPORTS = [
-  {
-    name: 'Soccer',
-    type: 'soccer',
-    image: SPORTS_IMAGES.SOOCER_IMAGE,
-  },
-  {
-    name: 'Basketball',
-    type: 'basketball',
-    image: SPORTS_IMAGES.BASKETBALL_IMAGE,
-  },
-  {
-    name: 'Football',
-    type: 'football',
-    image: SPORTS_IMAGES.FOOTBALL_IMAGE,
-  },
-  {
-    name: 'Baseball',
-    type: 'baseball',
-    image: SPORTS_IMAGES.BASEBALL_IMAGE,
-  },
-  {
-    name: 'Tennis',
-    type: 'tennis',
-    image: SPORTS_IMAGES.TENNIS_IMAGE,
-  },
-  {
-    name: 'Volleyball',
-    type: 'volleyball',
-    image: SPORTS_IMAGES.VOLLEYBALL_IMAGE,
-  },
-];
+import {LigaButton} from '../../buttons/LigaButton';
+import {Ligs} from '../../component/Ligs';
+import {MatchButton} from '../../buttons/MatchButton';
+import {SPORTS} from '../../constant/Sport';
 
 function HomeScreen({navigation, route}) {
   const [types, setTypes] = useState([]);
@@ -49,6 +26,35 @@ function HomeScreen({navigation, route}) {
       setTypes([...types, type]);
     }
   };
+
+  const rednderLigs = ligs => {
+    return ligs.map(liga => {
+      const matchIndex = getIndex(liga.matches);
+      return (
+        <View key={liga.id}>
+          <LigaButton liga={liga} />
+          <MatchButton
+            liga={liga}
+            matches={liga.matches[matchIndex]}
+            onPress={() =>
+              navigation.push('DetailTeam', {
+                match: liga.matches[matchIndex],
+                othermatch: liga.matches,
+                liga: liga,
+              })
+            }
+          />
+        </View>
+      );
+    });
+  };
+
+  const getIndex = matches => {
+    const now = Date.now();
+    const a = matches.map(match => Math.abs(now - match.playtime));
+    return a.indexOf(Math.min(...a));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -70,13 +76,12 @@ function HomeScreen({navigation, route}) {
             <TouchableOpacity
               style={
                 types.includes(item.type)
-                  ? [styles.touchableOpacity, {backgroundColor: 'orange'}]
+                  ? [styles.touchableOpacity, {backgroundColor: '#ED6B4E'}]
                   : styles.touchableOpacity
               }
               onPress={() => HandleSportPress(item.type)}>
               <Image style={styles.button} source={item.image} />
             </TouchableOpacity>
-
             <Text style={styles.textUnderButton}>{item.name}</Text>
           </View>
         ))}

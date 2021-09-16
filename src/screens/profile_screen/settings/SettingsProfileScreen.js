@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
 import {AuthContext} from '../../../navigations/AuthProvider';
-import styles from '../SettingsProfileScreenStyles';
+import styles from './SettingsProfileScreenStyles';
 const SettingsProfileScreen = () => {
   const {logout} = useContext(AuthContext);
 

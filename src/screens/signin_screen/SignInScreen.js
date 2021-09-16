@@ -123,10 +123,9 @@ const SignInScreen = ({navigation}) => {
             value={toggleCheckBox}
             onValueChange={newValue => setToggleCheckBox(newValue)}
           />
+          <Text style={styles.rememberText}>Remember me</Text>
           <TouchableOpacity>
-            <Text style={{color: 'white', marginTop: 15}}>
-              Forgot password?
-            </Text>
+            <Text style={{color: 'white'}}>Forgot password?</Text>
           </TouchableOpacity>
         </View>
 
