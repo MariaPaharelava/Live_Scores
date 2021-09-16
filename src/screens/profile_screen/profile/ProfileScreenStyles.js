@@ -10,14 +10,12 @@ const styles = StyleSheet.create({
   containerImage: {
     backgroundColor: '#181829',
     marginTop: Platform.OS === 'ios' ? 60 : 20,
-
     alignItems: 'center',
     justifyContent: 'center',
   },
   userImg: {
     height: 150,
     width: 150,
-    borderRadius: 75,
   },
   userName: {
     fontSize: 18,

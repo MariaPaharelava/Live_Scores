@@ -107,6 +107,7 @@ const ProfileScreen = ({navigation, route}) => {
       <View style={styles.containerImage}>
         <ImageBackground
           style={styles.userImg}
+          imageStyle={{borderRadius: 150}}
           source={{
             uri: userData
               ? userData.userImg ||

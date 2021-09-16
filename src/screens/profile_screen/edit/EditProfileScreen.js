@@ -110,6 +110,7 @@ const EditProfileScreen = ({navigation, route}) => {
       <View style={styles.containerImage}>
         <ImageBackground
           style={styles.userImg}
+          imageStyle={{borderRadius: 150}}
           source={{
             uri: image
               ? image
