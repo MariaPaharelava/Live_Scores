@@ -39,6 +39,23 @@ function* loginUser(params) {
       params.payload.password,
     );
 
+    const storeData = async admin => {
+      try {
+        console.log(admin);
+        await AsyncStorage.setItem('Admin', JSON.stringify(admin));
+      } catch (e) {}
+    };
+    firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .get()
+      .then(documentSnapshot => {
+        let admin;
+        if (documentSnapshot.exists) {
+          admin = documentSnapshot.data();
+        }
+        storeData(admin.isAdmin);
+      });
     yield call(AsyncStorage.setItem, 'User', result.user.uid);
 
     yield put(loginCompleted(result));
@@ -107,8 +124,8 @@ function* loadUser() {
     yield put(loadUserSratred());
     const value = yield call(AsyncStorage.getItem, 'User');
     if (value !== null) {
+      yield put(loadUserCompleted(value));
     }
-    yield put(loadUserCompleted(value));
   } catch (e) {
     let errorMessage = 'Server Error. Please try again later!';
     if (e.message) {
