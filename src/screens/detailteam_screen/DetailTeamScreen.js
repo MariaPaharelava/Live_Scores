@@ -48,33 +48,6 @@ const DetailTeamScreen = ({navigation, route}) => {
     }
   };
 
-  // const [matches] = React.useState(route.params.matches);
-
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     matches: matches,
-  //   });
-  // }, [navigation, matches]);
-
-  // const rednderLigs = (othermatch, currentmutch) => {
-  //   return othermatch.map(match => {
-  //     if (match != currentmutch)
-  //       return (
-  //         <View style={{paddingTop: 20}} key={match.id}>
-  //           <MatchButton
-  //             matches={match}
-  //             onPress={() =>
-  //               navigation.navigate('DetailTeam', {
-  //                 match: match,
-  //                 othermatch: othermatch,
-  //               })
-  //             }
-  //           />
-  //         </View>
-  //       );
-  //   });
-  // };
-
   return (
     <View style={styles.container}>
       <View style={styles.score}>

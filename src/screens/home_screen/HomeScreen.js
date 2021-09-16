@@ -17,7 +17,7 @@ import {Ligs} from '../../component/Ligs';
 import {MatchButton} from '../../buttons/MatchButton';
 import {SPORTS} from '../../constant/Sport';
 
-function HomeScreen({navigation}) {
+function HomeScreen({navigation, route}) {
   const [types, setTypes] = useState([]);
   const HandleSportPress = type => {
     if (types.includes(type)) {
@@ -87,8 +87,7 @@ function HomeScreen({navigation}) {
         ))}
       </ScrollView>
       <ScrollView style={styles.content}>
-        {rednderLigs(Ligs)}
-        <View style={styles.lastView}></View>
+        <Text>La liga </Text>
       </ScrollView>
     </View>
   );
