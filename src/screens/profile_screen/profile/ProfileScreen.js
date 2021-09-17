@@ -38,6 +38,9 @@ const ProfileScreen = ({navigation, route}) => {
       setuserLoading(false);
     }
   };
+  const Capitalize = str => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   useEffect(() => {
     AsyncStorage.getItem('User').then(value => {
@@ -67,8 +70,8 @@ const ProfileScreen = ({navigation, route}) => {
               image={PROFILE_IMAGE.PROFILE_IMAGE}
             />
             <ProfileData
-              title="Main Sport"
-              titleInfo={sport}
+              title="Startup sport"
+              titleInfo={Capitalize(sport)}
               image={PROFILE_IMAGE.PROFILE_IMAGE}
             />
 

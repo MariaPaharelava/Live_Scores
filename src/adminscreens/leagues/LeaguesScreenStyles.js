@@ -17,11 +17,8 @@ const styles = StyleSheet.create({
     height: 60,
     margin: 5,
     marginBottom: 15,
-    shadowColor: '#999',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#999',
   },
   rowFrontVisible: {
     backgroundColor: '#181829',

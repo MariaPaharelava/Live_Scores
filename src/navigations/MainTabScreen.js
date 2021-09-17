@@ -22,6 +22,10 @@ import Indicator from '../component/ActivityIndicator';
 import Error from '../component/ErrorIndicator';
 
 import styles from './MainTabScreenStyles';
+import MatchesScreen from '../adminscreens/matches/MatchesScreen';
+import AddMatchesScreen from '../adminscreens/matches/AddMatchesScreen';
+import EditMatchesScreen from '../adminscreens/matches/EditMatchesScreen';
+import UsersScreen from '../adminscreens/users/UsersScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -108,7 +112,75 @@ const LeaguesStack = ({navigation}) => (
     />
   </Stack.Navigator>
 );
-
+const MatchesStack = ({navigation}) => (
+  <Stack.Navigator
+    screenOptions={{
+      headerBackTitleVisible: false,
+      headerTitleAlign: 'center',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#181829',
+        shadowColor: '#181829',
+        elevation: 0,
+        height: Platform.OS === 'ios' ? 120 : 55,
+      },
+    }}>
+    <Stack.Screen
+      name="Matches"
+      component={MatchesScreen}
+      options={{
+        headerTitle: ' Matches',
+        headerRight: () => (
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate('AddMatches')}>
+            <Image
+              source={ADMIN_IMAGES.PLUS_IMAGE}
+              resizeMode="contain"
+              style={styles.image}
+            />
+          </TouchableOpacity>
+        ),
+      }}
+    />
+    <Stack.Screen
+      name="AddMatches"
+      component={AddMatchesScreen}
+      options={{
+        headerTitle: ' AddMatches',
+      }}
+    />
+    <Stack.Screen
+      name="EditMatches"
+      component={EditMatchesScreen}
+      options={{
+        headerTitle: ' EditMatches',
+      }}
+    />
+  </Stack.Navigator>
+);
+const UsersStack = ({navigation}) => (
+  <Stack.Navigator
+    screenOptions={{
+      headerBackTitleVisible: false,
+      headerTitleAlign: 'center',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#181829',
+        shadowColor: '#181829',
+        elevation: 0,
+        height: Platform.OS === 'ios' ? 120 : 55,
+      },
+    }}>
+    <Stack.Screen
+      name="Users"
+      component={UsersScreen}
+      options={{
+        headerTitle: ' EditLeagues',
+      }}
+    />
+  </Stack.Navigator>
+);
 const ProfileStack = ({navigation}) => (
   <Stack.Navigator
     screenOptions={{
@@ -217,7 +289,7 @@ const tabRender = (view, focused, isAdmin) => {
           <View style={styles.circle} />
         </View>
       ) : (
-        <Image source={icon} resizeMode="contain" style={styles.image} />
+        <Image source={icon} resizeMode="contain" style={styles.tabImage} />
       )}
     </View>
   );
@@ -278,14 +350,14 @@ const MainTabScreen = ({navigation, route}) => {
       />
       <Tab.Screen
         name="Explore"
-        component={ExploreScreen}
+        component={isAdmin ? MatchesStack : ExploreScreen}
         options={{
           tabBarIcon: ({focused}) => tabRender('explore', focused, isAdmin),
         }}
       />
       <Tab.Screen
         name="Standings"
-        component={StandingsStack}
+        component={isAdmin ? UsersStack : StandingsStack}
         options={{
           tabBarIcon: ({focused}) => tabRender('standings', focused, isAdmin),
         }}

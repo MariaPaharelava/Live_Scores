@@ -18,6 +18,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import styles from './EditProfileScreenStyles';
 import {PROFILE_IMAGE} from '../../../images/Images';
 import Indicator from '../../../component/ActivityIndicator';
+import RNPickerSelect from 'react-native-picker-select';
 const EditProfileScreen = ({navigation, route}) => {
   const [image, setImage] = useState(null);
 
@@ -105,6 +106,9 @@ const EditProfileScreen = ({navigation, route}) => {
         );
       });
   };
+  const setSport = async sport => {
+    AsyncStorage.setItem('@storage_Key', sport);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.containerImage}>
@@ -144,6 +148,23 @@ const EditProfileScreen = ({navigation, route}) => {
           autoCapitalize="none"
           onChangeText={txt => setUserData({...userData, name: txt})}
           value={userData ? userData.name : ''}
+        />
+      </View>
+      <View style={styles.action}>
+        <RNPickerSelect
+          placeholder={{label: 'Select startup sport...', value: null}}
+          style={{
+            placeholder: {color: 'white'},
+            inputAndroid: {color: 'white'},
+            inputIOS: {color: 'white'},
+          }}
+          // onValueChange={value => setUserData({...userData, sport: value})}
+          onValueChange={value => setSport(value)}
+          items={[
+            {label: 'Soccer', value: 'soccer'},
+            {label: 'Basketball', value: 'basketball'},
+          ]}
+          placeholderTextColor="red"
         />
       </View>
 

@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   action: {
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#707db5',
+    backgroundColor: '#222232',
     margin: 8,
     borderRadius: 16,
     borderWidth: 1,
