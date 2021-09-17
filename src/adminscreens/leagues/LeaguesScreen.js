@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   StatusBar,
   Image,
+  ScrollView,
+  TextInput,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {ADMIN_IMAGES} from '../../images/Images';
@@ -14,10 +16,35 @@ import Indicator from '../../component/ActivityIndicator';
 import Error from '../../component/ErrorIndicator';
 import styles from './LeaguesScreenStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getSoccerLigs} from '../../api/Matches';
-import {getBasketballLigs} from '../../api/Matches';
+import {SPORTS} from '../../constant/Sport';
+import {SportsButton} from '../../buttons/SportsButton';
+import Search from '../../icons/other/Search.svg';
+import {fetchBasketballMoreLigs} from '../../api/Matches';
+import {fetchSoccerMoreLigs} from '../../api/Matches';
+import {getSoccerLiga} from '../../api/Matches';
+import {getBasketballLiga} from '../../api/Matches';
+import {getSoccerLigsTable} from '../../api/Matches';
+import {getBasketballLigsTable} from '../../api/Matches';
 const LeaguesScreen = ({navigation, ligs}) => {
   const [types, setTypes] = useState('');
+  const [value, setValue] = useState('');
+  const [timoutHandler, settimoutHandler] = useState();
+  const [startAfter, setStartAfter] = useState({});
+  const [ligsPerload] = useState(2);
+  const [lastLigs, setLastLigs] = useState(false);
+  const [ligsData, setligsData] = useState([]);
+  const [ligsError, setligsError] = useState();
+  const [ligsLoading, setligsLoading] = useState();
+
+  const HandleSportPress = type => {
+    if (type !== types) {
+      setTypes(type);
+      setligsData([]);
+      setValue('');
+      setStartAfter({});
+      setLastLigs(false);
+    }
+  };
   useEffect(() => {
     AsyncStorage.getItem('@storage_Key').then(value => {
       if (value === null) {
@@ -29,20 +56,50 @@ const LeaguesScreen = ({navigation, ligs}) => {
     });
   }, []);
 
-  const [ligsData, setligsData] = useState();
-  const [ligsError, setligsError] = useState();
-  const [ligsLoading, setligsLoading] = useState();
-
   const ligsrequest = async () => {
     setligsLoading(true);
     try {
       if (types === 'soccer') {
-        const ligs = await getSoccerLigs();
-        setligsData(ligs);
+        const ligsdata = await getSoccerLigsTable(ligsPerload);
+        setligsData([...ligsData, ...ligsdata.ligs]);
+        setStartAfter(ligsdata.lastVisible);
       }
       if (types === 'basketball') {
-        const ligs = await getBasketballLigs();
-        setligsData(ligs);
+        const ligsdata = await getBasketballLigsTable(ligsPerload);
+        setligsData([...ligsData, ...ligsdata.ligs]);
+        setStartAfter(ligsdata.lastVisible);
+      }
+    } catch (error) {
+      setligsError(error);
+      console.log(error);
+    } finally {
+      setligsLoading(false);
+    }
+  };
+  const onInput = async text => {
+    setligsLoading(true);
+    try {
+      if (types === 'soccer') {
+        const ligsdata = await getSoccerLiga(ligsPerload, text);
+        setligsData(ligsdata.ligs);
+        if (text === '') {
+          setLastLigs(false);
+
+          setligsData([]);
+          ligsrequest();
+        }
+        setStartAfter(ligsdata.lastVisible);
+      }
+      if (types === 'basketball') {
+        const ligsdata = await getBasketballLiga(ligsPerload, text);
+        setligsData(ligsdata.ligs);
+        if (text === '') {
+          setLastLigs(false);
+
+          setligsData([]);
+          ligsrequest();
+        }
+        setStartAfter(ligsdata.lastVisible);
       }
     } catch (error) {
       setligsError(error);
@@ -55,6 +112,36 @@ const LeaguesScreen = ({navigation, ligs}) => {
   useEffect(() => {
     ligsrequest();
   }, [types]);
+  const getMoreLigs = async () => {
+    try {
+      if (!lastLigs) {
+        if (types === 'soccer') {
+          const ligsdata = await fetchSoccerMoreLigs(
+            startAfter,
+            ligsPerload,
+            value,
+          );
+          setligsData([...ligsData, ...ligsdata.ligs]);
+          setStartAfter(ligsdata.lastVisible);
+          ligsdata.ligs.length === 0 ? setLastLigs(true) : setLastLigs(false);
+        }
+        if (types === 'basketball') {
+          const ligsdata = await fetchBasketballMoreLigs(
+            startAfter,
+            ligsPerload,
+            value,
+          );
+          setligsData([...ligsData, ...ligsdata.ligs]);
+          setStartAfter(ligsdata.lastVisible);
+          ligsdata.ligs.length === 0 ? setLastLigs(true) : setLastLigs(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setligsLoading(false);
+    }
+  };
 
   const deleteRow = (rowMap, rowKey) => {
     const newData = [...ligsData];
@@ -99,9 +186,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
     return (
       <Animated.View
         style={[styles.rowFront, {height: rowHeightAnimatedValue}]}>
-        <TouchableOpacity
-          style={styles.radius}
-          onPress={() => console.log('Element touched')}>
+        <View style={styles.radius}>
           <View style={styles.icon}>
             <Icon style={styles.iconCountry} name={data.item.country} />
             <View style={styles.containerText}>
@@ -114,7 +199,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
             </View>
           </View>
           <Image source={ADMIN_IMAGES.ARROW_IMAGE} />
-        </TouchableOpacity>
+        </View>
       </Animated.View>
     );
   };
@@ -161,7 +246,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
             style={[styles.backRightBtn, styles.backRightBtnLeft]}
             onPress={() => navigation.navigate('EditLeagues')}>
             <Image
-              source={ADMIN_IMAGES.CROSS_IMAGE}
+              source={ADMIN_IMAGES.EDIT_IMAGE}
               resizeMode="contain"
               style={styles.image}
             />
@@ -222,11 +307,9 @@ const LeaguesScreen = ({navigation, ligs}) => {
       />
     );
   };
-  if (ligsLoading) {
-    return <Indicator />;
-  }
+
   if (!ligsData) {
-    return null;
+    return <Indicator />;
   }
   if (ligsError) {
     return <Error />;
@@ -235,20 +318,53 @@ const LeaguesScreen = ({navigation, ligs}) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      {/* <View style={styles.viewScreen}>
-        <Text style={styles.nameScreen}>Leagues</Text>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() => navigation.navigate('AddLeagues')}>
-          <Image
-            source={ADMIN_IMAGES.PLUS_IMAGE}
-            resizeMode="contain"
-            style={styles.imagePlus}
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <View style={styles.search}>
+          <Search />
+          <TextInput
+            style={styles.textInput}
+            color="white"
+            placeholderTextColor="#65656B"
+            placeholder="Search your competition..."
+            onChangeText={text => {
+              setValue(text);
+
+              if (timoutHandler) {
+                clearTimeout(timoutHandler);
+              }
+              const timout = setTimeout(() => onInput(text), 100);
+              settimoutHandler(timout);
+            }}
+            value={value}
           />
-        </TouchableOpacity>
-      </View> */}
+        </View>
+      </View>
+      <View style={styles.navigate}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {SPORTS.map(item => (
+            <SportsButton
+              key={item.name}
+              title={types === item.type ? item.name : ''}
+              image={item.image}
+              width={types === item.type ? 120 : 50}
+              height={types === item.type ? 50 : 50}
+              color={types === item.type ? '#ED6B4E' : '#222232'}
+              onPress={() => {
+                HandleSportPress(item.type);
+              }}
+            />
+          ))}
+        </ScrollView>
+      </View>
+
       <SwipeListView
         data={ligsData}
+        keyExtractor={item => item.id}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         leftOpenValue={75}
@@ -263,6 +379,12 @@ const LeaguesScreen = ({navigation, ligs}) => {
         onRightAction={onRightAction}
         onLeftActionStatusChange={onLeftActionStatusChange}
         onRightActionStatusChange={onRightActionStatusChange}
+        onEndReached={getMoreLigs}
+        onEndReachedThreshold={0.01}
+        scrollEventThrottle={150}
+        ListFooterComponent={() =>
+          ligsLoading || !lastLigs ? <Indicator /> : null
+        }
       />
     </View>
   );

@@ -27,11 +27,21 @@ import styles from './StandingScreenStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const StandingsScreen = ({navigation}) => {
   const [types, setTypes] = useState('');
+  const [ligsData, setligsData] = useState([]);
+  const [ligsError, setligsError] = useState();
+  const [ligsLoading, setligsLoading] = useState();
+  const [startAfter, setStartAfter] = useState({});
+  const [ligsPerload] = useState(2);
+  const [lastLigs, setLastLigs] = useState(false);
+  const [value, setValue] = useState('');
+  const [timoutHandler, settimoutHandler] = useState();
   const HandleSportPress = type => {
     if (type !== types) {
       setTypes(type);
       setligsData([]);
       setValue('');
+      setStartAfter({});
+      setLastLigs(false);
     }
   };
   useEffect(() => {
@@ -44,15 +54,6 @@ const StandingsScreen = ({navigation}) => {
       }
     });
   }, []);
-
-  const [ligsData, setligsData] = useState([]);
-  const [ligsError, setligsError] = useState();
-  const [ligsLoading, setligsLoading] = useState();
-  const [startAfter, setStartAfter] = useState({});
-  const [ligsPerload] = useState(2);
-  const [lastLigs, setLastLigs] = useState(false);
-  const [value, setValue] = useState('');
-  const [timoutHandler, settimoutHandler] = useState();
 
   const ligsrequest = async () => {
     setligsLoading(true);

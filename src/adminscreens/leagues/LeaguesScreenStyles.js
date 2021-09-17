@@ -124,6 +124,27 @@ const styles = StyleSheet.create({
     color: colors.white,
     ...fonts.defaultFont,
   },
+  navigate: {
+    flexDirection: 'row',
+    marginHorizontal: 15,
+    marginBottom: 20,
+  },
+  search: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderRadius: 16,
+    width: '90%',
+    borderWidth: 1,
+    height: 50,
+    margin: 5,
+    paddingHorizontal: 15,
+    borderColor: '#222232',
+    backgroundColor: '#222232',
+    marginBottom: 30,
+  },
+  textInput: {
+    paddingLeft: 15,
+  },
 });
 
 export default styles;

@@ -29,7 +29,7 @@ export const PROFILE_IMAGE = {
 };
 export const ADMIN_IMAGES = {
   ARROW_IMAGE: require('./admin/Arrow.png'),
-  CROSS_IMAGE: require('./admin/Cross.png'),
+  EDIT_IMAGE: require('./admin/Edit.png'),
   TRASHCAN_IMAGE: require('./admin/TrashCan.png'),
   PLUS_IMAGE: require('./admin/Plus.png'),
 };

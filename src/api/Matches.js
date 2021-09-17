@@ -17,9 +17,11 @@ export const getSoccerLigs = async () => {
 
   return ligs;
 };
+
 export const getBasketballLigs = async () => {
   const querySnapshot = await firestore().collection('Basketball').get();
   const ligs = [];
+
   querySnapshot.forEach(documentSnapshot => {
     ligs.push(documentSnapshot.data());
   });
