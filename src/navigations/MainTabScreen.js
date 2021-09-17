@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Image, Platform} from 'react-native';
+import {View, Text, Image, Platform, TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {createStackNavigator} from '@react-navigation/stack';
-import {TAB_IMAGES} from '../images/Images';
+import {ADMIN_IMAGES, TAB_IMAGES} from '../images/Images';
 
 import HomeScreen from '../screens/home_screen/HomeScreen';
 import ExploreScreen from '../screens/explore_screen/ExploreScreen';
@@ -14,11 +14,100 @@ import SettingsProfileScreen from '../screens/profile_screen/settings/SettingsPr
 import EditProfileScreen from '../screens/profile_screen/edit/EditProfileScreen';
 import DetailTeamScreen from '../screens/detailteam_screen/DetailTeamScreen';
 import StandingsDetailScreen from '../screens/standingsdetail_screen/StandingsDetailScreen';
+import LeaguesScreen from '../adminscreens/leagues/LeaguesScreen';
+import AddLeaguesScreen from '../adminscreens/leagues/AddLeaguesScreen';
+import EditLeaguesScreen from '../adminscreens/leagues/EditLeaguesScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Indicator from '../component/ActivityIndicator';
+import Error from '../component/ErrorIndicator';
 
 import styles from './MainTabScreenStyles';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+const HomeStack = ({navigation, route}) => (
+  <Stack.Navigator
+    screenOptions={{
+      headerBackTitleVisible: false,
+      headerTitleAlign: 'center',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#181829',
+        shadowColor: '#181829',
+        elevation: 0,
+        height: Platform.OS === 'ios' ? 120 : 55,
+      },
+    }}>
+    <Stack.Screen
+      name="HomeScreen"
+      component={HomeScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="DetailTeam"
+      component={DetailTeamScreen}
+      options={{
+        headerTitle: route.headerTitle,
+      }}
+    />
+    <Stack.Screen
+      name="StandingsDetail"
+      component={StandingsDetailScreen}
+      options={({route}) => ({
+        title: route.params.title,
+      })}
+    />
+  </Stack.Navigator>
+);
+const LeaguesStack = ({navigation}) => (
+  <Stack.Navigator
+    screenOptions={{
+      headerBackTitleVisible: false,
+      headerTitleAlign: 'center',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#181829',
+        shadowColor: '#181829',
+        elevation: 0,
+        height: Platform.OS === 'ios' ? 120 : 55,
+      },
+    }}>
+    <Stack.Screen
+      name="Leagues"
+      component={LeaguesScreen}
+      options={{
+        headerTitle: ' Leagues',
+        headerRight: () => (
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate('AddLeagues')}>
+            <Image
+              source={ADMIN_IMAGES.PLUS_IMAGE}
+              resizeMode="contain"
+              style={styles.image}
+            />
+          </TouchableOpacity>
+        ),
+      }}
+    />
+    <Stack.Screen
+      name="AddLeagues"
+      component={AddLeaguesScreen}
+      options={{
+        headerTitle: ' AddLeagues',
+      }}
+    />
+    <Stack.Screen
+      name="EditLeagues"
+      component={EditLeaguesScreen}
+      options={{
+        headerTitle: ' EditLeagues',
+      }}
+    />
+  </Stack.Navigator>
+);
 
 const ProfileStack = ({navigation}) => (
   <Stack.Navigator
@@ -60,42 +149,6 @@ const ProfileStack = ({navigation}) => (
       options={{
         headerTitle: ' Edit Profile',
       }}
-    />
-  </Stack.Navigator>
-);
-const HomeStack = ({navigation, route}) => (
-  <Stack.Navigator
-    screenOptions={{
-      headerBackTitleVisible: false,
-      headerTitleAlign: 'center',
-      headerTintColor: 'white',
-      headerStyle: {
-        backgroundColor: '#181829',
-        shadowColor: '#181829',
-        elevation: 0,
-        height: Platform.OS === 'ios' ? 120 : 55,
-      },
-    }}>
-    <Stack.Screen
-      name="HomeScreen"
-      component={HomeScreen}
-      options={{
-        headerShown: false,
-      }}
-    />
-    <Stack.Screen
-      name="DetailTeam"
-      component={DetailTeamScreen}
-      options={{
-        headerTitle: route.headerTitle,
-      }}
-    />
-    <Stack.Screen
-      name="StandingsDetail"
-      component={StandingsDetailScreen}
-      options={({route}) => ({
-        title: route.params.title,
-      })}
     />
   </Stack.Navigator>
 );
@@ -171,15 +224,39 @@ const tabRender = (view, focused, isAdmin) => {
 };
 
 const MainTabScreen = ({navigation, route}) => {
-  const [isAdmin, setisAdmin] = useState(false);
+  const [isAdmin, setisAdmin] = useState();
+  const [isAdminLoading, setisAdminLoading] = useState(true);
+  const [isAdminError, setisAdminError] = useState();
+  const ligsrequest = async () => {
+    setisAdminLoading(true);
+    try {
+      await AsyncStorage.getItem('isAdmin').then(value => {
+        if (value === 'true') {
+          setisAdmin(true);
+        } else {
+          setisAdmin(false);
+        }
+      });
+    } catch (error) {
+      setisAdminError(error);
+      console.log(error);
+    } finally {
+      setisAdminLoading(false);
+    }
+  };
   useEffect(() => {
-    AsyncStorage.getItem('isAdmin').then(value => {
-      if (value === 'true') {
-        setisAdmin(true);
-      }
-    });
-  }, []);
+    ligsrequest();
+  }, [isAdmin]);
   console.log(isAdmin);
+
+  if (isAdminLoading) {
+    return <Indicator />;
+  }
+
+  if (isAdminError) {
+    return <Error />;
+  }
+
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -194,7 +271,7 @@ const MainTabScreen = ({navigation, route}) => {
       }}>
       <Tab.Screen
         name="Home"
-        component={HomeStack}
+        component={isAdmin ? LeaguesStack : HomeStack}
         options={{
           tabBarIcon: ({focused}) => tabRender('home', focused, isAdmin),
         }}

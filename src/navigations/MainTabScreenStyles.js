@@ -15,6 +15,6 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     marginTop: 5,
   },
-  image: {width: 25, height: 25, tintColor: 'white'},
+  image: {width: 30, height: 30, tintColor: 'white', marginRight: 20},
 });
 export default styles;

@@ -27,3 +27,9 @@ export const PROFILE_IMAGE = {
   LOGOUT_IMAGE: require('./profile/ProfileLogout.png'),
   EDITIMAGE_IMAGE: require('./profile/ProfileImageEdit.png'),
 };
+export const ADMIN_IMAGES = {
+  ARROW_IMAGE: require('./admin/Arrow.png'),
+  CROSS_IMAGE: require('./admin/Cross.png'),
+  TRASHCAN_IMAGE: require('./admin/TrashCan.png'),
+  PLUS_IMAGE: require('./admin/Plus.png'),
+};
