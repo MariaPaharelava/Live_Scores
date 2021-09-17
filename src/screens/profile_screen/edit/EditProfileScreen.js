@@ -109,6 +109,7 @@ const EditProfileScreen = ({navigation, route}) => {
   const setSport = async sport => {
     AsyncStorage.setItem('@storage_Key', sport);
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.containerImage}>
@@ -152,13 +153,15 @@ const EditProfileScreen = ({navigation, route}) => {
       </View>
       <View style={styles.action}>
         <RNPickerSelect
-          placeholder={{label: 'Select startup sport...', value: null}}
+          placeholder={{
+            label: 'Select startup sport...',
+            value: sport,
+          }}
           style={{
             placeholder: {color: 'white'},
             inputAndroid: {color: 'white'},
             inputIOS: {color: 'white'},
           }}
-          // onValueChange={value => setUserData({...userData, sport: value})}
           onValueChange={value => setSport(value)}
           items={[
             {label: 'Soccer', value: 'soccer'},

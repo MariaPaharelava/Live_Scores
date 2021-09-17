@@ -83,14 +83,13 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   action: {
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: 'center',
+    height: 50,
     backgroundColor: '#222232',
     margin: 8,
     borderRadius: 16,
     borderWidth: 1,
     paddingHorizontal: Platform.OS === 'ios' ? 10 : 5,
-    padding: Platform.OS === 'ios' ? 10 : 0,
   },
   actionError: {
     flexDirection: 'row',
@@ -100,9 +99,8 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   textInput: {
-    flex: 1,
-    marginTop: Platform.OS === 'ios' ? 0 : -12,
-    paddingLeft: 10,
+    paddingLeft: Platform.OS === 'ios' ? 0 : 15,
+
     color: 'white',
   },
 });

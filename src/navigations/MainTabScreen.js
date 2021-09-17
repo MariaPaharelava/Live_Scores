@@ -299,7 +299,7 @@ const MainTabScreen = ({navigation, route}) => {
   const [isAdmin, setisAdmin] = useState();
   const [isAdminLoading, setisAdminLoading] = useState(true);
   const [isAdminError, setisAdminError] = useState();
-  const ligsrequest = async () => {
+  const adminrequest = async () => {
     setisAdminLoading(true);
     try {
       await AsyncStorage.getItem('isAdmin').then(value => {
@@ -317,7 +317,7 @@ const MainTabScreen = ({navigation, route}) => {
     }
   };
   useEffect(() => {
-    ligsrequest();
+    adminrequest();
   }, [isAdmin]);
   console.log(isAdmin);
 
