@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Image, Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -14,6 +14,8 @@ import SettingsProfileScreen from '../screens/profile_screen/settings/SettingsPr
 import EditProfileScreen from '../screens/profile_screen/edit/EditProfileScreen';
 import DetailTeamScreen from '../screens/detailteam_screen/DetailTeamScreen';
 import StandingsDetailScreen from '../screens/standingsdetail_screen/StandingsDetailScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import styles from './MainTabScreenStyles';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -128,27 +130,27 @@ const StandingsStack = ({navigation, route}) => (
     />
   </Stack.Navigator>
 );
-const tabRender = (view, focused) => {
+const tabRender = (view, focused, isAdmin) => {
   let title;
   let icon;
   switch (view) {
     case 'home':
-      title = 'Home';
-      icon = TAB_IMAGES.HOME_IMAGE;
+      title = isAdmin ? 'Leagues' : 'Home';
+      icon = isAdmin ? TAB_IMAGES.CHART_IMAGE : TAB_IMAGES.HOME_IMAGE;
       break;
     case 'explore':
-      title = 'Explore';
+      title = isAdmin ? 'Matches' : 'Explore';
       icon = TAB_IMAGES.DISCOVERY_IMAGE;
       break;
 
     case 'standings':
-      title = 'Standings';
-      icon = TAB_IMAGES.CHART_IMAGE;
+      title = isAdmin ? 'Users' : 'Standings';
+      icon = isAdmin ? TAB_IMAGES.PROFILE_IMAGE : TAB_IMAGES.CHART_IMAGE;
       break;
 
     case 'profile':
       title = 'Profile';
-      icon = TAB_IMAGES.PROFILE_IMAGE;
+      icon = isAdmin ? TAB_IMAGES.HOME_IMAGE : TAB_IMAGES.PROFILE_IMAGE;
       break;
 
     default:
@@ -169,6 +171,15 @@ const tabRender = (view, focused) => {
 };
 
 const MainTabScreen = ({navigation, route}) => {
+  const [isAdmin, setisAdmin] = useState(false);
+  useEffect(() => {
+    AsyncStorage.getItem('isAdmin').then(value => {
+      if (value === 'true') {
+        setisAdmin(true);
+      }
+    });
+  }, []);
+  console.log(isAdmin);
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -185,28 +196,28 @@ const MainTabScreen = ({navigation, route}) => {
         name="Home"
         component={HomeStack}
         options={{
-          tabBarIcon: ({focused}) => tabRender('home', focused),
+          tabBarIcon: ({focused}) => tabRender('home', focused, isAdmin),
         }}
       />
       <Tab.Screen
         name="Explore"
         component={ExploreScreen}
         options={{
-          tabBarIcon: ({focused}) => tabRender('explore', focused),
+          tabBarIcon: ({focused}) => tabRender('explore', focused, isAdmin),
         }}
       />
       <Tab.Screen
         name="Standings"
         component={StandingsStack}
         options={{
-          tabBarIcon: ({focused}) => tabRender('standings', focused),
+          tabBarIcon: ({focused}) => tabRender('standings', focused, isAdmin),
         }}
       />
       <Tab.Screen
         name="My Profile"
         component={ProfileStack}
         options={{
-          tabBarIcon: ({focused}) => tabRender('profile', focused),
+          tabBarIcon: ({focused}) => tabRender('profile', focused, isAdmin),
         }}
       />
     </Tab.Navigator>

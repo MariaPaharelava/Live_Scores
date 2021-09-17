@@ -38,10 +38,25 @@ function* loginUser(params) {
       params.payload.email,
       params.payload.password,
     );
+    firestore()
+      .collection('users')
+      .doc(auth().currentUser.uid)
+      .get()
+      .then(documentSnapshot => {
+        console.log('User exists: ', documentSnapshot.exists);
+
+        if (documentSnapshot.exists) {
+          const data = documentSnapshot.data();
+          console.log('User data: ', documentSnapshot.data());
+          if ('isAdmin' in data) {
+            AsyncStorage.setItem('isAdmin', JSON.stringify(data.isAdmin));
+          }
+        }
+      });
 
     yield call(AsyncStorage.setItem, 'User', result.user.uid);
 
-    yield put(loginCompleted(result));
+    yield put(loginCompleted(result.user.uid));
   } catch (e) {
     let errorMessage = 'Server Error. Please try again later!';
     if (e.message) {
@@ -73,7 +88,7 @@ function* signupUser(params) {
       });
     yield call(AsyncStorage.setItem, 'User', result.user.uid);
 
-    yield put(signupCompleted(result));
+    yield put(signupCompleted(result.user.uid));
   } catch (e) {
     let errorMessage = 'Server Error. Please try again later!';
     if (e.message) {
