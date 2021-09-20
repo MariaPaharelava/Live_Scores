@@ -1,39 +1,10 @@
-// import React from 'react';
-// import {View, Text, Button, StyleSheet} from 'react-native';
-// const UsersScreen = () => {
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.text}>UsersScreen Screen </Text>
-//       <Button title="Click Here" onPress={() => alert('Button Clicked!')} />
-//     </View>
-//   );
-// };
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     backgroundColor: '#181829',
-//   },
-//   text: {
-//     color: 'white',
-//   },
-// });
-
-// export default UsersScreen;
 import React, {useState, useEffect} from 'react';
 import {View, SafeAreaView, Platform, FlatList} from 'react-native';
 import {fetchMoreUsers, getUsers} from '../../api/Matches';
-import {fetchMoreSoccerMatches} from '../../api/Matches';
-import {getTeamSoccerMatches} from '../../api/Matches';
-import Search from '../../icons/other/Search.svg';
-import {SportsButton} from '../../buttons/SportsButton';
-import {ExploreMatchButton} from '../../buttons/ExploreMatchButton';
+import {UsersData} from '../../component/UsersData';
 import Indicator from '../../component/ActivityIndicator';
 import Error from '../../component/ErrorIndicator';
 import styles from './UsersScreenStyles';
-import {ProfileData} from '../../component/ProfileData';
-import {UsersData} from '../../component/UsersData';
 const UsersScreen = ({navigation}) => {
   const [usersData, setusersData] = useState([]);
   const [usersError, setusersError] = useState();
@@ -61,7 +32,6 @@ const UsersScreen = ({navigation}) => {
   useEffect(() => {
     usersrequset();
   }, []);
-  console.log(usersData);
   const getMoreUsers = async () => {
     try {
       if (!lastUser) {

@@ -43,11 +43,8 @@ function* loginUser(params) {
       .doc(auth().currentUser.uid)
       .get()
       .then(documentSnapshot => {
-        console.log('User exists: ', documentSnapshot.exists);
-
         if (documentSnapshot.exists) {
           const data = documentSnapshot.data();
-          console.log('User data: ', documentSnapshot.data());
           if ('isAdmin' in data) {
             AsyncStorage.setItem('isAdmin', JSON.stringify(data.isAdmin));
           }

@@ -319,7 +319,6 @@ const MainTabScreen = ({navigation, route}) => {
   useEffect(() => {
     adminrequest();
   }, [isAdmin]);
-  console.log(isAdmin);
 
   if (isAdminLoading) {
     return <Indicator />;

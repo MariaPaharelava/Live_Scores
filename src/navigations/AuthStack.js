@@ -15,11 +15,9 @@ const AuthStack = () => {
     AsyncStorage.getItem('alreadyLaunched').then(value => {
       if (value !== 'true') {
         AsyncStorage.setItem('alreadyLaunched', 'false');
-        console.log('value != true');
         setIsFirstLaunch(false);
       } else {
         AsyncStorage.setItem('alreadyLaunched', 'true');
-        console.log('value = true');
 
         setIsFirstLaunch(true);
       }
