@@ -26,6 +26,7 @@ export const PROFILE_IMAGE = {
   EDIT_IMAGE: require('./profile/ProfileEdit.png'),
   LOGOUT_IMAGE: require('./profile/ProfileLogout.png'),
   EDITIMAGE_IMAGE: require('./profile/ProfileImageEdit.png'),
+  SPORTS_IMAGE: require('./profile/Sports.png'),
 };
 export const ADMIN_IMAGES = {
   ARROW_IMAGE: require('./admin/Arrow.png'),

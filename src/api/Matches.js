@@ -471,3 +471,32 @@ export const getBasketballLigaByID = async id => {
 
   return liga;
 };
+
+export const getUsers = async usersPerLoad => {
+  const querySnapshot = await firestore()
+    .collection('users')
+    .limit(usersPerLoad)
+    .get();
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+  const users = [];
+  querySnapshot.forEach(documentSnapshot => {
+    users.push(documentSnapshot.data());
+  });
+
+  return {users, lastVisible};
+};
+
+export const fetchMoreUsers = async (startAfter, matchPerLoad) => {
+  const querySnapshot = await firestore()
+    .collection('users')
+    .startAfter(startAfter)
+    .limit(matchPerLoad)
+    .get();
+  const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+  const users = [];
+  querySnapshot.forEach(documentSnapshot => {
+    users.push(documentSnapshot.data());
+  });
+
+  return {users, lastVisible};
+};

@@ -176,7 +176,7 @@ const UsersStack = ({navigation}) => (
       name="Users"
       component={UsersScreen}
       options={{
-        headerTitle: ' EditLeagues',
+        headerTitle: ' Users',
       }}
     />
   </Stack.Navigator>
