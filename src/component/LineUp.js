@@ -52,7 +52,7 @@ const LineUp = ({
       <View style={styles.wrapperScheme}>
         <Text style={styles.formText}>Formation</Text>
 
-        <Text style={styles.scheme}>{formation.join('-')}</Text>
+        <Text style={styles.scheme}>({formation.join('-')})</Text>
       </View>
       <View style={styles.navigate}>
         {teams.map(item => (
@@ -93,9 +93,10 @@ const styles = StyleSheet.create({
   scheme: {color: '#C4C4C4', ...fonts.defaultFont, fontSize: 14},
   navigate: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    // justifyContent: 'flex-start',
+    justifyContent: 'center',
     marginTop: Platform.OS === 'ios' ? 20 : 10,
-    marginLeft: 20,
+    // marginLeft: 20,
   },
   params: {
     marginTop: Platform.OS === 'ios' ? 50 : 0,

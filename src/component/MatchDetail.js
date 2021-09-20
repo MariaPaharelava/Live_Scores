@@ -21,22 +21,22 @@ const MatchDetail = ({
   ...props
 }) => {
   const rednderOtherMathes = (othermatch, currentmutch) => {
-    return othermatch.map(match => {
-      if (match != currentmutch)
-        return (
-          <View style={{paddingTop: 20}} key={match.id}>
-            <MatchButton
-              matches={match}
-              onPress={() =>
-                navigation.push('DetailTeam', {
-                  match: match,
-                  othermatch: othermatch,
-                })
-              }
-            />
-          </View>
-        );
-    });
+    // return othermatch.map(match => {
+    //   if (match != currentmutch)
+    //     return (
+    //       <View style={{paddingTop: 20}} key={match.id}>
+    //         <MatchButton
+    //           matches={match}
+    //           onPress={() =>
+    //             navigation.push('DetailTeam', {
+    //               match: match,
+    //               othermatch: othermatch,
+    //             })
+    //           }
+    //         />
+    //       </View>
+    //     );
+    // });
   };
   return (
     <View>
@@ -75,7 +75,7 @@ const MatchDetail = ({
         </TouchableOpacity>
       </View>
       <ScrollView>
-        {rednderOtherMathes(othermatch, match)}
+        {/* {rednderOtherMathes(othermatch, match)} */}
         <View style={{height: 75}}></View>
       </ScrollView>
     </View>

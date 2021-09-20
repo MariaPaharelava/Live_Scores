@@ -16,14 +16,18 @@ export const MatchButton = ({
       <View style={styles.container}>
         <TouchableOpacity style={styles.radius} onPress={onPress} {...props}>
           <View style={styles.wrapper}>
-            <Image
-              style={{height: 30, width: 30, marginRight: 10}}
-              source={{uri: matches.firstTeam.teamDetails.imageUrl}}
-            />
-            <Image
-              style={{height: 30, width: 30}}
-              source={{uri: matches.secondTeam.teamDetails.imageUrl}}
-            />
+            <View style={styles.backImage}>
+              <Image
+                style={{height: 30, width: 30}}
+                source={{uri: matches.firstTeam.teamDetails.imageUrl}}
+              />
+            </View>
+            <View style={styles.backImage}>
+              <Image
+                style={{height: 30, width: 30}}
+                source={{uri: matches.secondTeam.teamDetails.imageUrl}}
+              />
+            </View>
           </View>
 
           <View style={styles.content}>

@@ -7,6 +7,7 @@ import {
   ScrollView,
   FlatList,
   SafeAreaView,
+  Icon,
 } from 'react-native';
 import Notification from '../../icons/other/Notification.svg';
 import {IMAGES} from '../../images/Images';
@@ -32,15 +33,22 @@ function HomeScreen({navigation, route}) {
       const matchIndex = getIndex(liga.matches);
       return (
         <View key={liga.id}>
-          <LigaButton liga={liga} />
+          <LigaButton
+            liga={liga}
+            matches={liga.matches[matchIndex]}
+            onPress={() =>
+              navigation.push('StandingsDetail', {
+                liga: liga,
+                title: liga.ligaName,
+              })
+            }
+          />
           <MatchButton
             liga={liga}
             matches={liga.matches[matchIndex]}
             onPress={() =>
               navigation.push('DetailTeam', {
-                match: liga.matches[matchIndex],
-                othermatch: liga.matches,
-                liga: liga,
+                matchID: liga.matches[matchIndex].id,
               })
             }
           />
@@ -70,7 +78,7 @@ function HomeScreen({navigation, route}) {
 
       <Image style={styles.image} source={IMAGES.HOMESCREEN_IMAGE} />
 
-      <ScrollView horizontal={true}>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {SPORTS.map(item => (
           <View style={styles.sportImages2} key={item.type}>
             <TouchableOpacity
