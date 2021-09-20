@@ -12,6 +12,7 @@ function SportsSelectionScreen({navigation}) {
   const storeData = async type => {
     try {
       await AsyncStorage.setItem('@storage_Key', type);
+      await AsyncStorage.setItem('alreadyLaunched', 'true');
     } catch (e) {}
   };
   const HandleSportPress = type => {
@@ -28,7 +29,6 @@ function SportsSelectionScreen({navigation}) {
             <TouchableOpacity
               style={[
                 styles.touchableOpacity,
-                // types.includes(item.type) && {backgroundColor: 'orange'},
                 types === item.type && {backgroundColor: 'orange'},
               ]}
               onPress={() => {

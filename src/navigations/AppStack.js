@@ -25,9 +25,9 @@ const AppStackScreen = ({navigation}) => {
   if (isFirstLaunch === null) {
     return null;
   } else if (isFirstLaunch === true) {
-    routeName = 'SportSelectionScrenen';
-  } else {
     routeName = 'MainTabScreen';
+  } else {
+    routeName = 'SportSelectionScrenen';
   }
   return (
     <AppStack.Navigator initialRouteName={routeName}>
