@@ -2,10 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, Image} from 'react-native';
 import {styles} from './DetailTeamScreenStyles';
 import {NavigateButton} from '../../buttons/NavigateButton';
-<<<<<<< HEAD
-=======
-
->>>>>>> 77dc7115c39ec7e6248354b6f08232765a4c39cc
 import MatchDetail from '../../component/MatchDetail';
 import LineUp from '../../component/LineUp';
 import H2H from '../../component/H2H';
