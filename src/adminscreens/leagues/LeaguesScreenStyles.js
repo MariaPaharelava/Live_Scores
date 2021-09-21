@@ -145,6 +145,11 @@ const styles = StyleSheet.create({
   textInput: {
     paddingLeft: 15,
   },
+  searchView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default styles;

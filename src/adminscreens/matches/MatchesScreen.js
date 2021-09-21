@@ -245,7 +245,6 @@ const MatchesScreen = ({navigation, ligs}) => {
 
     return (
       <Animated.View style={[styles.rowBack, {height: rowHeightAnimatedValue}]}>
-        <Text>Left</Text>
         {!leftActionActivated && (
           <TouchableOpacity
             style={[styles.backRightBtn, styles.backRightBtnLeft]}
@@ -323,12 +322,7 @@ const MatchesScreen = ({navigation, ligs}) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
+      <View style={styles.searchView}>
         <View style={styles.search}>
           <Search />
           <TextInput

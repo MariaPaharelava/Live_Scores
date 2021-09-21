@@ -146,6 +146,11 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   lastView: {height: 75},
+  searchView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default styles;

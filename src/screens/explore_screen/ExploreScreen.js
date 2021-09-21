@@ -160,7 +160,7 @@ const ExploreScreen = ({navigation}) => {
 
   const RednderLigs = ({item}) => {
     return (
-      <View key={item.id}>
+      <View key={item.ligaName}>
         <ExploreMatchButton matches={item} />
       </View>
     );

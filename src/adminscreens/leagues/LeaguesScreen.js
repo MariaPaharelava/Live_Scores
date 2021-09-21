@@ -35,6 +35,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
   const [ligsData, setligsData] = useState([]);
   const [ligsError, setligsError] = useState();
   const [ligsLoading, setligsLoading] = useState();
+  const [ligsnavigateLoading, setligsnavigateLoading] = useState();
 
   const HandleSportPress = type => {
     if (type !== types) {
@@ -112,6 +113,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
   useEffect(() => {
     ligsrequest();
   }, [types]);
+
   const getMoreLigs = async () => {
     try {
       if (!lastLigs) {
@@ -240,7 +242,6 @@ const LeaguesScreen = ({navigation, ligs}) => {
 
     return (
       <Animated.View style={[styles.rowBack, {height: rowHeightAnimatedValue}]}>
-        <Text>Left</Text>
         {!leftActionActivated && (
           <TouchableOpacity
             style={[styles.backRightBtn, styles.backRightBtnLeft]}
@@ -314,16 +315,11 @@ const LeaguesScreen = ({navigation, ligs}) => {
   if (ligsError) {
     return <Error />;
   }
-
+  console.log(ligsData);
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
+      <View style={styles.searchView}>
         <View style={styles.search}>
           <Search />
           <TextInput
@@ -361,10 +357,9 @@ const LeaguesScreen = ({navigation, ligs}) => {
           ))}
         </ScrollView>
       </View>
-
       <SwipeListView
         data={ligsData}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.ligaName}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         leftOpenValue={75}

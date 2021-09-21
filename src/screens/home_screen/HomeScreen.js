@@ -59,7 +59,7 @@ const HomeScreen = ({navigation, route}) => {
     return ligs.map(liga => {
       const matchIndex = getIndex(liga.matches);
       return (
-        <View key={liga.id}>
+        <View key={liga.ligaName}>
           <LigaButton
             liga={liga}
             matches={liga.matches[matchIndex]}

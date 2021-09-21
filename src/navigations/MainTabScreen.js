@@ -23,7 +23,6 @@ import Error from '../component/ErrorIndicator';
 
 import styles from './MainTabScreenStyles';
 import MatchesScreen from '../adminscreens/matches/MatchesScreen';
-import AddMatchesScreen from '../adminscreens/matches/AddMatchesScreen';
 import EditMatchesScreen from '../adminscreens/matches/EditMatchesScreen';
 import UsersScreen from '../adminscreens/users/UsersScreen';
 const Tab = createBottomTabNavigator();
@@ -39,7 +38,7 @@ const HomeStack = ({navigation, route}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
-        height: Platform.OS === 'ios' ? 120 : 55,
+        height: Platform.OS === 'ios' ? 115 : 55,
       },
     }}>
     <Stack.Screen
@@ -71,11 +70,13 @@ const LeaguesStack = ({navigation}) => (
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
       headerTintColor: 'white',
+
       headerStyle: {
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
-        height: Platform.OS === 'ios' ? 120 : 55,
+
+        height: Platform.OS === 'ios' ? 115 : 55,
       },
     }}>
     <Stack.Screen
@@ -122,7 +123,7 @@ const MatchesStack = ({navigation}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
-        height: Platform.OS === 'ios' ? 120 : 55,
+        height: Platform.OS === 'ios' ? 115 : 55,
       },
     }}>
     <Stack.Screen
@@ -130,26 +131,9 @@ const MatchesStack = ({navigation}) => (
       component={MatchesScreen}
       options={{
         headerTitle: ' Matches',
-        headerRight: () => (
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() => navigation.navigate('AddMatches')}>
-            <Image
-              source={ADMIN_IMAGES.PLUS_IMAGE}
-              resizeMode="contain"
-              style={styles.image}
-            />
-          </TouchableOpacity>
-        ),
       }}
     />
-    <Stack.Screen
-      name="AddMatches"
-      component={AddMatchesScreen}
-      options={{
-        headerTitle: ' AddMatches',
-      }}
-    />
+
     <Stack.Screen
       name="EditMatches"
       component={EditMatchesScreen}
@@ -169,7 +153,7 @@ const UsersStack = ({navigation}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
-        height: Platform.OS === 'ios' ? 120 : 55,
+        height: Platform.OS === 'ios' ? 115 : 55,
       },
     }}>
     <Stack.Screen
@@ -191,7 +175,7 @@ const ProfileStack = ({navigation}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
-        height: Platform.OS === 'ios' ? 120 : 55,
+        height: Platform.OS === 'ios' ? 115 : 55,
       },
     }}>
     <Stack.Screen
@@ -235,7 +219,7 @@ const StandingsStack = ({navigation, route}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
-        height: Platform.OS === 'ios' ? 120 : 55,
+        height: Platform.OS === 'ios' ? 115 : 55,
       },
     }}>
     <Stack.Screen
