@@ -65,21 +65,13 @@ const DetailTeamScreen = ({navigation, route}) => {
   };
 
   if (matchLoading) {
-<<<<<<< HEAD
     return <Indicator />; //loader
-=======
-    return null;
->>>>>>> 77dc7115c39ec7e6248354b6f08232765a4c39cc
   }
   if (!matchData) {
     return null;
   }
   if (matchError) {
-<<<<<<< HEAD
     return <Error />; //error
-=======
-    return null;
->>>>>>> 77dc7115c39ec7e6248354b6f08232765a4c39cc
   }
   return (
     <View style={styles.container}>
