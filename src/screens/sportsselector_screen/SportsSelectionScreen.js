@@ -4,7 +4,6 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {SPORTS_IMAGES} from '../../images/Images';
 import {RoundedButton} from '../../buttons/RoundedButton';
 import {styles} from './SportsSelectionScreenStyles';
-import MainTabScreen from '../../navigations/MainTabScreen';
 
 const SPORTS = [
   {
@@ -75,6 +74,12 @@ function SportsSelectionScreen({navigation}) {
       <View style={styles.roundedButton}>
         <RoundedButton
           title="Continue"
+          // onPress={() => {
+          //   navigation.navigate('MainTabScreen', {
+          //     screen: 'HomeScreen',
+          //     otherParam: 'sadasdsadsadsadsa',
+          //   });
+          // }}
           onPress={() => navigation.navigate('MainTabScreen')}
         />
         <TouchableOpacity style={styles.skipButton}>

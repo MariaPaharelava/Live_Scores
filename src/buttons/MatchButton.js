@@ -1,7 +1,9 @@
 import React from 'react';
+import {TouchableOpacity, Text, Image, View} from 'react-native';
+import PropTypes from 'prop-types';
+
 import {styles} from './MatchButtonStyle';
 
-import {TouchableOpacity, Text, Image, View} from 'react-native';
 export const MatchButton = ({
   onPress,
   noBackground = false,
@@ -53,4 +55,12 @@ export const MatchButton = ({
       </View>
     </View>
   );
+};
+MatchButton.propTypes = {
+  onPress: PropTypes.func,
+  liga: PropTypes.array,
+  matches: PropTypes.array,
+};
+MatchButton.defaultProps = {
+  noBackground: false,
 };
