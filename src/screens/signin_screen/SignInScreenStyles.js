@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   text_footer: {
-    color: '#05375a',
+    color: 'white',
+
     fontSize: 26,
   },
   action: {
