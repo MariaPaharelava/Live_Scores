@@ -4,6 +4,8 @@ import {colors} from '../constant/colors';
 import {fonts} from '../constant/fonts';
 import {TouchableOpacity, Text, Image, View} from 'react-native';
 import {TeamTable} from './TeamTable';
+import PropTypes from 'prop-types';
+
 export const StandingsTable = ({
   onPress,
   noBackground = false,
@@ -90,6 +92,15 @@ export const StandingsTable = ({
       {/* <View tyle={styles.teams}>{renderTeam(teams)}</View> */}
     </View>
   );
+};
+
+StandingsTable.propTypes = {
+  onPress: PropTypes.func,
+  teams: PropTypes.array,
+  matches: PropTypes.array,
+};
+StandingsTable.defaultProps = {
+  noBackground: false,
 };
 
 const styles = StyleSheet.create({
