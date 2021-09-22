@@ -217,7 +217,7 @@ const StandingsScreen = ({navigation}) => {
           <FlatList
             data={ligsData}
             renderItem={RednderLigs}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.ligaName}
             style={{height: Platform.OS === 'ios' ? '90%' : '67%'}}
             onEndReached={getMoreLigs}
             onEndReachedThreshold={0.01}

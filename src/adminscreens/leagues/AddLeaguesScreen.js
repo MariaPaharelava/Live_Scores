@@ -10,7 +10,12 @@ import ChooseCountry from '../../component/ChooseCoutry';
 import {v4 as uuidv4} from 'uuid';
 const AddLeaguesScreen = ({navigation}) => {
   const [sport, setSport] = useState();
-  const [ligaData, setligaData] = useState({matches: []});
+  const [ligaData, setligaData] = useState({
+    matches: [],
+    alltable: [],
+    awaytable: [],
+    hometable: [],
+  });
   const [match, setMatch] = useState({
     playtime: new Date(),
     firstTeam: {
