@@ -6,11 +6,16 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  Image,
+  Pressable,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import styles from './SignUpScreenStyles';
 import Hide from '../../icons/login/Hide.svg';
 import Show from '../../icons/login/Show.svg';
+import {IMAGES} from '../../images/Images';
+import {RoundedButton} from '../../buttons/RoundedButton';
+
 import {AuthContext} from '../../navigations/AuthProvider';
 const SignUpScreen = ({navigation}) => {
   const {register} = useContext(AuthContext);
@@ -98,10 +103,14 @@ const SignUpScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.text_header}>Register Now!</Text>
-      </View>
+      <Image style={styles.onboardingImage} source={IMAGES.ONBOARDING_IMAGE} />
+
       <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+        <Pressable
+          style={styles.pressable}
+          onPress={() => navigation.navigate('Onboarding')}>
+          <View style={styles.hideLine} />
+        </Pressable>
         <ScrollView>
           <Text style={styles.text_footer}>Email</Text>
           <View style={styles.action}>
@@ -109,6 +118,7 @@ const SignUpScreen = ({navigation}) => {
               placeholder="Your Email"
               style={styles.textInput}
               autoCapitalize="none"
+              placeholderTextColor="#706e6e"
               onChangeText={val => textInputChange(val)}
             />
           </View>
@@ -120,20 +130,13 @@ const SignUpScreen = ({navigation}) => {
             </Animatable.View>
           )}
 
-          <Text
-            style={[
-              styles.text_footer,
-              {
-                marginTop: 35,
-              },
-            ]}>
-            Password
-          </Text>
+          <Text style={styles.text_footer}>Password</Text>
           <View style={styles.action}>
             <TextInput
               placeholder="Your Password"
               secureTextEntry={dataSignUP.secureTextEntry ? true : false}
               style={styles.textInput}
+              placeholderTextColor="#706e6e"
               autoCapitalize="none"
               onChangeText={val => handlePasswordChange(val)}
             />
@@ -148,15 +151,7 @@ const SignUpScreen = ({navigation}) => {
               </Text>
             </Animatable.View>
           )}
-          <Text
-            style={[
-              styles.text_footer,
-              {
-                marginTop: 35,
-              },
-            ]}>
-            Confirm Password
-          </Text>
+          <Text style={styles.text_footer}>Confirm Password</Text>
 
           <View style={styles.action}>
             <TextInput
@@ -166,6 +161,7 @@ const SignUpScreen = ({navigation}) => {
               }
               style={styles.textInput}
               autoCapitalize="none"
+              placeholderTextColor="#706e6e"
               onChangeText={val => handleConfirmPasswordChange(val)}
             />
             <TouchableOpacity onPress={updateConfirmSecureTextEntry}>
@@ -194,38 +190,13 @@ const SignUpScreen = ({navigation}) => {
           <View style={styles.button}>
             <TouchableOpacity style={styles.signIn} onPress={hanldeSignUp}>
               <View colors={['#246BFD', '#246BFD']} style={styles.signIn}>
-                <Text
-                  style={[
-                    styles.textSign,
-                    {
-                      color: 'black',
-                    },
-                  ]}>
-                  Sign Up
-                </Text>
+                <Text style={styles.textSign}>Sign Up</Text>
               </View>
             </TouchableOpacity>
-
-            <TouchableOpacity
+            <RoundedButton
+              title="Sign in"
               onPress={() => navigation.navigate('SignInScreen')}
-              style={[
-                styles.signIn,
-                {
-                  borderColor: '#246BFD',
-                  borderWidth: 1,
-                  marginTop: 15,
-                },
-              ]}>
-              <Text
-                style={[
-                  styles.textSign,
-                  {
-                    color: '#246BFD',
-                  },
-                ]}>
-                Sign In
-              </Text>
-            </TouchableOpacity>
+            />
           </View>
         </ScrollView>
       </Animatable.View>

@@ -11,7 +11,7 @@ import {MatchButton} from '../../buttons/MatchButton';
 import {SPORTS} from '../../constant/Sport';
 import {IMAGES} from '../../images/Images';
 
-function HomeScreen({navigation}) {
+function HomeScreen({navigation, route}) {
   const [types, setTypes] = useState([]);
   const HandleSportPress = type => {
     if (types.includes(type)) {

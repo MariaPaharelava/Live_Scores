@@ -57,7 +57,6 @@ export const LoginButton = ({
 
 LoginButton.propTypes = {
   onPress: PropTypes.func,
-  noBackground: PropTypes.bool,
   onChangeText: PropTypes.func,
   data: PropTypes.object,
 };
