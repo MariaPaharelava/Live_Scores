@@ -38,7 +38,8 @@ function HomeScreen({navigation, route}) {
             matches={liga.matches[matchIndex]}
             onPress={() =>
               navigation.push('StandingsDetail', {
-                liga: liga,
+                image: liga.imageUrl,
+                matchID: liga.matches[matchIndex].id,
                 title: liga.ligaName,
               })
             }

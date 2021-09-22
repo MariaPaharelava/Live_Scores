@@ -7,16 +7,14 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
-import {LogBox} from 'react-native';
 import {NavigateButton} from '../../buttons/NavigateButton';
 import HomeTable from '../../component/HomeTable';
 import AllTable from '../../component/AllTable';
 import AwayTable from '../../component/AwayTable';
 const StandingsDetailScreen = ({navigation, route}) => {
-  LogBox.ignoreLogs([
-    'Non-serializable values were found in the navigation state',
-  ]);
-  const {liga} = route.params;
+  const {matchID, image} = route.params;
+
+  // const {liga} = route.params;
 
   const [view, setView] = useState('all');
   const options = [
@@ -28,11 +26,11 @@ const StandingsDetailScreen = ({navigation, route}) => {
   const selectedView = () => {
     switch (view) {
       case 'all':
-        return <AllTable navigation={navigation} liga={liga} />;
+        return <AllTable navigation={navigation} matchID={matchID} />;
       case 'home':
-        return <HomeTable navigation={navigation} liga={liga} />;
+        return <HomeTable navigation={navigation} matchID={matchID} />;
       case 'away':
-        return <AwayTable navigation={navigation} liga={liga} />;
+        return <AwayTable navigation={navigation} matchID={matchID} />;
       default:
         return;
     }
@@ -40,7 +38,7 @@ const StandingsDetailScreen = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       <View style={{alignItems: 'center'}}>
-        <Image style={styles.image} source={{uri: liga.imageUrl}} />
+        <Image style={styles.image} source={{uri: image}} />
       </View>
       <View style={styles.navigate}>
         {options.map(item => (

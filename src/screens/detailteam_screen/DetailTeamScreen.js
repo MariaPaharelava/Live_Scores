@@ -2,11 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, Image} from 'react-native';
 import {styles} from './DetailTeamScreenStyles';
 import {NavigateButton} from '../../buttons/NavigateButton';
-
 import MatchDetail from '../../component/MatchDetail';
 import LineUp from '../../component/LineUp';
 import H2H from '../../component/H2H';
 import {getMatch} from '../../api/Matches';
+import Indicator from '../../api/ActivityIndicator';
+import Error from '../../api/ErrorIndicator';
 
 const DetailTeamScreen = ({navigation, route}) => {
   const {matchID} = route.params;
@@ -16,6 +17,7 @@ const DetailTeamScreen = ({navigation, route}) => {
   const [matchLoading, setMatchLoading] = useState();
 
   const [view, setView] = useState('details');
+
   const options = [
     {label: 'Match Details', value: 'details'},
     {label: 'Line Up', value: 'lineUp'},
@@ -37,6 +39,9 @@ const DetailTeamScreen = ({navigation, route}) => {
 
   useEffect(() => {
     matchrequest();
+    return () => {
+      setMatchData();
+    };
   }, []);
 
   const selectedView = () => {
@@ -45,7 +50,8 @@ const DetailTeamScreen = ({navigation, route}) => {
         return (
           <MatchDetail
             navigation={navigation}
-            match={matchData}
+            currentmatch={matchData}
+            matchID={matchID}
             // othermatch={othermatch}
           />
         );
@@ -59,13 +65,13 @@ const DetailTeamScreen = ({navigation, route}) => {
   };
 
   if (matchLoading) {
-    return null;
+    return <Indicator />; //loader
   }
   if (!matchData) {
     return null;
   }
   if (matchError) {
-    return null;
+    return <Error />; //error
   }
   return (
     <View style={styles.container}>
