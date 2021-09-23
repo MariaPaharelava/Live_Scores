@@ -1,20 +1,11 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  SafeAreaView,
-  Image,
-} from 'react-native';
+import {View, Text, StyleSheet, Platform, Image} from 'react-native';
 import {NavigateButton} from '../../buttons/NavigateButton';
 import HomeTable from '../../component/HomeTable';
 import AllTable from '../../component/AllTable';
 import AwayTable from '../../component/AwayTable';
 const StandingsDetailScreen = ({navigation, route}) => {
-  const {matchID, image} = route.params;
-
-  // const {liga} = route.params;
+  const {ligaID, image} = route.params;
 
   const [view, setView] = useState('all');
   const options = [
@@ -26,11 +17,11 @@ const StandingsDetailScreen = ({navigation, route}) => {
   const selectedView = () => {
     switch (view) {
       case 'all':
-        return <AllTable navigation={navigation} matchID={matchID} />;
+        return <AllTable navigation={navigation} ligaID={ligaID} />;
       case 'home':
-        return <HomeTable navigation={navigation} matchID={matchID} />;
+        return <HomeTable navigation={navigation} ligaID={ligaID} />;
       case 'away':
-        return <AwayTable navigation={navigation} matchID={matchID} />;
+        return <AwayTable navigation={navigation} ligaID={ligaID} />;
       default:
         return;
     }
@@ -60,7 +51,7 @@ const StandingsDetailScreen = ({navigation, route}) => {
           {'  '} W {'   '} D {'   '} L {'  '} Ga {'   '} Gd {'   '} Pts
         </Text>
       </View>
-      <View style={styles.line}></View>
+      <View style={styles.line} />
 
       <View>{selectedView()}</View>
     </View>

@@ -11,7 +11,7 @@ import styles from './SignInScreenStyles';
 const SignInScreen = ({navigation}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(true);
   const {login} = useContext(AuthContext);
-  const [data, setData] = useState({
+  const [dataSignIn, setDataSignIn] = useState({
     email: '',
     password: '',
     check_textInputChange: false,
@@ -22,15 +22,15 @@ const SignInScreen = ({navigation}) => {
 
   const textInputChange = val => {
     if (val.trim().length >= 6) {
-      setData({
-        ...data,
+      setDataSignIn({
+        ...dataSignIn,
         email: val,
         check_textInputChange: true,
         isValidUser: true,
       });
     } else {
-      setData({
-        ...data,
+      setDataSignIn({
+        ...dataSignIn,
         email: val,
         check_textInputChange: false,
         isValidUser: false,
@@ -40,14 +40,14 @@ const SignInScreen = ({navigation}) => {
 
   const handlePasswordChange = val => {
     if (val.trim().length >= 8) {
-      setData({
-        ...data,
+      setDataSignIn({
+        ...dataSignIn,
         password: val,
         isValidPassword: true,
       });
     } else {
-      setData({
-        ...data,
+      setDataSignIn({
+        ...dataSignIn,
         password: val,
         isValidPassword: false,
       });
@@ -55,21 +55,21 @@ const SignInScreen = ({navigation}) => {
   };
 
   const updateSecureTextEntry = () => {
-    setData({
-      ...data,
-      secureTextEntry: !data.secureTextEntry,
+    setDataSignIn({
+      ...dataSignIn,
+      secureTextEntry: !dataSignIn.secureTextEntry,
     });
   };
 
   const handleValidUser = val => {
     if (val.trim().length >= 6) {
-      setData({
-        ...data,
+      setDataSignIn({
+        ...dataSignIn,
         isValidUser: true,
       });
     } else {
-      setData({
-        ...data,
+      setDataSignIn({
+        ...dataSignIn,
         isValidUser: false,
       });
     }
@@ -96,13 +96,13 @@ const SignInScreen = ({navigation}) => {
 
         <LoginButton
           onChangeTextPass={value => handlePasswordChange(value)}
-          data={data}
+          dataSignIn={dataSignIn}
           onPress={updateSecureTextEntry}
           onChangeText={val => textInputChange(val)}
           onEndEditing={e => handleValidUser(e.nativeEvent.text)}
         />
 
-        {data.isValidUser ? null : (
+        {dataSignIn.isValidUser ? null : (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>
               Email must be 6 characters long.
@@ -110,7 +110,7 @@ const SignInScreen = ({navigation}) => {
           </Animatable.View>
         )}
 
-        {data.isValidPassword ? null : (
+        {dataSignIn.isValidPassword ? null : (
           <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>
               Password must be 8 characters long.
@@ -133,7 +133,7 @@ const SignInScreen = ({navigation}) => {
           <RoundedButton
             title="Sign in"
             onPress={() => {
-              login(data.email, data.password);
+              login(dataSignIn.email, dataSignIn.password);
             }}
           />
 

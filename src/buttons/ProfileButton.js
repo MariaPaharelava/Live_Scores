@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {TouchableOpacity, Text, Image, View} from 'react-native';
 
 import {styles} from './ProfileButtonStyle';
-import {TouchableOpacity, Text, Image, View} from 'react-native';
+
 import {PROFILE_IMAGES} from '../images/Images';
 export const ProfileButton = ({
   onPress,
@@ -26,7 +26,7 @@ export const ProfileButton = ({
           <Image source={PROFILE_IMAGES.ARROW_IMAGE} />
         </TouchableOpacity>
       </View>
-      <View style={styles.line}></View>
+      <View style={styles.line} />
     </View>
   );
 };

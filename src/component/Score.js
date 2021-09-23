@@ -1,9 +1,9 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {Text, Image, View, StyleSheet} from 'react-native';
+
 import {colors} from '../constant/colors';
 import {fonts} from '../constant/fonts';
 
-import {TouchableOpacity, Text, Image, View} from 'react-native';
 export const Score = ({
   onPress,
   noBackground = false,

@@ -7,7 +7,6 @@ import {styles} from './MatchButtonStyle';
 export const MatchButton = ({
   onPress,
   noBackground = false,
-  liga,
   matches,
   ...props
 }) => {
@@ -18,13 +17,13 @@ export const MatchButton = ({
           <View style={styles.wrapper}>
             <View style={styles.backImage}>
               <Image
-                style={{height: 30, width: 30}}
+                style={styles.dimensions}
                 source={{uri: matches.firstTeam.teamDetails.imageUrl}}
               />
             </View>
             <View style={styles.backImage}>
               <Image
-                style={{height: 30, width: 30}}
+                style={styles.dimensions}
                 source={{uri: matches.secondTeam.teamDetails.imageUrl}}
               />
             </View>

@@ -1,12 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import {Score} from '../component/Score';
 import {colors} from '../constant/colors';
 import {fonts} from '../constant/fonts';
@@ -20,6 +13,7 @@ const MatchDetail = ({
   othermatch,
   liga,
   matchID,
+  ligaID,
   ...props
 }) => {
   return (
@@ -61,6 +55,7 @@ const MatchDetail = ({
       <OtherMatches
         navigation={navigation}
         matchID={matchID}
+        ligaID={ligaID}
         currentmatch={currentmatch}
       />
     </View>

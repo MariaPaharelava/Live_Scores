@@ -1,57 +1,46 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  ScrollView,
-  ActivityIndicator,
-} from 'react-native';
+import {View, StyleSheet, ScrollView, Platform} from 'react-native';
+import Indicator from './ActivityIndicator';
+import Error from './ErrorIndicator';
 import {TeamTable} from './TeamTable';
 import {getAllTableMatches} from '../api/Matches';
-import Indicator from '../api/ActivityIndicator';
-import Error from '../api/ErrorIndicator';
 
-const AllTable = ({navigation, matchID}) => {
+const Alltable = ({navigation, ligaID}) => {
   const [tablematchesData, setTableMatchesData] = useState([]);
   const [tablematchesError, setTableMatchesError] = useState();
   const [tablematchesLoading, setTableMatchesLoading] = useState();
 
-  const tablematchesrequest = async () => {
-    setTableMatchesLoading(true);
-    try {
-      const table = await getAllTableMatches(matchID);
-      setTableMatchesData(table);
-    } catch (error) {
-      setTableMatchesError(error);
-      console.log(error);
-    } finally {
-      setTableMatchesLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const tablematchesrequest = async () => {
+      setTableMatchesLoading(true);
+      try {
+        const table = await getAllTableMatches(ligaID);
+        setTableMatchesData(table);
+      } catch (error) {
+        setTableMatchesError(error);
+        console.log(error);
+      } finally {
+        setTableMatchesLoading(false);
+      }
+    };
     tablematchesrequest();
     return () => {
       setTableMatchesData();
     };
-  }, []);
+  }, [ligaID]);
 
-  // if (tablematchesLoading) {
-  //   return <Indicator />; //loader
-  // }
   if (!tablematchesData) {
-    return null; //null
+    return null;
   }
   if (tablematchesError) {
-    return <Error />; //error
+    return <Error />;
   }
 
-  const renderTeam = tablematchesData => {
-    return tablematchesData.map(team => {
+  const renderTeam = table => {
+    return table.map(team => {
       return (
         <View key={team.team}>
-          <TeamTable team={team} onPress={() => match} />
+          <TeamTable team={team} />
         </View>
       );
     });
@@ -60,8 +49,7 @@ const AllTable = ({navigation, matchID}) => {
     <View style={styles.container}>
       <ScrollView style={styles.content}>
         {renderTeam(tablematchesData)}
-
-        <View style={styles.lastView}></View>
+        <View style={styles.lastView} />
       </ScrollView>
       {tablematchesLoading && (
         <View style={styles.loading}>
@@ -72,7 +60,7 @@ const AllTable = ({navigation, matchID}) => {
   );
 };
 
-export default AllTable;
+export default Alltable;
 
 const styles = StyleSheet.create({
   container: {

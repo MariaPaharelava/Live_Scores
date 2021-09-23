@@ -1,9 +1,6 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {colors} from '../constant/colors';
-import {fonts} from '../constant/fonts';
-import {TouchableOpacity, Text, Image, View} from 'react-native';
-import {TeamTable} from './TeamTable';
+import {Text, Image, View, StyleSheet, Platform} from 'react-native';
+
 import PropTypes from 'prop-types';
 
 export const StandingsTable = ({
@@ -21,27 +18,19 @@ export const StandingsTable = ({
           <View
             key={team.team}
             style={{flexDirection: 'row', marginBottom: 10, marginTop: 20}}>
-            <Image
-              style={{
-                height: 15,
-                width: 15,
-                marginHorizontal: 10,
-              }}
-              source={{uri: team.imageTeam}}
-            />
+            <Image style={styles.teamImage} source={{uri: team.imageTeam}} />
             <Text style={styles.row}>{team.team}</Text>
           </View>
         );
       }
     });
   };
-  const renderScore = teams => {
-    return teams.map(team => {
+  const renderScore = teamsScore => {
+    return teamsScore.map(team => {
       while (team.place < 5) {
         return (
           <View key={team.team} style={{flexDirection: 'column'}}>
-            <View
-              style={{flexDirection: 'row', marginBottom: 10, marginTop: 20}}>
+            <View style={styles.image}>
               <Text style={styles.row}>{team.win}</Text>
               <Text style={styles.row}>{team.draw}</Text>
               <Text style={styles.row}>{team.lose}</Text>
@@ -49,7 +38,7 @@ export const StandingsTable = ({
               <Text style={styles.row}>{team.Gd}</Text>
               <Text style={styles.row}>{team.Pts}</Text>
             </View>
-            <View style={styles.line}></View>
+            <View style={styles.line} />
           </View>
         );
       }
@@ -83,13 +72,11 @@ export const StandingsTable = ({
 
             <Text style={styles.row}>Pts</Text>
           </View>
-          <View style={[styles.line, {paddingTop: 10}]}></View>
+          <View style={[styles.line, {paddingTop: 10}]} />
 
           <View style={styles.teams}>{renderScore(teams)}</View>
         </View>
       </View>
-
-      {/* <View tyle={styles.teams}>{renderTeam(teams)}</View> */}
     </View>
   );
 };
@@ -130,4 +117,14 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   lastView: {height: 75},
+  image: {
+    flexDirection: 'row',
+    marginBottom: 10,
+    marginTop: 20,
+  },
+  teamImage: {
+    height: 15,
+    width: 15,
+    marginHorizontal: 10,
+  },
 });

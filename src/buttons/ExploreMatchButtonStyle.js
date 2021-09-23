@@ -43,4 +43,5 @@ export const styles = StyleSheet.create({
     color: '#65656B',
     paddingLeft: 5,
   },
+  dimensions: {height: 30, width: 30},
 });

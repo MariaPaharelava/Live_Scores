@@ -1,18 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
-import {Score} from '../component/Score';
+import {View, StyleSheet, ScrollView, Platform} from 'react-native';
+import Indicator from './ActivityIndicator';
+import Error from './ErrorIndicator';
 import {colors} from '../constant/colors';
 import {fonts} from '../constant/fonts';
-import {getOtherMatches} from '../api/Matches';
-import Indicator from '../api/ActivityIndicator';
-import Error from '../api/ErrorIndicator';
+import {getLigaByID} from '../api/Matches';
 import {MatchButton} from '../buttons/MatchButton';
 const OtherMatches = ({
   navigation,
@@ -23,15 +15,16 @@ const OtherMatches = ({
   othermatch,
   liga,
   matchID,
+  ligaID,
   ...props
 }) => {
-  const [matchesData, setMatchesData] = useState([]);
+  const [matchesData, setMatchesData] = useState();
   const [matchesError, setMatchesError] = useState();
-  const [matchesLoading, setMatchesLoading] = useState();
 
-  const rednderOtherMathes = matchesData => {
-    return matchesData.map(match => {
-      if (match != currentmatch)
+  const rednderOtherMathes = matches => {
+    return matches
+      .filter(match => match.id !== matchID)
+      .map(match => {
         return (
           <View style={{paddingTop: 20}} key={match.id}>
             <MatchButton
@@ -39,52 +32,46 @@ const OtherMatches = ({
               onPress={() =>
                 navigation.push('DetailTeam', {
                   matchID: match.id,
+                  ligaID: ligaID,
                 })
               }
             />
           </View>
         );
-    });
-  };
-
-  const matchesrequest = async () => {
-    setMatchesLoading(true);
-    try {
-      const matches = await getOtherMatches(matchID);
-      setMatchesData(matches);
-    } catch (error) {
-      setMatchesError(error);
-      console.log(error);
-    } finally {
-      setMatchesLoading(false);
-    }
+      });
   };
 
   useEffect(() => {
+    const matchesrequest = async () => {
+      try {
+        const matches = await getLigaByID(ligaID);
+        setMatchesData(matches);
+      } catch (error) {
+        setMatchesError(error);
+        console.log(error);
+      } finally {
+      }
+    };
     matchesrequest();
-  }, []);
+    return () => {
+      setMatchesData();
+    };
+  }, [ligaID]);
 
-  // if (matchesLoading) {
-  //   return <Indicator />; //loader
-  // }
-  if (!matchesData) {
-    return null; //null
-  }
   if (matchesError) {
-    return <Error />; //error
+    return <Error />;
   }
-  return (
+
+  return matchesData ? (
     <View style={styles.container}>
       <ScrollView>
-        {rednderOtherMathes(matchesData)}
-        <View style={{height: 75}}></View>
+        {rednderOtherMathes(matchesData.matches)}
+        <View style={{height: 75}} />
       </ScrollView>
-
-      {matchesLoading && (
-        <View style={styles.loading}>
-          <Indicator />
-        </View>
-      )}
+    </View>
+  ) : (
+    <View style={styles.loading}>
+      <Indicator />
     </View>
   );
 };
@@ -96,13 +83,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loading: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: '25%',
   },
   params: {
     marginTop: Platform.OS === 'ios' ? 30 : 0,

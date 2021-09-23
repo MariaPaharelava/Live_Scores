@@ -1,22 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  FlatList,
-  SafeAreaView,
-  Icon,
-} from 'react-native';
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import Notification from '../../icons/other/Notification.svg';
-import {IMAGES} from '../../images/Images';
 import Search from '../../icons/other/Search.svg';
 import styles from './HomeScreenStyles';
+import Indicator from '../../component/ActivityIndicator';
+import Error from '../../component/ErrorIndicator';
 import {LigaButton} from '../../buttons/LigaButton';
-import {Ligs} from '../../component/Ligs';
+import {getLigs} from '../../api/Matches';
 import {MatchButton} from '../../buttons/MatchButton';
 import {SPORTS} from '../../constant/Sport';
+import {IMAGES} from '../../images/Images';
 
 function HomeScreen({navigation, route}) {
   const [types, setTypes] = useState([]);
@@ -27,6 +20,31 @@ function HomeScreen({navigation, route}) {
       setTypes([...types, type]);
     }
   };
+
+  const [ligsData, setligsData] = useState();
+  const [ligsError, setligsError] = useState();
+  const [ligsLoading, setligsLoading] = useState();
+
+  const ligsrequest = async () => {
+    setligsLoading(true);
+    try {
+      const ligs = await getLigs();
+
+      setligsData(ligs);
+    } catch (error) {
+      setligsError(error);
+      console.log(error);
+    } finally {
+      setligsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    ligsrequest();
+    return () => {
+      setligsData();
+    };
+  }, []);
 
   const rednderLigs = ligs => {
     return ligs.map(liga => {
@@ -39,7 +57,7 @@ function HomeScreen({navigation, route}) {
             onPress={() =>
               navigation.push('StandingsDetail', {
                 image: liga.imageUrl,
-                matchID: liga.matches[matchIndex].id,
+                ligaID: liga.id,
                 title: liga.ligaName,
               })
             }
@@ -50,6 +68,7 @@ function HomeScreen({navigation, route}) {
             onPress={() =>
               navigation.push('DetailTeam', {
                 matchID: liga.matches[matchIndex].id,
+                ligaID: liga.id,
               })
             }
           />
@@ -64,6 +83,15 @@ function HomeScreen({navigation, route}) {
     return a.indexOf(Math.min(...a));
   };
 
+  if (ligsLoading) {
+    return <Indicator />;
+  }
+  if (!ligsData) {
+    return null;
+  }
+  if (ligsError) {
+    return <Error />;
+  }
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -95,8 +123,10 @@ function HomeScreen({navigation, route}) {
           </View>
         ))}
       </ScrollView>
+
       <ScrollView style={styles.content}>
-        <Text>La liga </Text>
+        {rednderLigs(ligsData)}
+        <View style={styles.lastView} />
       </ScrollView>
     </View>
   );

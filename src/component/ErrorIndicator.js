@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, StyleSheet, Text, View, Alert} from 'react-native';
+import {StyleSheet, View, Alert} from 'react-native';
 
 const createButtonAlert = () =>
   Alert.alert(
