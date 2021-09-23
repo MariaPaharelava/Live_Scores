@@ -8,6 +8,7 @@ import Swiper from 'react-native-swiper';
 import AddLeagues from '../../component/AddLegues';
 import ChooseCountry from '../../component/ChooseCoutry';
 import {v4 as uuidv4} from 'uuid';
+// import {Team} from '../../component/Ligs';
 const AddLeaguesScreen = ({navigation}) => {
   const [sport, setSport] = useState();
   const [ligaData, setligaData] = useState({
@@ -36,6 +37,16 @@ const AddLeaguesScreen = ({navigation}) => {
     AsyncStorage.getItem('@storage_Key').then(sport => {
       setSport(sport);
     });
+    // Team.forEach(t => {
+    //   let matchId = uuidv4();
+
+    //   firestore()
+    //     .collection('soccer_teams')
+    //     .doc(matchId)
+    //     .set({
+    //       ...t,
+    //     });
+    // });
   }, []);
 
   const Capitalize = str => {

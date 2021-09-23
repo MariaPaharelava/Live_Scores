@@ -19,32 +19,6 @@ const TeamScheme = ({
   othermatch,
   ...props
 }) => {
-  const hasIcon = pl => {
-    if (pl.captain) {
-      return (
-        <Image
-          style={{marginLeft: -5}}
-          source={require('../icons/other/captain.png')}
-        />
-      );
-    }
-    if (pl.card) {
-      return (
-        <Image
-          style={{marginLeft: -5}}
-          source={require('../icons/other/yellowcard.png')}
-        />
-      );
-    }
-    if (pl.goal) {
-      return (
-        <Image
-          style={{marginLeft: -8}}
-          source={require('../icons/other/ball.png')}
-        />
-      );
-    }
-  };
   const selectedSport = () => {
     switch (types) {
       case 'soccer':
@@ -74,7 +48,6 @@ const TeamScheme = ({
                       <View style={styles.number}>
                         <Text style={styles.text}>{player.number}</Text>
                       </View>
-                      {hasIcon(player)}
                     </View>
                     <View style={styles.name}>
                       <Text style={styles.text}>{player.name}</Text>
@@ -98,7 +71,6 @@ const TeamScheme = ({
                       <View style={styles.number}>
                         <Text style={styles.text}>{player.number}</Text>
                       </View>
-                      {hasIcon(player)}
                     </View>
                     <View style={styles.name}>
                       <Text style={styles.text}>{player.name}</Text>

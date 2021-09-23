@@ -23,10 +23,10 @@ const H2H = ({
   const [matchesError, setMatchesError] = useState();
   const filterMatch = match => {
     if (
-      match.firstTeam.teamDetails.name ===
-        currentmatch.firstTeam.teamDetails.name &&
-      match.secondTeam.teamDetails.name ===
-        currentmatch.secondTeam.teamDetails.name
+      match.firstTeam.team[0].teamDetails.name ===
+        currentmatch.firstTeam.team[0].teamDetails.name &&
+      match.secondTeam.team[0].teamDetails.name ===
+        currentmatch.secondTeam.team[0].teamDetails.name
     ) {
       return true;
     } else {

@@ -16,13 +16,13 @@ export const MatchButton = ({
             <View style={styles.backImage}>
               <Image
                 style={styles.dimensions}
-                source={{uri: matches.firstTeam.teamDetails.imageUrl}}
+                source={{uri: matches.firstTeam.team[0].teamDetails.imageUrl}}
               />
             </View>
             <View style={styles.backImage}>
               <Image
                 style={styles.dimensions}
-                source={{uri: matches.secondTeam.teamDetails.imageUrl}}
+                source={{uri: matches.secondTeam.team[0].teamDetails.imageUrl}}
               />
             </View>
           </View>
@@ -30,7 +30,7 @@ export const MatchButton = ({
           <View style={styles.content}>
             <View style={styles.wrapperScore}>
               <Text style={styles.text}>
-                {matches.firstTeam.teamDetails.name}
+                {matches.firstTeam.team[0].teamDetails.name}
               </Text>
               <Text style={styles.text}>{matches.firstTeam.score}</Text>
             </View>
@@ -40,7 +40,7 @@ export const MatchButton = ({
             </View>
             <View style={styles.wrapperScore}>
               <Text style={styles.text}>
-                {matches.secondTeam.teamDetails.name}
+                {matches.secondTeam.team[0].teamDetails.name}
               </Text>
               <Text style={styles.text}>{matches.secondTeam.score}</Text>
             </View>

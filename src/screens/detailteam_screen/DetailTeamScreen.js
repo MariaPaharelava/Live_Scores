@@ -99,11 +99,11 @@ const DetailTeamScreen = ({navigation, route}) => {
           <Image
             style={styles.icon}
             source={{
-              uri: matchData.firstTeam.teamDetails.imageUrl,
+              uri: matchData.firstTeam.team[0].teamDetails.imageUrl,
             }}
           />
           <Text style={styles.text}>
-            {matchData.firstTeam.teamDetails.name}
+            {matchData.firstTeam.team[0].teamDetails.name}
           </Text>
         </View>
         <View style={styles.column}>
@@ -123,11 +123,11 @@ const DetailTeamScreen = ({navigation, route}) => {
           <Image
             style={styles.icon}
             source={{
-              uri: matchData.secondTeam.teamDetails.imageUrl,
+              uri: matchData.secondTeam.team[0].teamDetails.imageUrl,
             }}
           />
           <Text style={styles.text}>
-            {matchData.secondTeam.teamDetails.name}
+            {matchData.secondTeam.team[0].teamDetails.name}
           </Text>
         </View>
       </View>

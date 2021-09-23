@@ -14,17 +14,17 @@ const LineUp = ({
   types,
   ...props
 }) => {
-  const [team, setTeam] = useState(match.firstTeam.teamDetails.id);
+  const [team, setTeam] = useState(match.firstTeam.team[0].teamDetails.name);
   const [formation, setFormation] = useState(match.firstTeam.formation);
   const teams = [
     {
-      label: match.firstTeam.teamDetails.name,
-      value: match.firstTeam.teamDetails.id,
+      label: match.firstTeam.team[0].teamDetails.name,
+      value: match.firstTeam.team[0].teamDetails.name,
       formation: match.firstTeam.formation,
     },
     {
-      label: match.secondTeam.teamDetails.name,
-      value: match.secondTeam.teamDetails.id,
+      label: match.secondTeam.team[0].teamDetails.name,
+      value: match.secondTeam.team[0].teamDetails.name,
       formation: match.secondTeam.formation,
     },
   ];
@@ -48,7 +48,7 @@ const LineUp = ({
 
   const selectedTeam = () => {
     switch (team) {
-      case match.firstTeam.teamDetails.id:
+      case match.firstTeam.team[0].teamDetails.name:
         return (
           <TeamScheme
             navigation={navigation}
@@ -56,7 +56,7 @@ const LineUp = ({
             types={types}
           />
         );
-      case match.secondTeam.teamDetails.id:
+      case match.secondTeam.team[0].teamDetails.name:
         return (
           <TeamScheme
             navigation={navigation}
