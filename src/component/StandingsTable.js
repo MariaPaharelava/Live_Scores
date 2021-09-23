@@ -1,5 +1,8 @@
 import React from 'react';
 import {Text, Image, View, StyleSheet, Platform} from 'react-native';
+
+import PropTypes from 'prop-types';
+
 export const StandingsTable = ({
   onPress,
   noBackground = false,
@@ -76,6 +79,15 @@ export const StandingsTable = ({
       </View>
     </View>
   );
+};
+
+StandingsTable.propTypes = {
+  onPress: PropTypes.func,
+  teams: PropTypes.array,
+  matches: PropTypes.array,
+};
+StandingsTable.defaultProps = {
+  noBackground: false,
 };
 
 const styles = StyleSheet.create({

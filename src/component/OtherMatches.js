@@ -29,8 +29,8 @@ const OtherMatches = ({
           <View style={{paddingTop: 20}} key={match.id}>
             <MatchButton
               matches={match}
-              onPress={async () =>
-                await navigation.push('DetailTeam', {
+              onPress={() =>
+                navigation.push('DetailTeam', {
                   matchID: match.id,
                   ligaID: ligaID,
                 })

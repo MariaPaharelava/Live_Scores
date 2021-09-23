@@ -1,13 +1,10 @@
 import React from 'react';
 
 import {TouchableOpacity, Text, View} from 'react-native';
+import PropTypes from 'prop-types';
+
 import {styles} from './NavigateButtonStyles';
-export const NavigateButton = ({
-  onPress,
-  noBackground = false,
-  image,
-  ...props
-}) => {
+export const NavigateButton = ({onPress, noBackground = false, ...props}) => {
   return (
     <View>
       <TouchableOpacity
@@ -24,4 +21,10 @@ export const NavigateButton = ({
       </TouchableOpacity>
     </View>
   );
+};
+NavigateButton.propTypes = {
+  onPress: PropTypes.func,
+};
+NavigateButton.defaultProps = {
+  noBackground: false,
 };
