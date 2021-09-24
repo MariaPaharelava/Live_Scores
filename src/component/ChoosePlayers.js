@@ -32,7 +32,6 @@ const ChoosePlayers = ({
   );
 
   const value = savedTeam[position][index];
-  console.log(value);
   return (
     <View>
       <View style={[styles.action, {height: 60}]}>
@@ -46,20 +45,14 @@ const ChoosePlayers = ({
             inputIOS: {color: 'white'},
           }}
           onValueChange={v => {
-            console.log(v);
             onValueChange(v);
           }}
-          //   value={value}
           items={items}
-          children={<Text>{value ? value.name : 'Select player ...'}</Text>}
-          //   items={
-          //     team
-          //       ? team.players.map(player => ({
-          //           label: player.name,
-          //           value: JSON.stringify(player),
-          //         }))
-          //       : [{label: '', value: ''}]
-          //   }
+          children={
+            <Text style={{color: 'white'}}>
+              {value ? value.name : 'Select player ...'}
+            </Text>
+          }
         />
       </View>
     </View>

@@ -15,7 +15,6 @@ import Indicator from '../../component/ActivityIndicator';
 import Error from '../../component/ErrorIndicator';
 import ChooseFormation from '../../component/ChooseFormation';
 import ChoosePlayers from '../../component/ChoosePlayers';
-import {ADMIN_IMAGES} from '../../images/Images';
 import {ScrollView} from 'react-native-gesture-handler';
 import DatePicker from 'react-native-date-picker';
 import ChooseType from '../../component/ChooseType';
@@ -27,15 +26,6 @@ const AddLeaguesScreen = ({navigation}) => {
 
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
-  const [firstTeamPlayers, setfirstTeamPlayers] = useState({
-    GKC: [],
-    DEF: [],
-    MID: [],
-    FWD: [],
-  });
-  const [defPlayer, setdefPlayer] = useState([]);
-
-  const [secondTeamPlayers, setsecondTeamPlayers] = useState({});
 
   const [teamsLoading, setteamsLoading] = useState();
 
@@ -60,7 +50,6 @@ const AddLeaguesScreen = ({navigation}) => {
       },
     },
   });
-  console.log(defPlayer);
   const teamsrequest = async () => {
     setteamsLoading(true);
     try {
@@ -98,60 +87,78 @@ const AddLeaguesScreen = ({navigation}) => {
     setTeam(teamdata);
   };
   console.log(match);
-  const RenderPlayers = ({position, index}) => {
-    console.log(index);
+  const RenderPlayers = ({position, index, selectedTeam}) => {
     return (
       <ChoosePlayers
         team={team}
         index={index}
         position={position}
-        savedTeam={match.firstTeam.players}
-        // onValueChange={txt =>
-        //   setMatch({
-        //     ...match,
-        //     firstTeam: {
-        //       ...match.firstTeam,
-        //       players: {
-        //         ...match.firstTeam.players,
-        //         DEF: [...match.firstTeam.players.DEF, txt],
-        //       },
-        //     },
-        //   })
-        // }
+        savedTeam={match[selectedTeam].players}
         onValueChange={txt => {
           const temp = {...match};
-          temp.firstTeam.players[position][index] = txt;
+          temp[selectedTeam].players[position][index] = txt;
           setMatch(temp);
         }}
       />
     );
   };
-  const defPlayers = n => {
+  const defPlayers = (n, selected) => {
     const def = [];
     for (let i = 0; i < n; i++) {
-      def.push(<RenderPlayers key={i} index={i} position={'DEF'} />);
+      def.push(
+        <RenderPlayers
+          key={i}
+          index={i}
+          position={'DEF'}
+          selectedTeam={selected}
+        />,
+      );
     }
     return def;
   };
 
-  const midPlayers = n => {
+  const midPlayers = (n, selected) => {
     const mid = [];
     for (let i = 0; i < n; i++) {
-      mid.push(<RenderPlayers key={i} position={'MID'} />);
+      mid.push(
+        <RenderPlayers
+          key={i}
+          index={i}
+          position={'MID'}
+          selectedTeam={selected}
+        />,
+      );
     }
     return mid;
   };
-  const fwdPlayers = n => {
+  const fwdPlayers = (n, selected) => {
+    console.log('nfwd', n);
+
     const fwd = [];
     for (let i = 0; i < n; i++) {
-      fwd.push(<RenderPlayers key={i} position={'FWD'} />);
+      fwd.push(
+        <RenderPlayers
+          key={i}
+          index={i}
+          position={'FWD'}
+          selectedTeam={selected}
+        />,
+      );
     }
     return fwd;
   };
-  const gkcPlayers = n => {
+  const gkcPlayers = (n, selected) => {
+    console.log('ngkc', n);
     const gkc = [];
-    for (let i = 0; i < n; i++) {
-      gkc.push(<RenderPlayers key={i} position={'GKC'} />);
+    for (let i = 0; i < n; ++i) {
+      gkc.push(
+        <RenderPlayers
+          key={i}
+          index={i}
+          position={'GKC'}
+          selectedTeam={selected}
+        />,
+      );
     }
     return gkc;
   };
@@ -180,7 +187,6 @@ const AddLeaguesScreen = ({navigation}) => {
     return <Error />;
   }
   console.log(match);
-  console.log(date);
   return (
     <Swiper showsButtons={true} loop={false}>
       <View style={styles.container}>
@@ -274,7 +280,9 @@ const AddLeaguesScreen = ({navigation}) => {
             <View style={styles.players}>
               <Text style={styles.titlePlayers}>GKC</Text>
             </View>
-            <View>{gkcPlayers(match.firstTeam.formation ? 1 : 0)}</View>
+            <View>
+              {gkcPlayers(match.firstTeam.formation ? 1 : 0, 'firstTeam')}
+            </View>
           </View>
           <View>
             <View style={styles.players}>
@@ -283,6 +291,7 @@ const AddLeaguesScreen = ({navigation}) => {
             <View>
               {defPlayers(
                 match.firstTeam.formation ? match.firstTeam.formation[0] : 0,
+                'firstTeam',
               )}
             </View>
           </View>
@@ -293,6 +302,7 @@ const AddLeaguesScreen = ({navigation}) => {
             <View>
               {midPlayers(
                 match.firstTeam.formation ? match.firstTeam.formation[1] : 0,
+                'firstTeam',
               )}
             </View>
           </View>
@@ -303,6 +313,7 @@ const AddLeaguesScreen = ({navigation}) => {
             <View>
               {fwdPlayers(
                 match.firstTeam.formation ? match.firstTeam.formation[2] : 0,
+                'firstTeam',
               )}
             </View>
           </View>
@@ -347,7 +358,9 @@ const AddLeaguesScreen = ({navigation}) => {
             <View style={styles.players}>
               <Text style={styles.titlePlayers}>GKC</Text>
             </View>
-            <View>{gkcPlayers(match.secondTeam.formation ? 1 : 0)}</View>
+            <View>
+              {gkcPlayers(match.secondTeam.formation ? 1 : 0, 'secondTeam')}
+            </View>
           </View>
           <View>
             <View style={styles.players}>
@@ -356,6 +369,7 @@ const AddLeaguesScreen = ({navigation}) => {
             <View>
               {defPlayers(
                 match.secondTeam.formation ? match.secondTeam.formation[0] : 0,
+                'secondTeam',
               )}
             </View>
           </View>
@@ -366,6 +380,7 @@ const AddLeaguesScreen = ({navigation}) => {
             <View>
               {midPlayers(
                 match.secondTeam.formation ? match.secondTeam.formation[1] : 0,
+                'secondTeam',
               )}
             </View>
           </View>
@@ -376,6 +391,7 @@ const AddLeaguesScreen = ({navigation}) => {
             <View>
               {fwdPlayers(
                 match.secondTeam.formation ? match.secondTeam.formation[2] : 0,
+                'secondTeam',
               )}
             </View>
           </View>
