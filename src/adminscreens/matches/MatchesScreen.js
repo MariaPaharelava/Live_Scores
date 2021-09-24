@@ -362,6 +362,7 @@ const MatchesScreen = ({navigation, ligs}) => {
       </View>
 
       <SwipeListView
+        style={styles.swipeView}
         data={matchesData}
         keyExtractor={item => item.id}
         renderItem={renderItem}

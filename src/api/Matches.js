@@ -619,3 +619,13 @@ export const fetchMoreUsers = async (startAfter, matchPerLoad) => {
 
   return {users, lastVisible};
 };
+
+export const getSoocerTeams = async () => {
+  const querySnapshot = await firestore().collection('soccer_teams').get();
+  const teams = [];
+  querySnapshot.forEach(documentSnapshot => {
+    teams.push(documentSnapshot.data());
+  });
+
+  return teams;
+};

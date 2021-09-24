@@ -3,7 +3,6 @@ import {colors} from '../constant/colors';
 import {fonts} from '../constant/fonts';
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -23,7 +22,6 @@ export const styles = StyleSheet.create({
 
   wrapperScore: {
     flexDirection: 'column',
-    justifyContent: 'center',
     padding: 15,
   },
   content: {

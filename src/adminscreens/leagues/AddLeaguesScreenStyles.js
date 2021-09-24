@@ -50,12 +50,29 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     color: 'white',
   },
+  players: {
+    justifyContent: 'center',
+    borderRadius: 5,
+    marginHorizontal: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#999',
+  },
+  titlePlayers: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    marginLeft: 10,
+    color: 'white',
+  },
   addButton: {
-    marginTop: Platform.OS === 'ios' ? '80%' : '50%',
-
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,
+    marginVertical: 40,
+  },
+  image: {width: 30, height: 30, tintColor: 'white', marginRight: 20},
+  scrollView: {
+    marginBottom: 80,
   },
 });
 

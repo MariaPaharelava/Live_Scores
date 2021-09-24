@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {View, Text, StyleSheet, Platform} from 'react-native';
 
 import RNPickerSelect from 'react-native-picker-select';
 
-const ChooseCountry = ({
+const ChoosePlayers = ({
   navigation,
   onPress,
   noBackground = false,
@@ -11,36 +11,62 @@ const ChooseCountry = ({
   match,
   types,
   title,
+  teams,
+  team,
+  index,
+  formation,
   onValueChange,
+  savedTeam,
+  position,
   ...props
 }) => {
+  const items = useMemo(
+    () =>
+      team
+        ? team.players.map(player => ({
+            label: player.name,
+            value: player,
+          }))
+        : [{label: '', value: ''}],
+    [team],
+  );
+
+  const value = savedTeam[position][index];
+  console.log(value);
   return (
     <View>
-      <View style={styles.rowFront}>
-        <Text style={styles.title}>{title}</Text>
-      </View>
       <View style={[styles.action, {height: 60}]}>
         <RNPickerSelect
           placeholder={{
-            label: 'Select image ...',
+            label: 'Select player ...',
           }}
           style={{
             placeholder: {color: 'white'},
             inputAndroid: {color: 'white'},
             inputIOS: {color: 'white'},
           }}
-          onValueChange={onValueChange}
-          items={[
-            {label: 'Italy', value: 'italy'},
-            {label: 'France', value: 'france'},
-          ]}
+          onValueChange={v => {
+            console.log(v);
+            onValueChange(v);
+          }}
+          //   value={value}
+          items={items}
+          children={<Text>{value ? value.name : 'Select player ...'}</Text>}
+          //   items={
+          //     team
+          //       ? team.players.map(player => ({
+          //           label: player.name,
+          //           value: JSON.stringify(player),
+          //         }))
+          //       : [{label: '', value: ''}]
+          //   }
         />
       </View>
     </View>
   );
 };
 
-export default ChooseCountry;
+export default ChoosePlayers;
 
 const styles = StyleSheet.create({
   container: {
@@ -56,13 +82,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 5,
     marginHorizontal: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: '#999',
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 5,
     marginLeft: 10,
     color: 'white',
   },

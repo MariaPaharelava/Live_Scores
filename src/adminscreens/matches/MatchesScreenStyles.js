@@ -10,10 +10,8 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
   rowFront: {
-    alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#181829',
-    borderRadius: 5,
     height: 50,
     margin: 5,
     marginBottom: 15,
@@ -150,6 +148,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  swipeView: {
+    marginBottom: 60,
   },
 });
 
