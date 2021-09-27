@@ -44,11 +44,11 @@ const TeamScheme = ({
                             : 5,
                       },
                     ]}>
-                    <View style={styles.captain}>
-                      <View style={styles.number}>
-                        <Text style={styles.text}>{player.number}</Text>
-                      </View>
+                    {/* <View style={styles.captain}> */}
+                    <View style={styles.number}>
+                      <Text style={styles.text}>{player.number}</Text>
                     </View>
+                    {/* </View> */}
                     <View style={styles.name}>
                       <Text style={styles.text}>{player.name}</Text>
                     </View>

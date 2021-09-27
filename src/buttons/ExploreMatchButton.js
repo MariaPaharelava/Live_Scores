@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, Image, View} from 'react-native';
+import {getMatchData} from '../api/Matches';
 import {styles} from './ExploreMatchButtonStyle';
 export const ExploreMatchButton = ({
   onPress,
@@ -7,7 +8,6 @@ export const ExploreMatchButton = ({
   matches,
   ...props
 }) => {
-  console.log(matches);
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
@@ -35,7 +35,9 @@ export const ExploreMatchButton = ({
             {matches.secondTeam.team[0].teamDetails.name}
           </Text>
         </View>
-        <Text style={styles.data}>Monday,12 Feb 2021.02.30 am</Text>
+        <Text style={styles.data}>
+          {matches.playtime.toDate().toString().slice(0, 24)}
+        </Text>
       </View>
     </View>
   );

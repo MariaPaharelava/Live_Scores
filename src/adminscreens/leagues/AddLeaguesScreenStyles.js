@@ -7,8 +7,10 @@ const styles = StyleSheet.create({
   },
   textInput: {
     paddingLeft: Platform.OS === 'ios' ? 0 : 15,
-
     color: 'white',
+    width: 30,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   rowFront: {
     justifyContent: 'center',
@@ -73,6 +75,38 @@ const styles = StyleSheet.create({
   image: {width: 30, height: 30, tintColor: 'white', marginRight: 20},
   scrollView: {
     marginBottom: 80,
+  },
+  containerStats: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 15,
+    marginHorizontal: 55,
+  },
+  score: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '600',
+    fontStyle: 'normal',
+
+    width: 30,
+    textAlign: 'center',
+    flexShrink: 0,
+  },
+  scoreText: {
+    color: '#C4C4C4',
+    fontSize: 18,
+    fontWeight: '600',
+    fontStyle: 'normal',
+  },
+  statsView: {
+    borderRadius: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#999',
+    marginTop: 20,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginHorizontal: 20,
   },
 });
 

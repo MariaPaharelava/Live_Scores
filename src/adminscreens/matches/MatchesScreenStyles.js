@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
   rowFront: {
+    marginLeft: 15,
     justifyContent: 'center',
     backgroundColor: '#181829',
     height: 50,

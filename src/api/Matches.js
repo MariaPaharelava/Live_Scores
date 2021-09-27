@@ -43,7 +43,6 @@ export const getSoccerMatchById = async id => {
     await firestore().collection('soccer_matches').doc(id).get()
   ).data();
   matchData.playtime = new Date(matchData.playtime.nanoseconds);
-
   const promises = matchData.firstTeam.team.map(
     async teamID => await getSoocerTeamById(teamID),
   );
@@ -56,6 +55,7 @@ export const getSoccerMatchById = async id => {
 
   return matchData;
 };
+
 export const getSoocerTeamById = async id => {
   const team = (
     await firestore().collection('soccer_teams').doc(id).get()
@@ -251,6 +251,7 @@ export const getAllTableSoccerMatches = async id => {
   }
   return tables;
 };
+
 export const getHomeTableSoccerMatches = async id => {
   const documentSnapshot = await firestore().collection('Soccer').doc(id).get();
   let tables;

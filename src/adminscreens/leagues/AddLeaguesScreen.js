@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, Image, Button} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Button,
+  TextInput,
+} from 'react-native';
 import styles from './AddLeaguesScreenStyles';
 import FormButton from '../../component/FormButton';
 import firestore from '@react-native-firebase/firestore';
@@ -18,6 +25,7 @@ import ChoosePlayers from '../../component/ChoosePlayers';
 import {ScrollView} from 'react-native-gesture-handler';
 import DatePicker from 'react-native-date-picker';
 import ChooseType from '../../component/ChooseType';
+import {Score} from '../../component/Score';
 const AddLeaguesScreen = ({navigation}) => {
   const [sport, setSport] = useState();
   const [teamsData, setTeamsData] = useState();
@@ -26,6 +34,20 @@ const AddLeaguesScreen = ({navigation}) => {
 
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
+  const [firstTeamstats, setfirstTeamstats] = useState({
+    attacks: '0',
+    cards: '0',
+    possesion: '0',
+    shooting: '0',
+    corners: '0',
+  });
+  const [secondTeamstats, setsecondTeamstats] = useState({
+    attacks: '0',
+    cards: '0',
+    possesion: '0',
+    shooting: '0',
+    corners: '0',
+  });
 
   const [teamsLoading, setteamsLoading] = useState();
 
@@ -40,6 +62,14 @@ const AddLeaguesScreen = ({navigation}) => {
         MID: [],
         FWD: [],
       },
+      stats: {
+        attacks: '0',
+        cards: '0',
+        possesion: '0',
+        shooting: '0',
+        corners: '0',
+      },
+      score: '0',
     },
     secondTeam: {
       players: {
@@ -48,6 +78,14 @@ const AddLeaguesScreen = ({navigation}) => {
         MID: [],
         FWD: [],
       },
+      stats: {
+        attacks: '0',
+        cards: '0',
+        possesion: '0',
+        shooting: '0',
+        corners: '0',
+      },
+      score: '0',
     },
   });
   const teamsrequest = async () => {
@@ -86,7 +124,6 @@ const AddLeaguesScreen = ({navigation}) => {
     console.log(teamdata);
     setTeam(teamdata);
   };
-  console.log(match);
   const RenderPlayers = ({position, index, selectedTeam}) => {
     return (
       <ChoosePlayers
@@ -132,8 +169,6 @@ const AddLeaguesScreen = ({navigation}) => {
     return mid;
   };
   const fwdPlayers = (n, selected) => {
-    console.log('nfwd', n);
-
     const fwd = [];
     for (let i = 0; i < n; i++) {
       fwd.push(
@@ -148,7 +183,6 @@ const AddLeaguesScreen = ({navigation}) => {
     return fwd;
   };
   const gkcPlayers = (n, selected) => {
-    console.log('ngkc', n);
     const gkc = [];
     for (let i = 0; i < n; ++i) {
       gkc.push(
@@ -170,7 +204,7 @@ const AddLeaguesScreen = ({navigation}) => {
     await firestore()
       .collection(sport + '_matches')
       .doc(matchId)
-      .set({...match, id: [matchId]})
+      .set({...match, id: matchId})
       .then(() => {
         Alert.alert('Liga Add!');
       });
@@ -186,7 +220,7 @@ const AddLeaguesScreen = ({navigation}) => {
   if (teamsError) {
     return <Error />;
   }
-  console.log(match);
+  console.log(firstTeamstats, secondTeamstats);
   return (
     <Swiper showsButtons={true} loop={false}>
       <View style={styles.container}>
@@ -224,6 +258,9 @@ const AddLeaguesScreen = ({navigation}) => {
           }
         />
         <>
+          <View style={[styles.action, {alignItems: 'center'}]}>
+            <Text style={{color: 'white'}}>{JSON.stringify(date)}</Text>
+          </View>
           <Button title="Choose Date" onPress={() => setOpen(true)} />
           <DatePicker
             modal
@@ -239,6 +276,132 @@ const AddLeaguesScreen = ({navigation}) => {
               setOpen(false);
             }}
           />
+          {/* <View style={styles.statsView}>
+            <Text style={[styles.title, {opacity: 0.7}]}>FirstTeam</Text>
+            <Text style={styles.title}>Stats</Text>
+            <Text style={[styles.title, {opacity: 0.7}]}>SecondTeam</Text>
+          </View>
+
+          <View style={styles.containerStats}>
+            <TextInput
+              placeholderTextColor="white"
+              autoCorrect={false}
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={txt =>
+                setfirstTeamstats({...firstTeamstats, shooting: txt})
+              }
+              value={firstTeamstats.shooting}
+            />
+
+            <Text style={styles.scoreText}>Shooting</Text>
+            <TextInput
+              placeholderTextColor="white"
+              autoCorrect={false}
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={txt =>
+                setsecondTeamstats({...secondTeamstats, shooting: txt})
+              }
+              value={secondTeamstats.shooting}
+            />
+          </View>
+          <View style={styles.containerStats}>
+            <TextInput
+              placeholderTextColor="white"
+              autoCorrect={false}
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={txt =>
+                setfirstTeamstats({...firstTeamstats, attacks: txt})
+              }
+              value={firstTeamstats.attacks}
+            />
+
+            <Text style={styles.scoreText}>Attacks</Text>
+            <TextInput
+              placeholderTextColor="white"
+              autoCorrect={false}
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={txt =>
+                setsecondTeamstats({...secondTeamstats, attacks: txt})
+              }
+              value={secondTeamstats.attacks}
+            />
+          </View>
+          <View style={styles.containerStats}>
+            <TextInput
+              placeholderTextColor="white"
+              autoCorrect={false}
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={txt =>
+                setfirstTeamstats({...firstTeamstats, possesion: txt})
+              }
+              value={firstTeamstats.possesion}
+            />
+
+            <Text style={styles.scoreText}>Possesion</Text>
+            <TextInput
+              placeholderTextColor="white"
+              autoCorrect={false}
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={txt =>
+                setsecondTeamstats({...secondTeamstats, possesion: txt})
+              }
+              value={secondTeamstats.possesion}
+            />
+          </View>
+          <View style={styles.containerStats}>
+            <TextInput
+              placeholderTextColor="white"
+              autoCorrect={false}
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={txt =>
+                setfirstTeamstats({...firstTeamstats, cards: txt})
+              }
+              value={firstTeamstats.cards}
+            />
+
+            <Text style={styles.scoreText}>Cards</Text>
+            <TextInput
+              placeholderTextColor="white"
+              autoCorrect={false}
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={txt =>
+                setsecondTeamstats({...secondTeamstats, cards: txt})
+              }
+              value={secondTeamstats.cards}
+            />
+          </View>
+          <View style={styles.containerStats}>
+            <TextInput
+              placeholderTextColor="white"
+              autoCorrect={false}
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={txt =>
+                setfirstTeamstats({...firstTeamstats, corners: txt})
+              }
+              value={firstTeamstats.corners}
+            />
+
+            <Text style={styles.scoreText}>Corners</Text>
+            <TextInput
+              placeholderTextColor="white"
+              autoCorrect={false}
+              style={styles.textInput}
+              autoCapitalize="none"
+              onChangeText={txt =>
+                setsecondTeamstats({...secondTeamstats, corners: txt})
+              }
+              value={secondTeamstats.corners}
+            />
+          </View> */}
         </>
       </View>
 

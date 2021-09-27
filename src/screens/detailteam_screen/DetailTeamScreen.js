@@ -30,6 +30,7 @@ const DetailTeamScreen = ({navigation, route}) => {
       try {
         if (types === 'soccer') {
           const match = await getSoccerMatchById(matchID);
+
           setMatchData(match);
         }
         if (types === 'basketball') {

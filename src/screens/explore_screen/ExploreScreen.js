@@ -228,7 +228,9 @@ const ExploreScreen = ({navigation}) => {
             data={matchesData}
             renderItem={RednderLigs}
             keyExtractor={item => item.id}
-            style={{height: Platform.OS === 'ios' ? '90%' : '67%'}}
+            style={{
+              height: Platform.OS === 'ios' ? '90%' : '67%',
+            }}
             onEndReached={getMoreMatches}
             onEndReachedThreshold={0.01}
             scrollEventThrottle={150}
