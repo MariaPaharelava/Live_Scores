@@ -11,7 +11,7 @@ import {
   LOAD_USER_STARTED,
   LOAD_USER_COMPLETED,
 } from '../actions/types';
-
+import {REHYDRATE} from 'redux-persist/lib/constants';
 const INITIAL_STATE = {
   user: null,
   loginError: '',
@@ -28,6 +28,8 @@ const INITIAL_STATE = {
 
 export default function AuthReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case REHYDRATE:
+      return {...state, persistedState: action.payload};
     case LOGIN_USER_STARTED:
       return {...state, loginError: null, loginProcessing: true, user: null};
     case LOGIN_USER_ERROR:

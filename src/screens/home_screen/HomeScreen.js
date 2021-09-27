@@ -10,6 +10,7 @@ import {getLigs} from '../../api/Matches';
 import {MatchButton} from '../../buttons/MatchButton';
 import {SPORTS} from '../../constant/Sport';
 import {IMAGES} from '../../images/Images';
+import {colors} from '../../constant/colors';
 
 function HomeScreen({navigation, route}) {
   const [types, setTypes] = useState([]);
@@ -113,7 +114,7 @@ function HomeScreen({navigation, route}) {
             <TouchableOpacity
               style={[
                 styles.touchableOpacity,
-                types.includes(item.type) && {backgroundColor: 'orange'},
+                types.includes(item.type) && {backgroundColor: colors.orange},
               ]}
               onPress={() => HandleSportPress(item.type)}>
               <Image style={styles.button} source={item.image} />
