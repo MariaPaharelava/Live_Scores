@@ -90,7 +90,9 @@ const HomeScreen = ({navigation, route}) => {
 
   const getIndex = matches => {
     const now = Date.now();
-    const a = matches.map(match => Math.abs(now - match.playtime));
+    const a = matches.map(match => {
+      return Math.abs(now - match.playtime);
+    });
     return a.indexOf(Math.min(...a));
   };
   // const getIndex = matches => {

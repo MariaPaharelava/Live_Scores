@@ -25,6 +25,8 @@ import styles from './MainTabScreenStyles';
 import MatchesScreen from '../adminscreens/matches/MatchesScreen';
 import EditMatchesScreen from '../adminscreens/matches/EditMatchesScreen';
 import UsersScreen from '../adminscreens/users/UsersScreen';
+import AddMatches from '../adminscreens/matches/AddMatchesScreen';
+import AddMatchesScreen from '../adminscreens/matches/AddMatchesScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -109,6 +111,13 @@ const LeaguesStack = ({navigation}) => (
       component={EditLeaguesScreen}
       options={{
         headerTitle: ' EditLeagues',
+      }}
+    />
+    <Stack.Screen
+      name="AddMatches"
+      component={AddMatchesScreen}
+      options={{
+        headerTitle: ' AddMatches',
       }}
     />
   </Stack.Navigator>

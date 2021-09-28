@@ -21,7 +21,6 @@ const OtherMatches = ({
 }) => {
   const [matchesData, setMatchesData] = useState();
   const [matchesError, setMatchesError] = useState();
-
   const rednderOtherMathes = matches => {
     return matches
       .filter(match => match.id !== matchID)

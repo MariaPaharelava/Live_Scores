@@ -18,7 +18,6 @@ const MatchDetail = ({
   ...props
 }) => {
   const selectedSport = () => {
-    console.log(currentmatch);
     switch (types) {
       case 'soccer':
         return (

@@ -354,23 +354,23 @@ PODS:
     - React-Core (= 0.64.2)
     - React-jsi (= 0.64.2)
     - ReactCommon/turbomodule/core (= 0.64.2)
-  - Firebase/Auth (8.6.0):
+  - Firebase/Auth (8.7.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (~> 8.6.0)
-  - Firebase/CoreOnly (8.6.0):
-    - FirebaseCore (= 8.6.0)
-  - Firebase/Firestore (8.6.0):
+    - FirebaseAuth (~> 8.7.0)
+  - Firebase/CoreOnly (8.7.0):
+    - FirebaseCore (= 8.7.0)
+  - Firebase/Firestore (8.7.0):
     - Firebase/CoreOnly
-    - FirebaseFirestore (~> 8.6.0)
-  - Firebase/Storage (8.6.0):
+    - FirebaseFirestore (~> 8.7.0)
+  - Firebase/Storage (8.7.0):
     - Firebase/CoreOnly
-    - FirebaseStorage (~> 8.6.0)
-  - FirebaseAuth (8.6.0):
+    - FirebaseStorage (~> 8.7.0)
+  - FirebaseAuth (8.7.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
     - GoogleUtilities/Environment (~> 7.4)
     - GTMSessionFetcher/Core (~> 1.5)
-  - FirebaseCore (8.6.0):
+  - FirebaseCore (8.7.0):
     - FirebaseCoreDiagnostics (~> 8.0)
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/Logger (~> 7.4)
@@ -379,7 +379,7 @@ PODS:
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/Logger (~> 7.4)
     - nanopb (~> 2.30908.0)
-  - FirebaseFirestore (8.6.0):
+  - FirebaseFirestore (8.7.0):
     - abseil/algorithm (= 0.20200225.0)
     - abseil/base (= 0.20200225.0)
     - abseil/container/flat_hash_map (= 0.20200225.0)
@@ -392,7 +392,7 @@ PODS:
     - "gRPC-C++ (~> 1.28.0)"
     - leveldb-library (~> 1.22)
     - nanopb (~> 2.30908.0)
-  - FirebaseStorage (8.6.0):
+  - FirebaseStorage (8.7.0):
     - FirebaseCore (~> 8.0)
     - GTMSessionFetcher/Core (~> 1.5)
   - glog (0.3.5)
@@ -718,19 +718,19 @@ PODS:
     - React
   - RNCPicker (2.1.0):
     - React-Core
-  - RNFBApp (12.7.5):
-    - Firebase/CoreOnly (= 8.6.0)
+  - RNFBApp (12.8.0):
+    - Firebase/CoreOnly (= 8.7.0)
     - React-Core
-  - RNFBAuth (12.7.5):
-    - Firebase/Auth (= 8.6.0)
-    - React-Core
-    - RNFBApp
-  - RNFBFirestore (12.7.5):
-    - Firebase/Firestore (= 8.6.0)
+  - RNFBAuth (12.8.0):
+    - Firebase/Auth (= 8.7.0)
     - React-Core
     - RNFBApp
-  - RNFBStorage (12.7.5):
-    - Firebase/Storage (= 8.6.0)
+  - RNFBFirestore (12.8.0):
+    - Firebase/Firestore (= 8.7.0)
+    - React-Core
+    - RNFBApp
+  - RNFBStorage (12.8.0):
+    - Firebase/Storage (= 8.7.0)
     - React-Core
     - RNFBApp
   - RNGestureHandler (1.10.3):
@@ -947,12 +947,12 @@ SPEC CHECKSUMS:
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: e686045572151edef46010a6f819ade377dfeb4b
   FBReactNativeSpec: 1b37f3ec6710160737d63524664ddf5deca214c1
-  Firebase: 21ac9f28b09a8bdfc005f34c984fca84e7e8786d
-  FirebaseAuth: 223adeeb2262b417532e89bf06a960e3a0a1e9e4
-  FirebaseCore: 620b677f70f5470a8e59cb77f3ddc666f6f09785
+  Firebase: bc9325d5ee2041524bac78a5213d0e530c651309
+  FirebaseAuth: 2e7d029977648c67a5d51a263d4cbab76d34cf12
+  FirebaseCore: f4804c1d3f4bbbefc88904d15653038f2c99ddf7
   FirebaseCoreDiagnostics: b63732f581a1c6a453ec7241f9ab60b3a5bd3450
-  FirebaseFirestore: 7b8bd72aff4d3ad91498343e81fdbaa994ce8abe
-  FirebaseStorage: 2765944230981e63f8bd2938d9d5819158b7c34c
+  FirebaseFirestore: e722ba956610c45d368d9787689e2aa41b809e68
+  FirebaseStorage: 2e6e58fe31fb0061fdce3f156d0ebc964e9de6ba
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
   GoogleUtilities: 8de2a97a17e15b6b98e38e8770e2d129a57c0040
@@ -992,10 +992,10 @@ SPEC CHECKSUMS:
   RNCCheckbox: 6bd119c26c6eb8264a29d59ff66cb70a14de3349
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPicker: f7a40b21b915b7a187624d52f52b7bc2f73ea413
-  RNFBApp: 46a6918f6b1bbb0b332fafb07ef1362bd96ca857
-  RNFBAuth: a63fc58edf68af3e36eea2f02cadc733226b4c61
-  RNFBFirestore: c0622857f20df376d20495ce08a409a6dcfbdb0a
-  RNFBStorage: 608c0603de05380f1e6d42e51486fd769baa8f45
+  RNFBApp: b97d6654509a5852d49f0abf93be76b300fd2e2c
+  RNFBAuth: 07fd836f31fe09d465c22476a052766251af1c49
+  RNFBFirestore: a1eeb9f7b0f05f87f41cdff34aba1c6a780814e6
+  RNFBStorage: bd5c79a5472c32d484769389fc835f1bd667ff1a
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNImageCropPicker: 35a3ceb837446fa11547704709bb22b5fac6d584
   RNReanimated: 9c13c86454bfd54dab7505c1a054470bfecd2563
@@ -1006,4 +1006,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 8909c35703e275f686787116a79f5863fe49baa9
 
-COCOAPODS: 1.11.0
+COCOAPODS: 1.11.2

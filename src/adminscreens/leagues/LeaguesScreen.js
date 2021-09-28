@@ -315,7 +315,6 @@ const LeaguesScreen = ({navigation, ligs}) => {
   if (ligsError) {
     return <Error />;
   }
-  console.log(ligsData);
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />

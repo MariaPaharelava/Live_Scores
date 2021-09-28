@@ -42,7 +42,8 @@ export const getSoccerMatchById = async id => {
   const matchData = (
     await firestore().collection('soccer_matches').doc(id).get()
   ).data();
-  matchData.playtime = new Date(matchData.playtime.nanoseconds);
+
+  matchData.playtime = matchData.playtime.seconds;
   const promises = matchData.firstTeam.team.map(
     async teamID => await getSoocerTeamById(teamID),
   );
@@ -567,6 +568,7 @@ export const getSoccerLigaByID = async id => {
   if (documentSnapshot.exists) {
     liga = documentSnapshot.data();
   }
+  console.log('liga', liga);
   const promis = liga.matches.map(
     async matchID => await getSoccerMatchById(matchID),
   );
