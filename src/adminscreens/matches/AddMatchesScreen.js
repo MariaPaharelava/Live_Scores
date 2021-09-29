@@ -10,9 +10,8 @@ import Indicator from '../../component/ActivityIndicator';
 import Error from '../../component/ErrorIndicator';
 import ChooseFormation from '../../component/ChooseFormation';
 import ChoosePlayers from '../../component/ChoosePlayers';
-import {ScrollView} from 'react-native-gesture-handler';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import DatePicker from 'react-native-date-picker';
-import Stats from '../../component/Stats';
 import ChooseType from '../../component/ChooseType';
 const AddMatchesScreen = ({navigation, route}) => {
   const [sport, setSport] = useState();
@@ -41,6 +40,7 @@ const AddMatchesScreen = ({navigation, route}) => {
       },
       score: '0',
     },
+    type: 'UPC',
     secondTeam: {
       players: {
         GKC: [],
@@ -179,20 +179,16 @@ const AddMatchesScreen = ({navigation, route}) => {
         <View style={styles.Team}>
           <Text style={styles.titleTeam}>Match</Text>
         </View>
-        <ChooseType
-          title="Choose Type Match"
-          onValueChange={txt =>
-            setMatch(prev => ({
-              ...prev,
-              type: txt,
-            }))
-          }
-        />
+
         <>
           <View style={[styles.action, {alignItems: 'center'}]}>
-            <Text style={{color: 'white'}}>{JSON.stringify(date)}</Text>
+            <Text style={{color: 'white'}}>{date.toString().slice(0, 33)}</Text>
           </View>
-          <Button title="Choose Date" onPress={() => setOpen(true)} />
+          <TouchableOpacity
+            style={styles.dataButton}
+            onPress={() => setOpen(true)}>
+            <Text style={styles.dataButtonTxt}>Choose Date</Text>
+          </TouchableOpacity>
           <DatePicker
             modal
             mode="datetime"
@@ -206,160 +202,6 @@ const AddMatchesScreen = ({navigation, route}) => {
             onCancel={() => {
               setOpen(false);
             }}
-          />
-          <View style={styles.statsView}>
-            <Text style={[styles.title, {opacity: 0.7}]}>FirstTeam</Text>
-            <Text style={styles.title}>Stats</Text>
-            <Text style={[styles.title, {opacity: 0.7}]}>SecondTeam</Text>
-          </View>
-
-          <Stats
-            title="Shooting"
-            onChangeFirstTeamText={txt =>
-              setMatch({
-                ...match,
-                firstTeam: {
-                  ...match.firstTeam,
-                  stats: {
-                    ...match.firstTeam.stats,
-                    shooting: txt,
-                  },
-                },
-              })
-            }
-            valueFirstTeam={match.firstTeam.stats.shooting}
-            onChangeSecondTeamText={txt =>
-              setMatch({
-                ...match,
-                secondTeam: {
-                  ...match.secondTeam,
-                  stats: {
-                    ...match.secondTeam.stats,
-                    shooting: txt,
-                  },
-                },
-              })
-            }
-            valueSecondTeam={match.secondTeam.stats.shooting}
-          />
-
-          <Stats
-            title="Attacks"
-            onChangeFirstTeamText={txt =>
-              setMatch({
-                ...match,
-                firstTeam: {
-                  ...match.firstTeam,
-                  stats: {
-                    ...match.firstTeam.stats,
-                    attacks: txt,
-                  },
-                },
-              })
-            }
-            valueFirstTeam={match.firstTeam.stats.attacks}
-            onChangeSecondTeamText={txt =>
-              setMatch({
-                ...match,
-                secondTeam: {
-                  ...match.secondTeam,
-                  stats: {
-                    ...match.secondTeam.stats,
-                    attacks: txt,
-                  },
-                },
-              })
-            }
-            valueSecondTeam={match.secondTeam.stats.attacks}
-          />
-
-          <Stats
-            title="Possesion"
-            onChangeFirstTeamText={txt =>
-              setMatch({
-                ...match,
-                firstTeam: {
-                  ...match.firstTeam,
-                  stats: {
-                    ...match.firstTeam.stats,
-                    possesion: txt,
-                  },
-                },
-              })
-            }
-            valueFirstTeam={match.firstTeam.stats.possesion}
-            onChangeSecondTeamText={txt =>
-              setMatch({
-                ...match,
-                secondTeam: {
-                  ...match.secondTeam,
-                  stats: {
-                    ...match.secondTeam.stats,
-                    possesion: txt,
-                  },
-                },
-              })
-            }
-            valueSecondTeam={match.secondTeam.stats.possesion}
-          />
-
-          <Stats
-            title="Cards"
-            onChangeFirstTeamText={txt =>
-              setMatch({
-                ...match,
-                firstTeam: {
-                  ...match.firstTeam,
-                  stats: {
-                    ...match.firstTeam.stats,
-                    cards: txt,
-                  },
-                },
-              })
-            }
-            valueFirstTeam={match.firstTeam.stats.cards}
-            onChangeSecondTeamText={txt =>
-              setMatch({
-                ...match,
-                secondTeam: {
-                  ...match.secondTeam,
-                  stats: {
-                    ...match.secondTeam.stats,
-                    cards: txt,
-                  },
-                },
-              })
-            }
-            valueSecondTeam={match.secondTeam.stats.cards}
-          />
-          <Stats
-            title="Corners"
-            onChangeFirstTeamText={txt =>
-              setMatch({
-                ...match,
-                firstTeam: {
-                  ...match.firstTeam,
-                  stats: {
-                    ...match.firstTeam.stats,
-                    corners: txt,
-                  },
-                },
-              })
-            }
-            valueFirstTeam={match.firstTeam.stats.corners}
-            onChangeSecondTeamText={txt =>
-              setMatch({
-                ...match,
-                secondTeam: {
-                  ...match.secondTeam,
-                  stats: {
-                    ...match.secondTeam.stats,
-                    corners: txt,
-                  },
-                },
-              })
-            }
-            valueSecondTeam={match.secondTeam.stats.corners}
           />
         </>
       </View>
@@ -522,18 +364,14 @@ const AddMatchesScreen = ({navigation, route}) => {
       <View style={styles.container}>
         <View style={styles.addButton}>
           <FormButton
-            buttonTitle="Add  Match"
+            buttonTitle="Add Match"
             onPress={() => {
               navigation.navigate({
                 name: 'AddLeagues',
                 params: {matchAdd: match, team: team},
                 merge: true,
               });
-              // navigation.navigate('AddLeagues', {
-              //   params: {matchAdd: 'sdfsdf'},
-              //   merge: true,
-              //   // setMatch({...match, playtime: date});
-              // });
+
               setMatch({
                 firstTeam: {
                   players: {

@@ -1,4 +1,5 @@
 import {StyleSheet, Platform} from 'react-native';
+import {colors} from '../../constant/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
   },
   action: {
     justifyContent: 'center',
-    height: 40,
+    height: 60,
     backgroundColor: '#222232',
     margin: 8,
     borderRadius: 16,
@@ -113,6 +114,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     marginHorizontal: 20,
+  },
+  dataButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    borderRadius: 16,
+    backgroundColor: 'white',
+    marginHorizontal: 70,
+  },
+  dataButtonTxt: {
+    color: colors.darkBlue,
+    fontSize: 18,
+    fontWeight: '600',
+    fontStyle: 'normal',
   },
 });
 

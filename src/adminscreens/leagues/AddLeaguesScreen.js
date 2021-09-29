@@ -63,7 +63,10 @@ const AddLeaguesScreen = ({navigation, route}) => {
     await firestore()
       .collection(Capitalize(sport))
       .doc(ligaId)
-      .set({...ligaData, matches: matchesID, id: ligaId});
+      .set({...ligaData, matches: matchesID, id: ligaId})
+      .then(() => {
+        Alert.alert('Liga Add!');
+      });
   };
   const hadleAddMatches = async () => {
     matches.forEach(async match => {
@@ -73,7 +76,7 @@ const AddLeaguesScreen = ({navigation, route}) => {
         .doc(matchId)
         .set({...match, id: matchId})
         .then(() => {
-          Alert.alert('Liga Add!');
+          Alert.alert('Matches Add!');
         });
       setMatchesID(prev => [...prev, matchId]);
     });
@@ -148,7 +151,10 @@ const AddLeaguesScreen = ({navigation, route}) => {
           />
         </TouchableOpacity>
         <View style={styles.addButton}>
-          <FormButton buttonTitle="Add Matches" onPress={hadleAddMatches} />
+          <FormButton
+            buttonTitle="Add Matches to League"
+            onPress={hadleAddMatches}
+          />
         </View>
       </View>
 

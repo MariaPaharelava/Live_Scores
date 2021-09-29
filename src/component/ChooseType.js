@@ -33,6 +33,7 @@ const ChooseType = ({
           items={[
             {label: 'HT', value: 'HT'},
             {label: 'FT', value: 'FT'},
+            {label: 'UPC', value: 'UPC'},
           ]}
         />
       </View>
