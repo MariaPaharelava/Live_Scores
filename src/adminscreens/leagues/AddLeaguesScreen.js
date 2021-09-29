@@ -139,7 +139,9 @@ const AddLeaguesScreen = ({navigation, route}) => {
           activeOpacity={0.5}
           style={{width: 60}}
           onPress={() => {
-            navigation.navigate('AddMatches');
+            navigation.navigate('AddMatches', {
+              name: 'AddLeagues',
+            });
             setfirstTeam();
             setsecondTeam();
             setteamsLoading(false);

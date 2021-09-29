@@ -35,7 +35,6 @@ const LeaguesScreen = ({navigation, ligs}) => {
   const [ligsData, setligsData] = useState([]);
   const [ligsError, setligsError] = useState();
   const [ligsLoading, setligsLoading] = useState();
-  const [ligsnavigateLoading, setligsnavigateLoading] = useState();
 
   const HandleSportPress = type => {
     if (type !== types) {
@@ -226,6 +225,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
       rowActionAnimatedValue,
       rowHeightAnimatedValue,
       onDelete,
+      data,
     } = props;
 
     if (rightActionActivated) {
@@ -245,7 +245,11 @@ const LeaguesScreen = ({navigation, ligs}) => {
         {!leftActionActivated && (
           <TouchableOpacity
             style={[styles.backRightBtn, styles.backRightBtnLeft]}
-            onPress={() => navigation.navigate('EditLeagues')}>
+            onPress={() =>
+              navigation.navigate('EditLeagues', {
+                data: data.item,
+              })
+            }>
             <Image
               source={ADMIN_IMAGES.EDIT_IMAGE}
               resizeMode="contain"

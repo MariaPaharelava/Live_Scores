@@ -1,23 +1,219 @@
-import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
-const EditLeaguesScreen = () => {
+import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
+import styles from './EditLeagueScreenStyles';
+import FormButton from '../../component/FormButton';
+import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Swiper from 'react-native-swiper';
+import AddLeagues from '../../component/AddLegues';
+import ChooseCountry from '../../component/ChooseCoutry';
+import {Alert} from 'react-native';
+import {v4 as uuidv4} from 'uuid';
+import {LogBox} from 'react-native';
+import {ADMIN_IMAGES} from '../../images/Images';
+import {getSoocerTeamById} from '../../api/Matches';
+import {AddMatchData} from '../../component/AddMatchData';
+import EditLeagues from '../../component/EditLeagues';
+const EditLeagueScreen = ({navigation, route}) => {
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+  ]);
+  const {data} = route.params;
+  const [ligaData, setligaData] = useState(data);
+  console.log(ligaData);
+
+  const [matches, setMatches] = useState([]);
+  const [matchesID, setMatchesID] = useState([]);
+
+  const [teamsLoading, setteamsLoading] = useState(false);
+  const [teams, setTeams] = useState([]);
+  const [firstTeam, setfirstTeam] = useState();
+  const [secondTeam, setsecondTeam] = useState();
+  const firstteamrequest = async id => {
+    const teamdata = await getSoocerTeamById(id);
+    setfirstTeam(teamdata);
+  };
+  const secondteamrequest = async id => {
+    const teamdata = await getSoocerTeamById(id);
+    setsecondTeam(teamdata);
+  };
+
+  useEffect(() => {
+    if (route.params?.matchAdd) {
+      console.log('params', route.params.matchAdd);
+
+      // setligaData({
+      //   ...ligaData,
+      //   matches: {
+      //     ...ligaData.matches,
+      //     ligaDatamatches: route.params.matchAdd,
+      //   },
+      // });
+      setMatches([...matches, route.params.matchAdd]);
+
+      firstteamrequest(route.params.matchAdd.firstTeam.team[0]);
+      secondteamrequest(route.params.matchAdd.secondTeam.team[0]);
+    }
+  }, [route.params?.matchAdd]);
+  const [sport, setSport] = useState();
+
+  useEffect(() => {
+    AsyncStorage.getItem('@storage_Key').then(sport => {
+      setSport(sport);
+    });
+  }, [sport]);
+
+  const Capitalize = str => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  const hadleAddLeague = async () => {
+    // firestore()
+    //   .collection('Soccer')
+    //   .doc(ligaData.id)
+    //   .update({
+    //     matches: [...matches, matchesID],
+    //   })
+
+    //   .then(() => {
+    //     Alert.alert('Liga Updated!');
+    //   });
+    firestore()
+      .collection('Soccer')
+      .doc(ligaData.id)
+      .update({
+        matches: firestore.FieldValue.arrayUnion(`${matchesID}`),
+      })
+
+      .then(() => {
+        Alert.alert('Liga Updated!');
+      });
+
+    // await firestore()
+    //   .collection(Capitalize(sport))
+    //   .doc(ligaId)
+    //   .set({...ligaData, matches: matchesID, id: ligaId})
+    //   .then(() => {
+    //     Alert.alert('Liga Add!');
+    //   });
+  };
+  const hadleAddMatches = async () => {
+    matches.forEach(async match => {
+      let matchId = uuidv4();
+      await firestore()
+        .collection(sport + '_matches')
+        .doc(matchId)
+        .set({...match, id: matchId})
+        .then(() => {
+          Alert.alert('Matches Add!');
+        });
+      setMatchesID(prev => [...prev, matchId]);
+    });
+  };
+  const addTeam = (firstT, secondT, time) => {
+    const team = [];
+    if (firstT && secondT && time == null) {
+      return;
+    }
+
+    team.push({firstTeam: firstT, secondTeam: secondT, time: time});
+    // setligaData({
+    //   ...ligaData,
+    //   matches: [...ligaData.matches, team],
+    // });
+    setTeams([...teams, team]);
+    setteamsLoading(true);
+  };
+  console.log('Team', teams);
+  console.log('MatchID', matchesID);
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>EditLeaguesScreen Screen </Text>
-      <Button title="Click Here" onPress={() => alert('Button Clicked!')} />
-    </View>
+    <Swiper showsButtons={true} loop={false}>
+      <View style={styles.container}>
+        <EditLeagues
+          title="Liga Name"
+          text={ligaData.ligaName}
+          onChangeText={txt => setligaData({...ligaData, ligaName: txt})}
+        />
+        <EditLeagues
+          title="Liga Image"
+          text={ligaData.imageUrl}
+          onChangeText={txt => setligaData({...ligaData, imageUrl: txt})}
+        />
+
+        <ChooseCountry
+          title="Liga Country"
+          text={ligaData.ligaCountry}
+          onValueChange={txt =>
+            setligaData({
+              ...ligaData,
+              country: txt,
+              ligaCountry: Capitalize(txt),
+            })
+          }
+        />
+      </View>
+      <View style={styles.container}>
+        <View style={styles.Team}>
+          <Text style={styles.titleTeam}>Add Match</Text>
+        </View>
+        {ligaData.matches.map((match, index) => {
+          return (
+            <View key={index} style={{marginLeft: 10}}>
+              <AddMatchData
+                firstTeam={match.firstTeam.team[0]}
+                secondTeam={match.secondTeam.team[0]}
+                playtime={new Date(match.playtime)}
+              />
+            </View>
+          );
+        })}
+        {teams.map((team, index) => {
+          return (
+            <View key={index} style={{marginLeft: 10}}>
+              <AddMatchData
+                firstTeam={team[0].firstTeam}
+                secondTeam={team[0].secondTeam}
+                playtime={team[0].time}
+              />
+            </View>
+          );
+        })}
+
+        {(firstTeam && secondTeam) !== undefined && !teamsLoading
+          ? addTeam(firstTeam, secondTeam, route.params?.matchAdd.playtime)
+          : null}
+        <TouchableOpacity
+          activeOpacity={0.5}
+          style={{width: 60}}
+          onPress={() => {
+            navigation.navigate('AddMatches', {
+              name: 'EditLeagues',
+            });
+            setfirstTeam();
+            setsecondTeam();
+            setteamsLoading(false);
+          }}>
+          <Image
+            source={ADMIN_IMAGES.PLUS_IMAGE}
+            resizeMode="contain"
+            style={styles.imagePlus}
+          />
+        </TouchableOpacity>
+        <View style={styles.addButton}>
+          <FormButton
+            buttonTitle="Add New Matches to League"
+            onPress={hadleAddMatches}
+          />
+        </View>
+      </View>
+
+      <View style={styles.container}>
+        <View style={styles.addButton}>
+          <FormButton buttonTitle="Update League" onPress={hadleAddLeague} />
+        </View>
+      </View>
+    </Swiper>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#181829',
-  },
-  text: {
-    color: 'white',
-  },
-});
 
-export default EditLeaguesScreen;
+export default EditLeagueScreen;

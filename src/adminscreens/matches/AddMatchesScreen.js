@@ -14,6 +14,7 @@ import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import DatePicker from 'react-native-date-picker';
 import ChooseType from '../../component/ChooseType';
 const AddMatchesScreen = ({navigation, route}) => {
+  const {name} = route.params;
   const [sport, setSport] = useState();
   const [teamsData, setTeamsData] = useState();
   const [teamsError, setteamsError] = useState();
@@ -84,10 +85,6 @@ const AddMatchesScreen = ({navigation, route}) => {
     });
     teamsrequest(sport);
   }, [sport]);
-
-  const Capitalize = str => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
 
   const teamrequest = async id => {
     const teamdata = await getSoocerTeamById(id);
@@ -367,7 +364,7 @@ const AddMatchesScreen = ({navigation, route}) => {
             buttonTitle="Add Match"
             onPress={() => {
               navigation.navigate({
-                name: 'AddLeagues',
+                name: name,
                 params: {matchAdd: match, team: team},
                 merge: true,
               });

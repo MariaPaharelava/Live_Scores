@@ -10,10 +10,6 @@ export const AddMatchData = ({
   playtime,
   ...props
 }) => {
-  console.log('Time', playtime);
-  console.log('FS', firstTeam);
-  console.log('SS', secondTeam);
-
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
