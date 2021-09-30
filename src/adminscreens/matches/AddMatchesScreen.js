@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text} from 'react-native';
 import styles from './AddMatchesScreenStyles';
 import FormButton from '../../component/FormButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,7 +12,6 @@ import ChooseFormation from '../../component/ChooseFormation';
 import ChoosePlayers from '../../component/ChoosePlayers';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import DatePicker from 'react-native-date-picker';
-import ChooseType from '../../component/ChooseType';
 const AddMatchesScreen = ({navigation, route}) => {
   const {name} = route.params;
   const [sport, setSport] = useState();
@@ -171,7 +170,13 @@ const AddMatchesScreen = ({navigation, route}) => {
     return <Error />;
   }
   return (
-    <Swiper showsButtons={true} loop={false}>
+    <Swiper
+      loop={false}
+      dot={<View style={styles.dot} />}
+      activeDot={<View style={styles.activedot} />}
+      paginationStyle={{
+        bottom: 100,
+      }}>
       <View style={styles.container}>
         <View style={styles.Team}>
           <Text style={styles.titleTeam}>Match</Text>

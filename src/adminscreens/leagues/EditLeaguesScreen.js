@@ -63,10 +63,6 @@ const EditLeagueScreen = ({navigation, route}) => {
       .doc(ligaData.id)
       .update({
         matches: firestore.FieldValue.arrayUnion(`${matchesID}`),
-      })
-
-      .then(() => {
-        Alert.alert('Liga Updated!');
       });
   };
   const hadleAddMatches = async () => {
@@ -94,7 +90,13 @@ const EditLeagueScreen = ({navigation, route}) => {
     setteamsLoading(true);
   };
   return (
-    <Swiper showsButtons={true} loop={false}>
+    <Swiper
+      loop={false}
+      dot={<View style={styles.dot} />}
+      activeDot={<View style={styles.activedot} />}
+      paginationStyle={{
+        bottom: 100,
+      }}>
       <View style={styles.container}>
         <EditLeagues
           title="Liga Name"
@@ -107,20 +109,9 @@ const EditLeagueScreen = ({navigation, route}) => {
           onChangeText={txt => setligaData({...ligaData, imageUrl: txt})}
         />
 
-        {/* <ChooseCountry
-          title="Liga Country"
-          text={ligaData.ligaCountry}
-          onValueChange={txt =>
-            setligaData({
-              ...ligaData,
-              country: txt,
-              ligaCountry: Capitalize(txt),
-            })
-          }
-        /> */}
         <EditLeaguesCountry
           title="Liga Country"
-          text={ligaData.ligaCountry}
+          text={ligaData.country}
           onValueChange={txt =>
             setligaData({
               ...ligaData,
@@ -187,7 +178,13 @@ const EditLeagueScreen = ({navigation, route}) => {
 
       <View style={styles.container}>
         <View style={styles.addButton}>
-          <FormButton buttonTitle="Update League" onPress={hadleAddLeague} />
+          <FormButton
+            buttonTitle="Update League"
+            onPress={() => {
+              hadleAddLeague();
+              navigation.navigate('Leagues');
+            }}
+          />
         </View>
       </View>
     </Swiper>

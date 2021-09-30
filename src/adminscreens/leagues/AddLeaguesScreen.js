@@ -63,10 +63,7 @@ const AddLeaguesScreen = ({navigation, route}) => {
     await firestore()
       .collection(Capitalize(sport))
       .doc(ligaId)
-      .set({...ligaData, matches: matchesID, id: ligaId})
-      .then(() => {
-        Alert.alert('Liga Add!');
-      });
+      .set({...ligaData, matches: matchesID, id: ligaId});
   };
   const hadleAddMatches = async () => {
     matches.forEach(async match => {
@@ -92,7 +89,13 @@ const AddLeaguesScreen = ({navigation, route}) => {
   };
 
   return (
-    <Swiper showsButtons={true} loop={false}>
+    <Swiper
+      loop={false}
+      dot={<View style={styles.dot} />}
+      activeDot={<View style={styles.activedot} />}
+      paginationStyle={{
+        bottom: 100,
+      }}>
       <View style={styles.container}>
         <AddLeagues
           title="Liga Name"
@@ -160,7 +163,13 @@ const AddLeaguesScreen = ({navigation, route}) => {
 
       <View style={styles.container}>
         <View style={styles.addButton}>
-          <FormButton buttonTitle="Add League" onPress={hadleAddLeague} />
+          <FormButton
+            buttonTitle="Add League"
+            onPress={() => {
+              hadleAddLeague();
+              navigation.navigate('Leagues');
+            }}
+          />
         </View>
       </View>
     </Swiper>

@@ -36,6 +36,17 @@ const EditMatchesScreen = ({navigation, route}) => {
       if (sport === 'soccer') {
         const teamdata = await getSoocerTeams();
         setTeamsData(teamdata);
+        setmatchData({
+          ...matchData,
+          firstTeam: {
+            ...matchData.firstTeam,
+            team: [data.firstTeam.team[0].id],
+          },
+          secondTeam: {
+            ...matchData.secondTeam,
+            team: [data.secondTeam.team[0].id],
+          },
+        });
       }
 
       // if (types === 'basketball') {
@@ -63,33 +74,49 @@ const EditMatchesScreen = ({navigation, route}) => {
       .doc(matchData.id)
       .set({
         ...matchData,
-      })
-
-      .then(() => {
-        Alert.alert('Match Updated!');
       });
-    console.log('sdfsdfsdf');
   };
 
-  const teamrequest = async (id, setTeam) => {
+  const teamrequest = async (id, setteam) => {
     const teamdata = await getSoocerTeamById(id);
 
-    setTeam(teamdata);
+    setteam(teamdata);
   };
+
   const RenderPlayers = ({position, index, selectedTeam}) => {
-    return (
-      <ChoosePlayers
-        team={team}
-        index={index}
-        position={position}
-        savedTeam={matchData[selectedTeam].players}
-        onValueChange={txt => {
-          const temp = {...matchData};
-          temp[selectedTeam].players[position][index] = txt;
-          setmatchData(temp);
-        }}
-      />
-    );
+    switch (selectedTeam) {
+      case 'firstTeam':
+        return (
+          <ChoosePlayers
+            team={team}
+            index={index}
+            position={position}
+            savedTeam={matchData[selectedTeam].players}
+            onValueChange={txt => {
+              const temp = {...matchData};
+              temp[selectedTeam].players[position][index] = txt;
+              setmatchData(temp);
+            }}
+          />
+        );
+      case 'secondTeam':
+        return (
+          <ChoosePlayers
+            team={team2}
+            index={index}
+            position={position}
+            savedTeam={matchData[selectedTeam].players}
+            onValueChange={txt => {
+              const temp = {...matchData};
+              temp[selectedTeam].players[position][index] = txt;
+              setmatchData(temp);
+            }}
+          />
+        );
+
+      default:
+        return;
+    }
   };
   const defPlayers = (n, selected) => {
     const def = [];
@@ -158,10 +185,20 @@ const EditMatchesScreen = ({navigation, route}) => {
   }
   console.log('MatchData', matchData);
   return (
-    <Swiper showsButtons={true} loop={false}>
-      <View style={styles.container}>
+    <Swiper
+      loop={false}
+      dot={<View style={styles.dot} />}
+      activeDot={<View style={styles.activedot} />}
+      paginationStyle={{
+        bottom: 100,
+      }}>
+      <View
+        style={styles.container}
+        title={
+          <Text numberOfLines={1}>Aussie tourist dies at Bali hotel</Text>
+        }>
         <View style={styles.Team}>
-          <Text style={styles.titleTeam}>matchData</Text>
+          <Text style={styles.titleTeam}>MatchInfo</Text>
         </View>
 
         <>
@@ -461,7 +498,6 @@ const EditMatchesScreen = ({navigation, route}) => {
         <View style={styles.Team}>
           <Text style={styles.titleTeam}>Second Team</Text>
         </View>
-        {/* {setTeam(steam)} */}
         <EditTeam
           title="Edit Second Team"
           teams={teamsData}
@@ -545,7 +581,13 @@ const EditMatchesScreen = ({navigation, route}) => {
       </View>
       <View style={styles.container}>
         <View style={styles.addButton}>
-          <FormButton buttonTitle="Update Match" onPress={updateMatch} />
+          <FormButton
+            buttonTitle="Update Match"
+            onPress={() => {
+              updateMatch();
+              navigation.navigate('Matches');
+            }}
+          />
         </View>
       </View>
     </Swiper>

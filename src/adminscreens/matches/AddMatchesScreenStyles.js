@@ -129,6 +129,22 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontStyle: 'normal',
   },
+  dot: {
+    backgroundColor: 'rgba(255,255,255,.3)',
+    width: 13,
+    height: 13,
+    borderRadius: 7,
+    marginLeft: 7,
+    marginRight: 7,
+  },
+  activedot: {
+    backgroundColor: '#fff',
+    width: 13,
+    height: 13,
+    borderRadius: 7,
+    marginLeft: 7,
+    marginRight: 7,
+  },
 });
 
 export default styles;

@@ -15,7 +15,9 @@ const EditLeaguesCounrty = ({
   text,
   ...props
 }) => {
-  const value = text;
+  const Capitalize = str => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   return (
     <View>
@@ -25,7 +27,8 @@ const EditLeaguesCounrty = ({
       <View style={[styles.action, {height: 60}]}>
         <RNPickerSelect
           placeholder={{
-            label: 'Select country ...',
+            label: Capitalize(text),
+            value: text,
           }}
           style={{
             placeholder: {color: 'white'},
@@ -43,11 +46,6 @@ const EditLeaguesCounrty = ({
             {label: 'England', value: 'england'},
             {label: 'Belarus', value: 'belarus'},
           ]}
-          children={
-            <Text style={{color: 'white'}}>
-              {value ? value : 'Select country ...'}
-            </Text>
-          }
         />
       </View>
     </View>
