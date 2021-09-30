@@ -90,9 +90,7 @@ const AddLeaguesScreen = ({navigation, route}) => {
     setTeams([...teams, team]);
     setteamsLoading(true);
   };
-  console.log('Team', teams);
-  console.log('First Team', firstTeam);
-  console.log('Second Team', secondTeam);
+
   return (
     <Swiper showsButtons={true} loop={false}>
       <View style={styles.container}>

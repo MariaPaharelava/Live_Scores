@@ -95,15 +95,6 @@ const HomeScreen = ({navigation, route}) => {
     });
     return a.indexOf(Math.min(...a));
   };
-  // const getIndex = matches => {
-  //   console.log(matches);
-  //   const now = Date.now();
-  //   const a = matches.map(match => {
-  //     // match.playtime = new Date(match.playtime.nanoseconds);
-  //     Math.abs(now - match.playtime);
-  //   });
-  //   return a.indexOf(Math.min(...a));
-  // };
 
   if (ligsLoading) {
     return <Indicator />;

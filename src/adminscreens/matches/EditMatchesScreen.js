@@ -1,63 +1,35 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, Alert} from 'react-native';
 import styles from './EditMatchesScreenStyles';
 import FormButton from '../../component/FormButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-swiper';
 import {getSoocerTeamById, getSoocerTeams} from '../../api/Matches';
-import ChooseTeam from '../../component/ChooseTeam';
+import firestore from '@react-native-firebase/firestore';
+
 import Indicator from '../../component/ActivityIndicator';
 import Error from '../../component/ErrorIndicator';
-import ChooseFormation from '../../component/ChooseFormation';
 import ChoosePlayers from '../../component/ChoosePlayers';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import DatePicker from 'react-native-date-picker';
-import ChooseType from '../../component/ChooseType';
+import Stats from '../../component/Stats';
+import EditTeam from '../../component/EditTeam';
+import EditFormation from '../../component/EditFormation';
 const EditMatchesScreen = ({navigation, route}) => {
+  const {data} = route.params;
+  const [matchData, setmatchData] = useState(data);
+  const matchdata = data.playtime.toDate();
+  const fteam = data.firstTeam.team[0];
+  const steam = data.secondTeam.team[0];
   const [sport, setSport] = useState();
   const [teamsData, setTeamsData] = useState();
   const [teamsError, setteamsError] = useState();
-  const [team, setTeam] = useState();
+  const [team, setTeam] = useState(fteam);
+  const [team2, setTeam2] = useState(steam);
   const [teamsLoading, setteamsLoading] = useState();
-
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(matchdata);
   const [open, setOpen] = useState(false);
 
-  const [match, setMatch] = useState({
-    firstTeam: {
-      players: {
-        GKC: [],
-        DEF: [],
-        MID: [],
-        FWD: [],
-      },
-      stats: {
-        attacks: '0',
-        cards: '0',
-        possesion: '0',
-        shooting: '0',
-        corners: '0',
-      },
-      score: '0',
-    },
-    type: 'UPC',
-    secondTeam: {
-      players: {
-        GKC: [],
-        DEF: [],
-        MID: [],
-        FWD: [],
-      },
-      stats: {
-        attacks: '0',
-        cards: '0',
-        possesion: '0',
-        shooting: '0',
-        corners: '0',
-      },
-      score: '0',
-    },
-  });
   const teamsrequest = async () => {
     setteamsLoading(true);
     try {
@@ -85,12 +57,23 @@ const EditMatchesScreen = ({navigation, route}) => {
     teamsrequest(sport);
   }, [sport]);
 
-  const Capitalize = str => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+  const updateMatch = async () => {
+    firestore()
+      .collection('soccer_matches')
+      .doc(matchData.id)
+      .set({
+        ...matchData,
+      })
+
+      .then(() => {
+        Alert.alert('Match Updated!');
+      });
+    console.log('sdfsdfsdf');
   };
 
-  const teamrequest = async id => {
+  const teamrequest = async (id, setTeam) => {
     const teamdata = await getSoocerTeamById(id);
+
     setTeam(teamdata);
   };
   const RenderPlayers = ({position, index, selectedTeam}) => {
@@ -99,11 +82,11 @@ const EditMatchesScreen = ({navigation, route}) => {
         team={team}
         index={index}
         position={position}
-        savedTeam={match[selectedTeam].players}
+        savedTeam={matchData[selectedTeam].players}
         onValueChange={txt => {
-          const temp = {...match};
+          const temp = {...matchData};
           temp[selectedTeam].players[position][index] = txt;
-          setMatch(temp);
+          setmatchData(temp);
         }}
       />
     );
@@ -173,11 +156,12 @@ const EditMatchesScreen = ({navigation, route}) => {
   if (teamsError) {
     return <Error />;
   }
+  console.log('MatchData', matchData);
   return (
     <Swiper showsButtons={true} loop={false}>
       <View style={styles.container}>
         <View style={styles.Team}>
-          <Text style={styles.titleTeam}>Match</Text>
+          <Text style={styles.titleTeam}>matchData</Text>
         </View>
 
         <>
@@ -187,7 +171,7 @@ const EditMatchesScreen = ({navigation, route}) => {
           <TouchableOpacity
             style={styles.dataButton}
             onPress={() => setOpen(true)}>
-            <Text style={styles.dataButtonTxt}>Choose Date</Text>
+            <Text style={styles.dataButtonTxt}>Change Date</Text>
           </TouchableOpacity>
           <DatePicker
             modal
@@ -197,40 +181,223 @@ const EditMatchesScreen = ({navigation, route}) => {
             onConfirm={newDate => {
               setOpen(false);
               setDate(newDate);
-              setMatch({...match, playtime: newDate});
+              setmatchData({...matchData, playtime: newDate});
             }}
             onCancel={() => {
               setOpen(false);
             }}
           />
         </>
+        <View style={styles.statsView}>
+          <Text style={[styles.title, {opacity: 0.7}]}>FirstTeam</Text>
+          <Text style={styles.title}>Stats</Text>
+          <Text style={[styles.title, {opacity: 0.7}]}>SecondTeam</Text>
+        </View>
+
+        <Stats
+          title="Shooting"
+          onChangeFirstTeamText={txt =>
+            setmatchData({
+              ...matchData,
+              firstTeam: {
+                ...matchData.firstTeam,
+                stats: {
+                  ...matchData.firstTeam.stats,
+                  shooting: txt,
+                },
+              },
+            })
+          }
+          valueFirstTeam={matchData.firstTeam.stats.shooting}
+          onChangeSecondTeamText={txt =>
+            setmatchData({
+              ...matchData,
+              secondTeam: {
+                ...matchData.secondTeam,
+                stats: {
+                  ...matchData.secondTeam.stats,
+                  shooting: txt,
+                },
+              },
+            })
+          }
+          valueSecondTeam={matchData.secondTeam.stats.shooting}
+        />
+
+        <Stats
+          title="Attacks"
+          onChangeFirstTeamText={txt =>
+            setmatchData({
+              ...matchData,
+              firstTeam: {
+                ...matchData.firstTeam,
+                stats: {
+                  ...matchData.firstTeam.stats,
+                  attacks: txt,
+                },
+              },
+            })
+          }
+          valueFirstTeam={matchData.firstTeam.stats.attacks}
+          onChangeSecondTeamText={txt =>
+            setmatchData({
+              ...matchData,
+              secondTeam: {
+                ...matchData.secondTeam,
+                stats: {
+                  ...matchData.secondTeam.stats,
+                  attacks: txt,
+                },
+              },
+            })
+          }
+          valueSecondTeam={matchData.secondTeam.stats.attacks}
+        />
+
+        <Stats
+          title="Possesion"
+          onChangeFirstTeamText={txt =>
+            setmatchData({
+              ...matchData,
+              firstTeam: {
+                ...matchData.firstTeam,
+                stats: {
+                  ...matchData.firstTeam.stats,
+                  possesion: txt,
+                },
+              },
+            })
+          }
+          valueFirstTeam={matchData.firstTeam.stats.possesion}
+          onChangeSecondTeamText={txt =>
+            setmatchData({
+              ...matchData,
+              secondTeam: {
+                ...matchData.secondTeam,
+                stats: {
+                  ...matchData.secondTeam.stats,
+                  possesion: txt,
+                },
+              },
+            })
+          }
+          valueSecondTeam={matchData.secondTeam.stats.possesion}
+        />
+
+        <Stats
+          title="Cards"
+          onChangeFirstTeamText={txt =>
+            setmatchData({
+              ...matchData,
+              firstTeam: {
+                ...matchData.firstTeam,
+                stats: {
+                  ...matchData.firstTeam.stats,
+                  cards: txt,
+                },
+              },
+            })
+          }
+          valueFirstTeam={matchData.firstTeam.stats.cards}
+          onChangeSecondTeamText={txt =>
+            setmatchData({
+              ...matchData,
+              secondTeam: {
+                ...matchData.secondTeam,
+                stats: {
+                  ...matchData.secondTeam.stats,
+                  cards: txt,
+                },
+              },
+            })
+          }
+          valueSecondTeam={matchData.secondTeam.stats.cards}
+        />
+        <Stats
+          title="Corners"
+          onChangeFirstTeamText={txt =>
+            setmatchData({
+              ...matchData,
+              firstTeam: {
+                ...matchData.firstTeam,
+                stats: {
+                  ...matchData.firstTeam.stats,
+                  corners: txt,
+                },
+              },
+            })
+          }
+          valueFirstTeam={matchData.firstTeam.stats.corners}
+          onChangeSecondTeamText={txt =>
+            setmatchData({
+              ...matchData,
+              secondTeam: {
+                ...matchData.secondTeam,
+                stats: {
+                  ...matchData.secondTeam.stats,
+                  corners: txt,
+                },
+              },
+            })
+          }
+          valueSecondTeam={matchData.secondTeam.stats.corners}
+        />
+        <View style={styles.statsView}>
+          <Text style={[styles.title, {opacity: 0.7}]}>FirstTeam</Text>
+          <Text style={styles.title}>Score</Text>
+          <Text style={[styles.title, {opacity: 0.7}]}>SecondTeam</Text>
+        </View>
+        <Stats
+          onChangeFirstTeamText={txt =>
+            setmatchData({
+              ...matchData,
+              firstTeam: {
+                ...matchData.firstTeam,
+                score: txt,
+              },
+            })
+          }
+          valueFirstTeam={matchData.firstTeam.score}
+          onChangeSecondTeamText={txt =>
+            setmatchData({
+              ...matchData,
+              secondTeam: {
+                ...matchData.secondTeam,
+                score: txt,
+              },
+            })
+          }
+          valueSecondTeam={matchData.secondTeam.score}
+        />
       </View>
 
       <View style={styles.container}>
         <View style={styles.Team}>
           <Text style={styles.titleTeam}>First Team</Text>
         </View>
-        <ChooseTeam
-          title="Choose First Team"
+        <EditTeam
+          title="Edit First Team"
           teams={teamsData}
+          team={team.teamDetails.name}
           onValueChange={txt => {
-            setMatch({
-              ...match,
+            setmatchData({
+              ...matchData,
               firstTeam: {
-                ...match.firstTeam,
+                ...matchData.firstTeam,
                 team: [txt],
               },
             });
-            teamrequest(txt);
+            teamrequest(txt, setTeam);
           }}
         />
-        <ChooseFormation
-          title="Choose Formation"
+        <EditFormation
+          title="Edit Formation"
+          label={matchData.firstTeam.formation}
           onValueChange={txt =>
-            setMatch({
-              ...match,
+            setmatchData({
+              ...matchData,
               firstTeam: {
-                ...match.firstTeam,
+                ...matchData.firstTeam,
                 formation: txt,
               },
             })
@@ -245,7 +412,7 @@ const EditMatchesScreen = ({navigation, route}) => {
               <Text style={styles.titlePlayers}>GKC</Text>
             </View>
             <View>
-              {gkcPlayers(match.firstTeam.formation ? 1 : 0, 'firstTeam')}
+              {gkcPlayers(matchData.firstTeam.formation ? 1 : 0, 'firstTeam')}
             </View>
           </View>
           <View>
@@ -254,7 +421,9 @@ const EditMatchesScreen = ({navigation, route}) => {
             </View>
             <View>
               {defPlayers(
-                match.firstTeam.formation ? match.firstTeam.formation[0] : 0,
+                matchData.firstTeam.formation
+                  ? matchData.firstTeam.formation[0]
+                  : 0,
                 'firstTeam',
               )}
             </View>
@@ -265,7 +434,9 @@ const EditMatchesScreen = ({navigation, route}) => {
             </View>
             <View>
               {midPlayers(
-                match.firstTeam.formation ? match.firstTeam.formation[1] : 0,
+                matchData.firstTeam.formation
+                  ? matchData.firstTeam.formation[1]
+                  : 0,
                 'firstTeam',
               )}
             </View>
@@ -276,7 +447,9 @@ const EditMatchesScreen = ({navigation, route}) => {
             </View>
             <View>
               {fwdPlayers(
-                match.firstTeam.formation ? match.firstTeam.formation[2] : 0,
+                matchData.firstTeam.formation
+                  ? matchData.firstTeam.formation[2]
+                  : 0,
                 'firstTeam',
               )}
             </View>
@@ -288,27 +461,30 @@ const EditMatchesScreen = ({navigation, route}) => {
         <View style={styles.Team}>
           <Text style={styles.titleTeam}>Second Team</Text>
         </View>
-        <ChooseTeam
-          title="Choose Second Team"
+        {/* {setTeam(steam)} */}
+        <EditTeam
+          title="Edit Second Team"
           teams={teamsData}
+          team={team2.teamDetails.name}
           onValueChange={txt => {
-            setMatch({
-              ...match,
+            setmatchData({
+              ...matchData,
               secondTeam: {
-                ...match.secondTeam,
+                ...matchData.secondTeam,
                 team: [txt],
               },
             });
-            teamrequest(txt);
+            teamrequest(txt, setTeam2);
           }}
         />
-        <ChooseFormation
-          title="Choose Formation"
+        <EditFormation
+          title="Edit Formation"
+          label={matchData.secondTeam.formation}
           onValueChange={txt =>
-            setMatch({
-              ...match,
+            setmatchData({
+              ...matchData,
               secondTeam: {
-                ...match.secondTeam,
+                ...matchData.secondTeam,
                 formation: txt,
               },
             })
@@ -323,7 +499,7 @@ const EditMatchesScreen = ({navigation, route}) => {
               <Text style={styles.titlePlayers}>GKC</Text>
             </View>
             <View>
-              {gkcPlayers(match.secondTeam.formation ? 1 : 0, 'secondTeam')}
+              {gkcPlayers(matchData.secondTeam.formation ? 1 : 0, 'secondTeam')}
             </View>
           </View>
           <View>
@@ -332,7 +508,9 @@ const EditMatchesScreen = ({navigation, route}) => {
             </View>
             <View>
               {defPlayers(
-                match.secondTeam.formation ? match.secondTeam.formation[0] : 0,
+                matchData.secondTeam.formation
+                  ? matchData.secondTeam.formation[0]
+                  : 0,
                 'secondTeam',
               )}
             </View>
@@ -343,7 +521,9 @@ const EditMatchesScreen = ({navigation, route}) => {
             </View>
             <View>
               {midPlayers(
-                match.secondTeam.formation ? match.secondTeam.formation[1] : 0,
+                matchData.secondTeam.formation
+                  ? matchData.secondTeam.formation[1]
+                  : 0,
                 'secondTeam',
               )}
             </View>
@@ -354,7 +534,9 @@ const EditMatchesScreen = ({navigation, route}) => {
             </View>
             <View>
               {fwdPlayers(
-                match.secondTeam.formation ? match.secondTeam.formation[2] : 0,
+                matchData.secondTeam.formation
+                  ? matchData.secondTeam.formation[2]
+                  : 0,
                 'secondTeam',
               )}
             </View>
@@ -363,51 +545,7 @@ const EditMatchesScreen = ({navigation, route}) => {
       </View>
       <View style={styles.container}>
         <View style={styles.addButton}>
-          <FormButton
-            buttonTitle="Add Match"
-            onPress={() => {
-              navigation.navigate({
-                name: 'AddLeagues',
-                params: {matchAdd: match, team: team},
-                merge: true,
-              });
-
-              setMatch({
-                firstTeam: {
-                  players: {
-                    GKC: [],
-                    DEF: [],
-                    MID: [],
-                    FWD: [],
-                  },
-                  stats: {
-                    attacks: '0',
-                    cards: '0',
-                    possesion: '0',
-                    shooting: '0',
-                    corners: '0',
-                  },
-                  score: '0',
-                },
-                secondTeam: {
-                  players: {
-                    GKC: [],
-                    DEF: [],
-                    MID: [],
-                    FWD: [],
-                  },
-                  stats: {
-                    attacks: '0',
-                    cards: '0',
-                    possesion: '0',
-                    shooting: '0',
-                    corners: '0',
-                  },
-                  score: '0',
-                },
-              });
-            }}
-          />
+          <FormButton buttonTitle="Update Match" onPress={updateMatch} />
         </View>
       </View>
     </Swiper>

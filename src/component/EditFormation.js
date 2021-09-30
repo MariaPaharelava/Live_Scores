@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Platform} from 'react-native';
 
 import RNPickerSelect from 'react-native-picker-select';
 
-const ChooseCountry = ({
+const EditFormation = ({
   navigation,
   onPress,
   noBackground = false,
@@ -11,7 +11,9 @@ const ChooseCountry = ({
   match,
   types,
   title,
+  teams,
   onValueChange,
+  label,
   ...props
 }) => {
   return (
@@ -22,7 +24,7 @@ const ChooseCountry = ({
       <View style={[styles.action, {height: 60}]}>
         <RNPickerSelect
           placeholder={{
-            label: 'Select image ...',
+            label: label.join('-'),
           }}
           style={{
             placeholder: {color: 'white'},
@@ -31,20 +33,19 @@ const ChooseCountry = ({
           }}
           onValueChange={onValueChange}
           items={[
-            {label: 'Italy', value: 'italy'},
-            {label: 'France', value: 'france'},
-            {label: 'Germany', value: 'germany'},
-            {label: 'Spain', value: 'spain'},
-            {label: 'England', value: 'england'},
-            {label: 'Belarus', value: 'belarus'},
+            {label: '4-3-3', value: [4, 3, 3]},
+            {label: '4-4-2', value: [4, 4, 2]},
+            {label: '5-3-2', value: [5, 3, 2]},
+            {label: '5-2-3', value: [5, 2, 3]},
           ]}
+          value={label}
         />
       </View>
     </View>
   );
 };
 
-export default ChooseCountry;
+export default EditFormation;
 
 const styles = StyleSheet.create({
   container: {

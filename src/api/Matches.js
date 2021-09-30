@@ -568,7 +568,6 @@ export const getSoccerLigaByID = async id => {
   if (documentSnapshot.exists) {
     liga = documentSnapshot.data();
   }
-  console.log('liga', liga);
   const promis = liga.matches.map(
     async matchID => await getSoccerMatchById(matchID),
   );

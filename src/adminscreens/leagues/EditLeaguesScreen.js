@@ -5,7 +5,6 @@ import FormButton from '../../component/FormButton';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-swiper';
-import AddLeagues from '../../component/AddLegues';
 import ChooseCountry from '../../component/ChooseCoutry';
 import {Alert} from 'react-native';
 import {v4 as uuidv4} from 'uuid';
@@ -14,13 +13,13 @@ import {ADMIN_IMAGES} from '../../images/Images';
 import {getSoocerTeamById} from '../../api/Matches';
 import {AddMatchData} from '../../component/AddMatchData';
 import EditLeagues from '../../component/EditLeagues';
+import EditLeaguesCountry from '../../component/EditLeaguesCoutry';
 const EditLeagueScreen = ({navigation, route}) => {
   LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
   ]);
   const {data} = route.params;
   const [ligaData, setligaData] = useState(data);
-  console.log(ligaData);
 
   const [matches, setMatches] = useState([]);
   const [matchesID, setMatchesID] = useState([]);
@@ -40,15 +39,6 @@ const EditLeagueScreen = ({navigation, route}) => {
 
   useEffect(() => {
     if (route.params?.matchAdd) {
-      console.log('params', route.params.matchAdd);
-
-      // setligaData({
-      //   ...ligaData,
-      //   matches: {
-      //     ...ligaData.matches,
-      //     ligaDatamatches: route.params.matchAdd,
-      //   },
-      // });
       setMatches([...matches, route.params.matchAdd]);
 
       firstteamrequest(route.params.matchAdd.firstTeam.team[0]);
@@ -68,16 +58,6 @@ const EditLeagueScreen = ({navigation, route}) => {
   };
 
   const hadleAddLeague = async () => {
-    // firestore()
-    //   .collection('Soccer')
-    //   .doc(ligaData.id)
-    //   .update({
-    //     matches: [...matches, matchesID],
-    //   })
-
-    //   .then(() => {
-    //     Alert.alert('Liga Updated!');
-    //   });
     firestore()
       .collection('Soccer')
       .doc(ligaData.id)
@@ -88,14 +68,6 @@ const EditLeagueScreen = ({navigation, route}) => {
       .then(() => {
         Alert.alert('Liga Updated!');
       });
-
-    // await firestore()
-    //   .collection(Capitalize(sport))
-    //   .doc(ligaId)
-    //   .set({...ligaData, matches: matchesID, id: ligaId})
-    //   .then(() => {
-    //     Alert.alert('Liga Add!');
-    //   });
   };
   const hadleAddMatches = async () => {
     matches.forEach(async match => {
@@ -117,15 +89,10 @@ const EditLeagueScreen = ({navigation, route}) => {
     }
 
     team.push({firstTeam: firstT, secondTeam: secondT, time: time});
-    // setligaData({
-    //   ...ligaData,
-    //   matches: [...ligaData.matches, team],
-    // });
+
     setTeams([...teams, team]);
     setteamsLoading(true);
   };
-  console.log('Team', teams);
-  console.log('MatchID', matchesID);
   return (
     <Swiper showsButtons={true} loop={false}>
       <View style={styles.container}>
@@ -140,7 +107,18 @@ const EditLeagueScreen = ({navigation, route}) => {
           onChangeText={txt => setligaData({...ligaData, imageUrl: txt})}
         />
 
-        <ChooseCountry
+        {/* <ChooseCountry
+          title="Liga Country"
+          text={ligaData.ligaCountry}
+          onValueChange={txt =>
+            setligaData({
+              ...ligaData,
+              country: txt,
+              ligaCountry: Capitalize(txt),
+            })
+          }
+        /> */}
+        <EditLeaguesCountry
           title="Liga Country"
           text={ligaData.ligaCountry}
           onValueChange={txt =>

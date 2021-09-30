@@ -229,6 +229,7 @@ const MatchesScreen = ({navigation, ligs}) => {
       rowActionAnimatedValue,
       rowHeightAnimatedValue,
       onDelete,
+      data,
     } = props;
 
     if (rightActionActivated) {
@@ -248,7 +249,11 @@ const MatchesScreen = ({navigation, ligs}) => {
         {!leftActionActivated && (
           <TouchableOpacity
             style={[styles.backRightBtn, styles.backRightBtnLeft]}
-            onPress={() => navigation.navigate('EditMatches')}>
+            onPress={() =>
+              navigation.navigate('EditMatches', {
+                data: data.item,
+              })
+            }>
             <Image
               source={ADMIN_IMAGES.EDIT_IMAGE}
               resizeMode="contain"

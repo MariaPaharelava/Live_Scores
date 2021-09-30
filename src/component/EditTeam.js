@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {View, Text, StyleSheet, Platform} from 'react-native';
 
 import RNPickerSelect from 'react-native-picker-select';
 
-const ChooseCountry = ({
+const EditTeam = ({
   navigation,
   onPress,
   noBackground = false,
@@ -11,9 +11,22 @@ const ChooseCountry = ({
   match,
   types,
   title,
+  teams,
   onValueChange,
+  team,
   ...props
 }) => {
+  console.log(team);
+  const items = useMemo(
+    () =>
+      teams.map(team => ({
+        label: team.teamDetails.name,
+        value: team.id,
+      })),
+    [teams],
+  );
+  const value = team;
+
   return (
     <View>
       <View style={styles.rowFront}>
@@ -22,29 +35,31 @@ const ChooseCountry = ({
       <View style={[styles.action, {height: 60}]}>
         <RNPickerSelect
           placeholder={{
-            label: 'Select image ...',
+            // label: `${text}`,
+            label: 'Select team ...',
           }}
           style={{
             placeholder: {color: 'white'},
             inputAndroid: {color: 'white'},
             inputIOS: {color: 'white'},
           }}
-          onValueChange={onValueChange}
-          items={[
-            {label: 'Italy', value: 'italy'},
-            {label: 'France', value: 'france'},
-            {label: 'Germany', value: 'germany'},
-            {label: 'Spain', value: 'spain'},
-            {label: 'England', value: 'england'},
-            {label: 'Belarus', value: 'belarus'},
-          ]}
+          onValueChange={v => {
+            console.log(v);
+            onValueChange(v);
+          }}
+          items={items}
+          children={
+            <Text style={{color: 'white'}}>
+              {value ? value : 'Select team ...'}
+            </Text>
+          }
         />
       </View>
     </View>
   );
 };
 
-export default ChooseCountry;
+export default EditTeam;
 
 const styles = StyleSheet.create({
   container: {
