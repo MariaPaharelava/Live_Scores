@@ -51,11 +51,11 @@ export default function AuthReducer(state = INITIAL_STATE, action) {
     case SIGNUP_USER_COMPLETED:
       return {...state, user: action.payload, signupProcessing: false};
 
-    case LOAD_USER_STARTED:
-      return {...state, user: null};
+    // case LOAD_USER_STARTED:
+    //   return {...state, user: null};
 
-    case LOAD_USER_COMPLETED:
-      return {...state, user: action.payload, loadUserProcessing: true};
+    // case LOAD_USER_COMPLETED:
+    //   return {...state, user: action.payload, loadUserProcessing: true};
 
     default:
       return state;

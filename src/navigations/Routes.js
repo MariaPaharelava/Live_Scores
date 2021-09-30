@@ -7,21 +7,21 @@ import {loadUser} from '../redux/actions/AuthActions';
 import SplashScreen from 'react-native-splash-screen';
 const Routes = () => {
   const user = useSelector(state => state.AuthReducer.user);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const userLoading = useSelector(
-    state => state.AuthReducer.loadUserProcessing,
-  );
+  // const userLoading = useSelector(
+  //   state => state.AuthReducer.loadUserProcessing,
+  // );
 
-  useEffect(() => {
-    dispatch(loadUser());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(loadUser());
+  // }, [dispatch]);
 
-  useEffect(() => {
-    if (!userLoading) {
-      SplashScreen.hide();
-    }
-  }, [userLoading]);
+  // useEffect(() => {
+  //   if (!userLoading) {
+  //     SplashScreen.hide();
+  //   }
+  // }, [userLoading]);
 
   return (
     <NavigationContainer>

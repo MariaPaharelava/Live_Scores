@@ -71,7 +71,7 @@ function* logoutUser(params) {
 
     const authManager = auth();
     yield call([authManager, authManager.signOut]);
-    yield call(AsyncStorage.clear);
+    // yield call(AsyncStorage.clear);
 
     yield put(logoutCompleted());
   } catch (e) {
@@ -84,26 +84,26 @@ function* logoutUser(params) {
   }
 }
 
-function* loadUser() {
-  try {
-    yield put(loadUserSratred());
-    const value = yield call(AsyncStorage.getItem, 'persist:root');
+// function* loadUser() {
+//   try {
+//     yield put(loadUserSratred());
+//     const value = yield call(AsyncStorage.getItem, 'persist:root');
 
-    yield put(loadUserCompleted(value));
-  } catch (e) {
-    let errorMessage = 'Server Error. Please try again later!';
-    if (e.message) {
-      errorMessage = e.message;
-    }
-    Alert.alert(errorMessage);
-  }
-}
+//     yield put(loadUserCompleted(value));
+//   } catch (e) {
+//     let errorMessage = 'Server Error. Please try again later!';
+//     if (e.message) {
+//       errorMessage = e.message;
+//     }
+//     Alert.alert(errorMessage);
+//   }
+// }
 
 function* authSaga() {
   yield takeEvery(LOGIN_USER, loginUser);
   yield takeEvery(SIGNUP_USER, signupUser);
   yield takeEvery(LOGOUT_USER, logoutUser);
-  yield takeEvery(LOAD_USER, loadUser);
+  // yield takeEvery(LOAD_USER, loadUser);
 }
 
 export default authSaga;
