@@ -40,10 +40,14 @@ const EditProfileScreen = ({navigation, route}) => {
       height: 300,
       cropping: true,
       compressImageQuality: 0.7,
-    }).then(image => {
-      const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
-      setImage(imageUri);
-    });
+    })
+      .then(image => {
+        const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+        setImage(imageUri);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   const uploadImage = async () => {
     if (image == null) {
@@ -109,6 +113,9 @@ const EditProfileScreen = ({navigation, route}) => {
   const setSport = async sport => {
     AsyncStorage.setItem('@storage_Key', sport);
   };
+  const Capitalize = str => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   return (
     <View style={styles.container}>
@@ -154,7 +161,7 @@ const EditProfileScreen = ({navigation, route}) => {
       <View style={styles.action}>
         <RNPickerSelect
           placeholder={{
-            label: 'Select startup sport...',
+            label: `${Capitalize(sport)}`,
             value: sport,
           }}
           style={{
