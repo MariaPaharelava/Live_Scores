@@ -161,8 +161,13 @@ const MatchesScreen = ({navigation, ligs}) => {
 
   const deleteRow = (rowMap, rowKey) => {
     const newData = [...matchesData];
-    const prevIndex = matchesData.findIndex(item => item.key === rowKey);
+    const prevIndex = matchesData.findIndex(item => item.id === rowKey);
+    console.log(newData);
+    console.log(rowKey);
+    console.log(prevIndex);
     newData.splice(prevIndex, 1);
+    console.log(newData);
+
     setMatchesData(newData);
   };
 
@@ -216,7 +221,7 @@ const MatchesScreen = ({navigation, ligs}) => {
       <VisibleItem
         data={data}
         rowHeightAnimatedValue={rowHeightAnimatedValue}
-        removeRow={() => deleteRow(rowMap, data.item.key)}
+        removeRow={() => deleteRow(rowMap, data.item.id)}
       />
     );
   };
@@ -312,7 +317,7 @@ const MatchesScreen = ({navigation, ligs}) => {
         rowMap={rowMap}
         rowActionAnimatedValue={rowActionAnimatedValue}
         rowHeightAnimatedValue={rowHeightAnimatedValue}
-        onDelete={() => deleteRow(rowMap, data.item.key)}
+        onDelete={() => deleteRow(rowMap, data.item.id)}
       />
     );
   };

@@ -38,7 +38,7 @@ const AddMatchesScreen = ({navigation, route}) => {
         shooting: '0',
         corners: '0',
       },
-      score: '0',
+      score: 0,
     },
     type: 'UPC',
     secondTeam: {
@@ -55,7 +55,7 @@ const AddMatchesScreen = ({navigation, route}) => {
         shooting: '0',
         corners: '0',
       },
-      score: '0',
+      score: 0,
     },
   });
   const teamsrequest = async () => {

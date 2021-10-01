@@ -146,7 +146,8 @@ const LeaguesScreen = ({navigation, ligs}) => {
 
   const deleteRow = (rowMap, rowKey) => {
     const newData = [...ligsData];
-    const prevIndex = ligsData.findIndex(item => item.key === rowKey);
+    const prevIndex = ligsData.findIndex(item => item.id === rowKey);
+
     newData.splice(prevIndex, 1);
     setligsData(newData);
   };
@@ -212,7 +213,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
       <VisibleItem
         data={data}
         rowHeightAnimatedValue={rowHeightAnimatedValue}
-        removeRow={() => deleteRow(rowMap, data.item.key)}
+        removeRow={() => deleteRow(rowMap, data.item.id)}
       />
     );
   };
@@ -308,7 +309,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
         rowMap={rowMap}
         rowActionAnimatedValue={rowActionAnimatedValue}
         rowHeightAnimatedValue={rowHeightAnimatedValue}
-        onDelete={() => deleteRow(rowMap, data.item.key)}
+        onDelete={() => deleteRow(rowMap, data.item.id)}
       />
     );
   };
@@ -362,7 +363,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
       </View>
       <SwipeListView
         data={ligsData}
-        keyExtractor={item => item.ligaName}
+        keyExtractor={item => item.id}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         leftOpenValue={75}

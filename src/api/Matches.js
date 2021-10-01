@@ -15,6 +15,7 @@ export const getSoccerLigs = async () => {
   await Promise.all(promises);
   return ligs;
 };
+
 export const getSoccerLiga = async (ligsPerload, search) => {
   const querySnapshot = await firestore()
     .collection('Soccer')
