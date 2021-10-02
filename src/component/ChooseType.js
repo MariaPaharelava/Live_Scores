@@ -11,6 +11,7 @@ const ChooseType = ({
   match,
   types,
   title,
+  label,
   onValueChange,
   ...props
 }) => {
@@ -22,7 +23,8 @@ const ChooseType = ({
       <View style={[styles.action, {height: 60}]}>
         <RNPickerSelect
           placeholder={{
-            label: 'Select type ...',
+            label: `${label}`,
+            value: `${label}`,
           }}
           style={{
             placeholder: {color: 'white'},

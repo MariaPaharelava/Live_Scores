@@ -31,7 +31,7 @@ const StandingsScreen = ({navigation}) => {
   const [ligsError, setligsError] = useState();
   const [ligsLoading, setligsLoading] = useState();
   const [startAfter, setStartAfter] = useState({});
-  const [ligsPerload] = useState(2);
+  const [ligsPerload] = useState(4);
   const [lastLigs, setLastLigs] = useState(false);
   const [value, setValue] = useState('');
   const [timoutHandler, settimoutHandler] = useState();

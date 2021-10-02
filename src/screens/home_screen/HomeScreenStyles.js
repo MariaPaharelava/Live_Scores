@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '400',
     fontStyle: 'normal',
+    marginBottom: 10,
   },
   touchableOpacity: {
     width: Platform.OS === 'ios' ? 105 : 90,

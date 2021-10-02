@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {
   View,
   Text,
@@ -32,7 +32,7 @@ const MatchesScreen = ({navigation, ligs}) => {
   const [matchesError, setMatchesError] = useState();
   const [matchesLoading, setMatchesLoading] = useState();
   const [startAfter, setStartAfter] = useState({});
-  const [matchPerLoad] = useState(2);
+  const [matchPerLoad] = useState(4);
   const [lastMatch, setLastMatch] = useState(false);
   const [value, setValue] = useState('');
   const [timoutHandler, settimoutHandler] = useState();
@@ -120,7 +120,7 @@ const MatchesScreen = ({navigation, ligs}) => {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     matchesrequest();
   }, [types]);
 
@@ -162,11 +162,8 @@ const MatchesScreen = ({navigation, ligs}) => {
   const deleteRow = (rowMap, rowKey) => {
     const newData = [...matchesData];
     const prevIndex = matchesData.findIndex(item => item.id === rowKey);
-    console.log(newData);
-    console.log(rowKey);
-    console.log(prevIndex);
+
     newData.splice(prevIndex, 1);
-    console.log(newData);
 
     setMatchesData(newData);
   };
@@ -221,7 +218,7 @@ const MatchesScreen = ({navigation, ligs}) => {
       <VisibleItem
         data={data}
         rowHeightAnimatedValue={rowHeightAnimatedValue}
-        removeRow={() => deleteRow(rowMap, data.item.id)}
+        removeRow={() => !matchesLoading && deleteRow(rowMap, data.item.id)}
       />
     );
   };
@@ -317,7 +314,7 @@ const MatchesScreen = ({navigation, ligs}) => {
         rowMap={rowMap}
         rowActionAnimatedValue={rowActionAnimatedValue}
         rowHeightAnimatedValue={rowHeightAnimatedValue}
-        onDelete={() => deleteRow(rowMap, data.item.id)}
+        onDelete={() => !matchesLoading && deleteRow(rowMap, data.item.id)}
       />
     );
   };

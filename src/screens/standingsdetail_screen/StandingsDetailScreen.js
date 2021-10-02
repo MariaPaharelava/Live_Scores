@@ -36,9 +36,14 @@ const StandingsDetailScreen = ({navigation, route}) => {
     switch (types) {
       case 'soccer':
         return (
-          <Text style={styles.textPtsSoccer}>
-            {'  '} W {'   '} D {'   '} L {'  '} Ga {'   '} Gd {'   '} Pts
-          </Text>
+          <View style={styles.textPtsWrapper}>
+            <Text style={styles.textPtsSoccer}>W</Text>
+            <Text style={styles.textPtsSoccer}>D</Text>
+            <Text style={styles.textPtsSoccer}>L</Text>
+            <Text style={styles.textPtsSoccer}>Ga</Text>
+            <Text style={styles.textPtsSoccer}>Gd</Text>
+            <Text style={styles.textPtsSoccer}>Pts</Text>
+          </View>
         );
       case 'basketball':
         return (
@@ -70,13 +75,19 @@ const StandingsDetailScreen = ({navigation, route}) => {
           />
         ))}
       </View>
-      <View style={styles.indicators}>
-        <Text style={styles.textTeam}># Team</Text>
-        {selectedSport()}
-      </View>
-      <View style={styles.line} />
+      <View style={styles.selecteView}>
+        <View style={styles.indicators}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={[styles.textTeam, {paddingRight: 10}]}>#</Text>
+            <Text style={styles.textTeam}>Team</Text>
+          </View>
 
-      <View>{selectedView()}</View>
+          {selectedSport()}
+        </View>
+        <View style={styles.line} />
+
+        <View>{selectedView()}</View>
+      </View>
     </View>
   );
 };
@@ -111,8 +122,15 @@ const styles = StyleSheet.create({
   textTeam: {
     color: 'white',
   },
+  textPtsWrapper: {
+    flexDirection: 'row',
+    width: '50%',
+    justifyContent: 'space-between',
+  },
   textPtsSoccer: {
     color: 'white',
+    width: 25,
+    textAlign: 'center',
   },
   textPtsBasketball: {
     color: 'white',
@@ -121,13 +139,22 @@ const styles = StyleSheet.create({
   indicators: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginHorizontal: 20,
-    marginTop: 20,
+    width: '100%',
+    backgroundColor: '#181829',
+
+    paddingHorizontal: 5,
   },
   line: {
     borderBottomColor: 'white',
     borderBottomWidth: 2,
     marginTop: 10,
     opacity: 0.1,
+  },
+  selecteView: {
+    marginTop: 20,
+    flex: 1,
+    width: '90%',
+    alignSelf: 'center',
+    backgroundColor: '#181829',
   },
 });

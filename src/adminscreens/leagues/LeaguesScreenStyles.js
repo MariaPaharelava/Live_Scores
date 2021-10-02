@@ -150,6 +150,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  swipeView: {
+    marginBottom: 60,
+  },
 });
 
 export default styles;

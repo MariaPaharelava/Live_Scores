@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Text, Image, View, StyleSheet, Platform} from 'react-native';
+import {Text, Image, View, StyleSheet} from 'react-native';
 export const TeamTable = ({
   onPress,
   noBackground = false,
@@ -39,68 +39,64 @@ export const TeamTable = ({
     }
   };
   return (
-    <View style={styles.container}>
-      <View
-        style={
-          team.place > 3 && team.place < 6
-            ? [styles.wrapper, {backgroundColor: '#441818'}]
-            : team.place > 5
-            ? [styles.wrapper, {backgroundColor: ' '}]
-            : styles.wrapper
-        }>
-        <View style={styles.teamName}>
-          <Text style={styles.text}>{team.place}</Text>
+    <View
+      style={
+        team.place > 3 && team.place < 6
+          ? [styles.wrapper, {backgroundColor: '#441818'}]
+          : team.place > 5
+          ? [styles.wrapper, {backgroundColor: ' '}]
+          : styles.wrapper
+      }>
+      <View style={styles.teamName}>
+        <Text style={[styles.text, {paddingRight: 10}]}>{team.place}</Text>
+        <View style={{flexDirection: 'row'}}>
           <Image style={styles.dimensions} source={{uri: team.imageTeam}} />
           <Text style={[styles.text, {marginRight: 5}]}>{team.team}</Text>
         </View>
-        {selectedSport()}
       </View>
+      {selectedSport()}
     </View>
   );
 };
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#181829',
-  },
   wrapper: {
+    width: '100%',
     flexDirection: 'row',
     borderRadius: 10,
     backgroundColor: '#14274D',
     height: 50,
-    paddingHorizontal: 5,
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 15,
+    justifyContent: 'space-between',
+    paddingHorizontal: 5,
   },
   text: {
     color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   score: {
     color: 'white',
-    width: 20,
-    flexShrink: 0,
-    fontSize: 15,
+    width: 25,
     textAlign: 'center',
-    marginHorizontal: Platform.OS === 'ios' ? 6 : 5,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   teamName: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 2,
   },
   teamScoreSoccer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: Platform.OS === 'ios' ? 15 : 50,
+    width: '50%',
+    justifyContent: 'space-between',
   },
-  teamScoreBasketball: {
-    flexDirection: 'row',
-    marginLeft: Platform.OS === 'ios' ? 45 : 65,
-  },
+  // teamScoreBasketball: {
+  //   flexDirection: 'row',
+  //   marginLeft: Platform.OS === 'ios' ? 45 : 65,
+  // },
   dimensions: {
-    height: 15,
-    width: 15,
-    marginHorizontal: 10,
+    height: 20,
+    width: 20,
+    marginRight: 5,
   },
 });

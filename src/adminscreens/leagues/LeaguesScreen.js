@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {
   View,
   Text,
@@ -30,7 +30,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
   const [value, setValue] = useState('');
   const [timoutHandler, settimoutHandler] = useState();
   const [startAfter, setStartAfter] = useState({});
-  const [ligsPerload] = useState(2);
+  const [ligsPerload] = useState(4);
   const [lastLigs, setLastLigs] = useState(false);
   const [ligsData, setligsData] = useState([]);
   const [ligsError, setligsError] = useState();
@@ -109,7 +109,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     ligsrequest();
   }, [types]);
 
@@ -213,7 +213,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
       <VisibleItem
         data={data}
         rowHeightAnimatedValue={rowHeightAnimatedValue}
-        removeRow={() => deleteRow(rowMap, data.item.id)}
+        removeRow={() => !ligsLoading && deleteRow(rowMap, data.item.id)}
       />
     );
   };
@@ -309,7 +309,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
         rowMap={rowMap}
         rowActionAnimatedValue={rowActionAnimatedValue}
         rowHeightAnimatedValue={rowHeightAnimatedValue}
-        onDelete={() => deleteRow(rowMap, data.item.id)}
+        onDelete={() => !ligsLoading && deleteRow(rowMap, data.item.id)}
       />
     );
   };
@@ -362,6 +362,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
         </ScrollView>
       </View>
       <SwipeListView
+        style={styles.swipeView}
         data={ligsData}
         keyExtractor={item => item.id}
         renderItem={renderItem}

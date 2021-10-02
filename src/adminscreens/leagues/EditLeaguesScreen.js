@@ -20,6 +20,7 @@ const EditLeagueScreen = ({navigation, route}) => {
   ]);
   const {data} = route.params;
   const [ligaData, setligaData] = useState(data);
+  const [sport, setSport] = useState();
 
   const [matches, setMatches] = useState([]);
   const [matchesID, setMatchesID] = useState([]);
@@ -45,7 +46,6 @@ const EditLeagueScreen = ({navigation, route}) => {
       secondteamrequest(route.params.matchAdd.secondTeam.team[0]);
     }
   }, [route.params?.matchAdd]);
-  const [sport, setSport] = useState();
 
   useEffect(() => {
     AsyncStorage.getItem('@storage_Key').then(sport => {
@@ -58,12 +58,14 @@ const EditLeagueScreen = ({navigation, route}) => {
   };
 
   const hadleAddLeague = async () => {
-    firestore()
-      .collection('Soccer')
-      .doc(ligaData.id)
-      .update({
-        matches: firestore.FieldValue.arrayUnion(`${matchesID}`),
-      });
+    matchesID.forEach(async matchId => {
+      firestore()
+        .collection('Soccer')
+        .doc(ligaData.id)
+        .update({
+          matches: firestore.FieldValue.arrayUnion(`${matchId}`),
+        });
+    });
   };
   const hadleAddMatches = async () => {
     matches.forEach(async match => {

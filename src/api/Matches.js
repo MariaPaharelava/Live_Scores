@@ -141,12 +141,19 @@ export const getSoccerMatches = async matchPerLoad => {
 };
 export const getTeamSoccerMatches = async (matchPerLoad, search) => {
   let matches = [];
+  let teamId = [];
   let lastVisible;
+  const queryTeamsSnapshot = await firestore()
+    .collection('soccer_teams')
+    .where('teamDetails.name', '==', search)
+    .get();
+  queryTeamsSnapshot.forEach(documentSnapshot => {
+    teamId.push(documentSnapshot.data().id);
+  });
 
   const queryFirstTeamSnapshot = await firestore()
     .collection('soccer_matches')
-    .where('firstTeam.team.teamDetails.name', '==', search)
-
+    .where('firstTeam.team', '==', teamId)
     .limit(matchPerLoad)
     .get();
   queryFirstTeamSnapshot.forEach(documentSnapshot => {
@@ -155,7 +162,7 @@ export const getTeamSoccerMatches = async (matchPerLoad, search) => {
 
   const querySecondTeamSnapshot = await firestore()
     .collection('soccer_matches')
-    .where('secondTeam.team.teamDetails.name', '==', search)
+    .where('secondTeam.team', '==', teamId)
     .limit(matchPerLoad)
     .get();
   lastVisible =
@@ -185,24 +192,32 @@ export const fetchMoreSoccerMatches = async (
   if (search !== '') {
     let matches = [];
     let lastVisible;
-
+    let teamId = [];
+    const queryTeamsSnapshot = await firestore()
+      .collection('soccer_teams')
+      .where('teamDetails.name', '==', search)
+      .get();
+    queryTeamsSnapshot.forEach(documentSnapshot => {
+      teamId.push(documentSnapshot.data().id);
+    });
     const queryFirstTeamSnapshot = await firestore()
       .collection('soccer_matches')
-      .where('firstTeam.team.teamDetails.name', '==', search)
       .startAfter(startAfter)
+      .where('firstTeam.team', '==', teamId)
       .limit(matchPerLoad)
       .get();
-
     queryFirstTeamSnapshot.forEach(documentSnapshot => {
       matches.push(documentSnapshot.data());
     });
+
     const querySecondTeamSnapshot = await firestore()
       .collection('soccer_matches')
-      .where('secondTeam.team.teamDetails.name', '==', search)
       .startAfter(startAfter)
+      .where('secondTeam.team', '==', teamId)
       .limit(matchPerLoad)
       .get();
-
+    lastVisible =
+      querySecondTeamSnapshot.docs[querySecondTeamSnapshot.docs.length - 1];
     querySecondTeamSnapshot.forEach(documentSnapshot => {
       matches.push(documentSnapshot.data());
     });

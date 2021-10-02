@@ -31,7 +31,7 @@ const ExploreScreen = ({navigation}) => {
   const [matchesError, setMatchesError] = useState();
   const [matchesLoading, setMatchesLoading] = useState();
   const [startAfter, setStartAfter] = useState({});
-  const [matchPerLoad] = useState(2);
+  const [matchPerLoad] = useState(4);
   const [lastMatch, setLastMatch] = useState(false);
   const [value, setValue] = useState('');
   const [timoutHandler, settimoutHandler] = useState();
@@ -225,12 +225,10 @@ const ExploreScreen = ({navigation}) => {
 
         <View style={styles.container}>
           <FlatList
+            style={styles.lastView}
             data={matchesData}
             renderItem={RednderLigs}
             keyExtractor={item => item.id}
-            style={{
-              height: Platform.OS === 'ios' ? '90%' : '67%',
-            }}
             onEndReached={getMoreMatches}
             onEndReachedThreshold={0.01}
             scrollEventThrottle={150}
@@ -238,7 +236,6 @@ const ExploreScreen = ({navigation}) => {
               matchesLoading || !lastMatch ? <Indicator /> : null
             }
           />
-          <View style={styles.lastView} />
         </View>
       </View>
     </SafeAreaView>

@@ -15,6 +15,7 @@ import DatePicker from 'react-native-date-picker';
 import Stats from '../../component/Stats';
 import EditTeam from '../../component/EditTeam';
 import EditFormation from '../../component/EditFormation';
+import ChooseType from '../../component/ChooseType';
 const EditMatchesScreen = ({navigation, route}) => {
   const {data} = route.params;
   const [matchData, setmatchData] = useState(data);
@@ -225,10 +226,27 @@ const EditMatchesScreen = ({navigation, route}) => {
             }}
           />
         </>
+
+        <ChooseType
+          title="Choose Type"
+          label={matchData.type}
+          onValueChange={txt =>
+            setmatchData({
+              ...matchData,
+              type: txt,
+            })
+          }
+        />
+
         <View style={styles.statsView}>
-          <Text style={[styles.title, {opacity: 0.7}]}>FirstTeam</Text>
+          <Text style={[styles.title, {color: '#4030f0'}]}>
+            {fteam.teamDetails.name}
+          </Text>
           <Text style={styles.title}>Stats</Text>
-          <Text style={[styles.title, {opacity: 0.7}]}>SecondTeam</Text>
+          <Text style={[styles.title, {color: '#4030f0'}]}>
+            {' '}
+            {steam.teamDetails.name}
+          </Text>
         </View>
 
         <Stats
@@ -380,9 +398,15 @@ const EditMatchesScreen = ({navigation, route}) => {
           valueSecondTeam={matchData.secondTeam.stats.corners}
         />
         <View style={styles.statsView}>
-          <Text style={[styles.title, {opacity: 0.7}]}>FirstTeam</Text>
+          <Text style={[styles.title, {color: '#4030f0'}]}>
+            {' '}
+            {fteam.teamDetails.name}
+          </Text>
           <Text style={styles.title}>Score</Text>
-          <Text style={[styles.title, {opacity: 0.7}]}>SecondTeam</Text>
+          <Text style={[styles.title, {color: '#4030f0'}]}>
+            {' '}
+            {steam.teamDetails.name}
+          </Text>
         </View>
         <Stats
           onChangeFirstTeamText={txt =>
