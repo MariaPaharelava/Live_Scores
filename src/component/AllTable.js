@@ -49,9 +49,7 @@ const Alltable = ({navigation, ligaID, types}) => {
             Gd: 0,
             Pts: 0,
           };
-          console.log('Team', team);
           ligaData.matches.map(match => {
-            console.log('match', match);
             if (match.type !== 'UPC') {
               if (
                 team === match.firstTeam.team[0].teamDetails.name ||
@@ -152,8 +150,6 @@ const Alltable = ({navigation, ligaID, types}) => {
   if (ligaDataError) {
     return <Error />;
   }
-  // console.log(ligaData);
-  console.log(teamsFtData);
 
   function byField(field) {
     return (a, b) => (a[field] < b[field] ? 1 : -1);

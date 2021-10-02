@@ -81,7 +81,6 @@ const StandingsDetailScreen = ({navigation, route}) => {
             <Text style={[styles.textTeam, {paddingRight: 10}]}>#</Text>
             <Text style={styles.textTeam}>Team</Text>
           </View>
-
           {selectedSport()}
         </View>
         <View style={styles.line} />

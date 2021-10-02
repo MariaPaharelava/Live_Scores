@@ -16,7 +16,6 @@ const EditTeam = ({
   team,
   ...props
 }) => {
-  console.log(team);
   const items = useMemo(
     () =>
       teams.map(team => ({
@@ -35,7 +34,6 @@ const EditTeam = ({
       <View style={[styles.action, {height: 60}]}>
         <RNPickerSelect
           placeholder={{
-            // label: `${text}`,
             label: 'Select team ...',
           }}
           style={{
@@ -44,7 +42,6 @@ const EditTeam = ({
             inputIOS: {color: 'white'},
           }}
           onValueChange={v => {
-            console.log(v);
             onValueChange(v);
           }}
           items={items}

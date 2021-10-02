@@ -154,8 +154,6 @@ const HomeTable = ({navigation, ligaID, types}) => {
   if (ligaDataError) {
     return <Error />;
   }
-  // console.log(ligaData);
-  console.log(teamsFtData);
 
   function byField(field) {
     return (a, b) => (a[field] < b[field] ? 1 : -1);

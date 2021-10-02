@@ -40,10 +40,6 @@ const ChooseTeam = ({
             inputIOS: {color: 'white'},
           }}
           onValueChange={onValueChange}
-          // items={teams.map(team => ({
-          //   label: team.teamDetails.name,
-          //   value: team.id,
-          // }))}
           items={items}
         />
       </View>

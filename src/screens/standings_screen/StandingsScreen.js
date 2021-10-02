@@ -142,7 +142,6 @@ const StandingsScreen = ({navigation}) => {
       setligsLoading(false);
     }
   };
-
   const RednderLigs = ({item}) => {
     return (
       <View key={item.id}>
@@ -159,7 +158,7 @@ const StandingsScreen = ({navigation}) => {
           }
         />
 
-        <StandingsTable teams={item.alltable} types={types} />
+        <StandingsTable types={types} ligaID={item.id} />
       </View>
     );
   };
@@ -226,7 +225,6 @@ const StandingsScreen = ({navigation}) => {
               ligsLoading || !lastLigs ? <Indicator /> : null
             }
           />
-          <View style={styles.lastView} />
         </View>
       </View>
     </SafeAreaView>

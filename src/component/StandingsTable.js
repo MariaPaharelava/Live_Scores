@@ -1,42 +1,165 @@
-import React from 'react';
-import {Text, Image, View, StyleSheet, Platform} from 'react-native';
-export const StandingsTable = ({
-  onPress,
-  noBackground = false,
-  liga,
-  teams,
-  matches,
-  types,
-  ...props
-}) => {
-  const renderTeam = teams => {
-    return teams.map(team => {
-      while (team.place < 5) {
-        switch (types) {
-          case 'soccer':
-            return (
-              <View key={team.team} style={styles.soccerTeam}>
-                <Image
-                  style={styles.teamImage}
-                  source={{uri: team.imageTeam}}
-                />
-                <Text style={styles.row}>{team.team}</Text>
-              </View>
-            );
-          case 'basketball':
-            return (
-              <View key={team.team} style={styles.basketballTeam}>
-                <Image
-                  style={styles.teamImage}
-                  source={{uri: team.imageTeam}}
-                />
-                <Text style={styles.row}>{team.team}</Text>
-              </View>
-            );
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, ScrollView, Platform, Text} from 'react-native';
+import Indicator from './ActivityIndicator';
+import Error from './ErrorIndicator';
+import {getSoccerLigaByID} from '../api/Matches';
+import {StandingsTeamTable} from './StandinsTeamTable';
 
-          default:
-            return;
+export const StandingsTable = ({navigation, ligaID, types}) => {
+  const [ligaData, setligaData] = useState();
+  const [ligaDataError, setligaDataError] = useState();
+  const [ligaDataLoading, setligaDataLoading] = useState();
+  const [teamsFtData, setteamsFtData] = useState();
+  const [allteamStats, setallteamStats] = useState([]);
+  const [allteamStatsLoading, setallteamStatsLoading] = useState(true);
+  const [allteamStatsError, setallteamStatsError] = useState();
+  const ligarequest = async () => {
+    setligaDataLoading(true);
+    try {
+      if (types === 'soccer') {
+        const liga = await getSoccerLigaByID(ligaID);
+        setligaData(liga);
+      }
+      // if (types === 'basketball') {
+      //   const liga = await getAllTableBasketballMatches(ligaID);
+      //   setligaData(liga);
+      // }
+    } catch (error) {
+      setligaDataError(error);
+      console.log(error);
+    } finally {
+      setligaDataLoading(false);
+    }
+  };
+
+  const allteamstatsrequest = async () => {
+    try {
+      if (teamsFtData) {
+        let allteamstats = [];
+
+        teamsFtData.map(team => {
+          let teamStats = {
+            team: '',
+            imageTeam: '',
+            win: 0,
+            draw: 0,
+            lose: 0,
+            Ga: 0,
+            Gd: 0,
+            Pts: 0,
+          };
+          ligaData.matches.map(match => {
+            if (match.type !== 'UPC') {
+              if (
+                team === match.firstTeam.team[0].teamDetails.name ||
+                team === match.secondTeam.team[0].teamDetails.name
+              ) {
+                teamStats.team = team;
+                teamStats.imageTeam =
+                  team === match.firstTeam.team[0].teamDetails.name
+                    ? match.firstTeam.team[0].teamDetails.imageUrl
+                    : match.secondTeam.team[0].teamDetails.imageUrl;
+                teamStats.Ga += Number(match.firstTeam.score);
+                teamStats.Gd += Number(match.secondTeam.score);
+                teamStats.win +=
+                  Number(match.firstTeam.score) > Number(match.secondTeam.score)
+                    ? 1
+                    : 0;
+                teamStats.lose +=
+                  Number(match.firstTeam.score) < Number(match.secondTeam.score)
+                    ? 1
+                    : 0;
+                teamStats.draw +=
+                  Number(match.firstTeam.score) ===
+                  Number(match.secondTeam.score)
+                    ? 1
+                    : 0;
+                teamStats.Pts +=
+                  Number(match.firstTeam.score) > Number(match.secondTeam.score)
+                    ? 3
+                    : Number(match.firstTeam.score) ===
+                      Number(match.secondTeam.score)
+                    ? 1
+                    : 0;
+              }
+            } else {
+              if (
+                team === match.firstTeam.team[0].teamDetails.name ||
+                team === match.secondTeam.team[0].teamDetails.name
+              ) {
+                teamStats.team = team;
+                teamStats.imageTeam =
+                  team === match.firstTeam.team[0].teamDetails.name
+                    ? match.firstTeam.team[0].teamDetails.imageUrl
+                    : match.secondTeam.team[0].teamDetails.imageUrl;
+              }
+            }
+          });
+          allteamstats.push(teamStats);
+          allteamstats.sort(byField('Pts'));
+          allteamstats.map((teamstats, index) => {
+            teamstats.place = `${index + 1}.`;
+          });
+          setallteamStats(allteamstats);
+          setallteamStatsLoading(false);
+        });
+      }
+    } catch (error) {
+      setallteamStatsError(error);
+      console.log(error);
+    } finally {
+    }
+  };
+  useEffect(() => {
+    ligarequest();
+  }, []);
+
+  useEffect(() => {
+    if (ligaData) {
+      let teams = [];
+      ligaData.matches.map(match => {
+        if (match.type === 'FT' || match.type === 'UPC') {
+          teams.push(match.firstTeam.team[0].teamDetails.name);
+          teams.push(match.secondTeam.team[0].teamDetails.name);
+          const sortteams = unique(teams);
+          setteamsFtData(sortteams);
         }
+      });
+    }
+  }, [ligaData]);
+
+  useEffect(() => {
+    allteamstatsrequest();
+  }, [teamsFtData]);
+
+  const unique = arr => {
+    let result = [];
+    for (let str of arr) {
+      if (!result.includes(str)) {
+        result.push(str);
+      }
+    }
+    return result;
+  };
+
+  if (!ligaData) {
+    return null;
+  }
+  if (ligaDataError) {
+    return <Error />;
+  }
+
+  function byField(field) {
+    return (a, b) => (a[field] < b[field] ? 1 : -1);
+  }
+  const renderTeam = table => {
+    return table.map(team => {
+      while (team.place < 6) {
+        return (
+          <View key={team.team}>
+            <StandingsTeamTable team={team} types={types} />
+          </View>
+        );
       }
     });
   };
@@ -44,153 +167,85 @@ export const StandingsTable = ({
     switch (types) {
       case 'soccer':
         return (
-          <View
-            style={{
-              flexDirection: 'row',
-              flex: 1,
-            }}>
-            <Text style={styles.row}>W</Text>
-            <Text style={styles.row}>D</Text>
-            <Text style={styles.row}>L</Text>
-            <Text style={styles.row}>Ga</Text>
-            <Text style={styles.row}>Gd</Text>
-
-            <Text style={styles.row}>Pts</Text>
+          <View style={styles.textPtsWrapper}>
+            <Text style={styles.textPtsSoccer}>W</Text>
+            <Text style={styles.textPtsSoccer}>D</Text>
+            <Text style={styles.textPtsSoccer}>L</Text>
+            <Text style={styles.textPtsSoccer}>Ga</Text>
+            <Text style={styles.textPtsSoccer}>Gd</Text>
+            <Text style={styles.textPtsSoccer}>Pts</Text>
           </View>
         );
       case 'basketball':
         return (
-          <View
-            style={{
-              flexDirection: 'row',
-              flex: 1,
-              justifyContent: 'center',
-            }}>
-            <Text style={styles.row}>G</Text>
-            <Text style={styles.row}>W</Text>
-            <Text style={styles.row}>L</Text>
-            <Text style={styles.row}>Pl</Text>
-          </View>
+          <Text style={styles.textPtsBasketball}>
+            {'   '} G {'    '} W {'    '} L {'    '} Pl
+          </Text>
         );
 
       default:
         return;
     }
   };
-  const renderScore = (teamsScore, types) => {
-    return teamsScore.map(team => {
-      while (team.place < 5) {
-        switch (types) {
-          case 'soccer':
-            return (
-              <View key={team.team} style={{flexDirection: 'column'}}>
-                <View style={styles.image}>
-                  <Text style={styles.row}>{team.win}</Text>
-                  <Text style={styles.row}>{team.draw}</Text>
-                  <Text style={styles.row}>{team.lose}</Text>
-                  <Text style={styles.row}>{team.Ga}</Text>
-                  <Text style={styles.row}>{team.Gd}</Text>
-                  <Text style={styles.row}>{team.Pts}</Text>
-                </View>
-                <View style={styles.line} />
-              </View>
-            );
-          case 'basketball':
-            return (
-              <View
-                key={team.team}
-                style={{
-                  flexDirection: 'column',
-                }}>
-                <View style={styles.image}>
-                  <Text style={styles.row}>{team.games}</Text>
-                  <Text style={styles.row}>{team.win}</Text>
-                  <Text style={styles.row}>{team.lose}</Text>
-                  <Text style={styles.row}>{team.place}</Text>
-                </View>
-                <View style={styles.line} />
-              </View>
-            );
 
-          default:
-            return;
-        }
-      }
-    });
-  };
-  return (
-    <View style={styles.container}>
-      <View style={styles.wrapper}>
-        <View>
-          <Text style={[styles.row, {marginRight: '30%', marginLeft: 10}]}>
-            Team
-          </Text>
-
-          <View style={styles.teams}>{renderTeam(teams, types)}</View>
+  return !ligaDataLoading && !allteamStatsLoading ? (
+    <ScrollView
+      style={{
+        backgroundColor: '#222232',
+        borderRadius: 20,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        marginHorizontal: 10,
+      }}>
+      <View style={styles.indicators}>
+        <View style={{flexDirection: 'row', marginBottom: 5}}>
+          <Text style={[styles.textTeam, {paddingRight: 10}]}>#</Text>
+          <Text style={styles.textTeam}>Team</Text>
         </View>
-        <View
-          style={{
-            flexDirection: 'column',
-            flex: 1,
-          }}>
-          {selectedSport()}
 
-          <View style={[styles.line, {paddingTop: 10}]} />
-
-          <View style={styles.teams}>{renderScore(teams, types)}</View>
-        </View>
+        {selectedSport()}
       </View>
-    </View>
+      {renderTeam(allteamStats)}
+    </ScrollView>
+  ) : (
+    <Indicator />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  content: {
+    height: Platform.OS === 'ios' ? '84%' : '80%',
+    backgroundColor: '#181829',
   },
-  wrapper: {
-    backgroundColor: '#222232',
-    borderRadius: 10,
-    marginHorizontal: Platform.OS === 'ios' ? 10 : 20,
-
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  indicators: {
     flexDirection: 'row',
-
-    paddingVertical: 10,
-  },
-  row: {
-    color: 'white',
-    flex: 1,
-  },
-  teams: {
-    flexDirection: 'column',
-  },
-  line: {
-    borderBottomColor: 'gray',
-    borderBottomWidth: 0.3,
-    opacity: 0.8,
+    justifyContent: 'space-between',
     width: '100%',
+    borderBottomColor: '#0f0f12',
+    borderBottomWidth: 1,
+
+    paddingHorizontal: 5,
   },
-  lastView: {height: 75},
-  image: {
+  textTeam: {
+    color: 'white',
+  },
+  textPtsWrapper: {
     flexDirection: 'row',
-    marginBottom: 10,
-    marginTop: 20,
+    width: '50%',
+    justifyContent: 'space-between',
   },
-  teamImage: {
-    height: 15,
-    width: 15,
-    marginHorizontal: 10,
-  },
-  soccerTeam: {
-    flexDirection: 'row',
-    marginBottom: 10,
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  basketballTeam: {
-    flexDirection: 'row',
-    marginBottom: '3%',
-    marginTop: 20,
-    alignItems: 'center',
+  textPtsSoccer: {
+    color: 'white',
+    width: 25,
+    textAlign: 'center',
   },
 });

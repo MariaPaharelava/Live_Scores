@@ -184,7 +184,6 @@ const EditMatchesScreen = ({navigation, route}) => {
   if (teamsError) {
     return <Error />;
   }
-  console.log('MatchData', matchData);
   return (
     <Swiper
       loop={false}
