@@ -25,6 +25,8 @@ import {getSoccerLiga} from '../../api/Matches';
 import {getBasketballLiga} from '../../api/Matches';
 import {getSoccerLigsTable} from '../../api/Matches';
 import {getBasketballLigsTable} from '../../api/Matches';
+import firestore from '@react-native-firebase/firestore';
+
 const LeaguesScreen = ({navigation, ligs}) => {
   const [types, setTypes] = useState('');
   const [value, setValue] = useState('');
@@ -144,7 +146,14 @@ const LeaguesScreen = ({navigation, ligs}) => {
     }
   };
 
-  const deleteRow = (rowMap, rowKey) => {
+  const deleteRow = async (rowMap, rowKey) => {
+    await firestore()
+      .collection('Soccer')
+      .doc(rowKey)
+      .delete()
+      .then(() => {
+        console.log('User deleted!');
+      });
     const newData = [...ligsData];
     const prevIndex = ligsData.findIndex(item => item.id === rowKey);
 

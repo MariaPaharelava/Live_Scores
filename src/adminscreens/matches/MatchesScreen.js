@@ -18,6 +18,8 @@ import {SPORTS} from '../../constant/Sport';
 import {SportsButton} from '../../buttons/SportsButton';
 import Search from '../../icons/other/Search.svg';
 import {ExploreMatchButton} from '../../buttons/ExploreMatchButton';
+import firestore from '@react-native-firebase/firestore';
+
 import {
   fetchMoreBasketballMatches,
   getBasketballMatches,
@@ -159,7 +161,31 @@ const MatchesScreen = ({navigation, ligs}) => {
     }
   };
 
-  const deleteRow = (rowMap, rowKey) => {
+  const deleteRow = async (rowMap, rowKey) => {
+    await firestore()
+      .collection('Soccer')
+      .where('matches', 'array-contains', rowKey)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          const ligaID = documentSnapshot.data().id;
+          console.log(ligaID);
+          firestore()
+            .collection('Soccer')
+            .doc(ligaID)
+            .update({
+              matches: firestore.FieldValue.arrayRemove(`${rowKey}`),
+            });
+        });
+      });
+
+    await firestore()
+      .collection('soccer_matches')
+      .doc(rowKey)
+      .delete()
+      .then(() => {
+        console.log('User deleted!');
+      });
     const newData = [...matchesData];
     const prevIndex = matchesData.findIndex(item => item.id === rowKey);
 
