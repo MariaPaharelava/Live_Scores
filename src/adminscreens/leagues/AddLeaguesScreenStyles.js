@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#4F5287',
     marginBottom: 20,
+    flexDirection: 'row',
   },
   titleTeam: {
     fontSize: 18,

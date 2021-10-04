@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   },
 
   Team: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,

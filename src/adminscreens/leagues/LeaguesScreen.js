@@ -27,8 +27,9 @@ import {getSoccerLigsTable} from '../../api/Matches';
 import {getBasketballLigsTable} from '../../api/Matches';
 import firestore from '@react-native-firebase/firestore';
 
-const LeaguesScreen = ({navigation, ligs}) => {
+const LeaguesScreen = ({navigation, route}) => {
   const [types, setTypes] = useState('');
+  const [add, setAdd] = useState();
   const [value, setValue] = useState('');
   const [timoutHandler, settimoutHandler] = useState();
   const [startAfter, setStartAfter] = useState({});
@@ -38,6 +39,15 @@ const LeaguesScreen = ({navigation, ligs}) => {
   const [ligsError, setligsError] = useState();
   const [ligsLoading, setligsLoading] = useState();
 
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      setligsData([]);
+      setValue('');
+      setStartAfter({});
+      setLastLigs(false);
+      setAdd(!add);
+    });
+  }, [navigation, add]);
   const HandleSportPress = type => {
     if (type !== types) {
       setTypes(type);
@@ -113,7 +123,7 @@ const LeaguesScreen = ({navigation, ligs}) => {
 
   useLayoutEffect(() => {
     ligsrequest();
-  }, [types]);
+  }, [types, add]);
 
   const getMoreLigs = async () => {
     try {
@@ -255,11 +265,11 @@ const LeaguesScreen = ({navigation, ligs}) => {
         {!leftActionActivated && (
           <TouchableOpacity
             style={[styles.backRightBtn, styles.backRightBtnLeft]}
-            onPress={() =>
+            onPress={() => {
               navigation.navigate('EditLeagues', {
                 data: data.item,
-              })
-            }>
+              });
+            }}>
             <Image
               source={ADMIN_IMAGES.EDIT_IMAGE}
               resizeMode="contain"

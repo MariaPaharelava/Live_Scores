@@ -82,6 +82,7 @@ const SignUpScreen = ({navigation}) => {
               <Text style={styles.text_footer}>Email</Text>
               <View style={styles.action}>
                 <TextInput
+                  placeholderTextColor="#65656B"
                   placeholder="Your Email"
                   style={styles.textInput}
                   autoCapitalize="none"
@@ -105,6 +106,7 @@ const SignUpScreen = ({navigation}) => {
               </Text>
               <View style={styles.action}>
                 <TextInput
+                  placeholderTextColor="#65656B"
                   placeholder="Your Password"
                   style={styles.textInput}
                   autoCapitalize="none"
@@ -133,6 +135,9 @@ const SignUpScreen = ({navigation}) => {
               </Text>
               <View style={styles.action}>
                 <TextInput
+                  placehol
+                  placeholderTextColor="#65656B"
+                  derTextColor="#65656B"
                   placeholder="Confirm Your Password"
                   style={styles.textInput}
                   autoCapitalize="none"
@@ -160,6 +165,7 @@ const SignUpScreen = ({navigation}) => {
               </Text>
               <View style={styles.action}>
                 <TextInput
+                  placeholderTextColor="#65656B"
                   placeholder="Your Name"
                   style={styles.textInput}
                   autoCapitalize="none"

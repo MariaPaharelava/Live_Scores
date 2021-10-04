@@ -201,9 +201,9 @@ const EditMatchesScreen = ({navigation, route}) => {
           <Text style={styles.titleTeam}>MatchInfo</Text>
         </View>
 
-        <>
+        <View style={{marginBottom: 15}}>
           <View style={[styles.action, {alignItems: 'center'}]}>
-            <Text style={{color: 'white'}}>{date.toString().slice(0, 33)}</Text>
+            <Text style={{color: 'white'}}>{date.toString().slice(0, 24)}</Text>
           </View>
           <TouchableOpacity
             style={styles.dataButton}
@@ -224,8 +224,7 @@ const EditMatchesScreen = ({navigation, route}) => {
               setOpen(false);
             }}
           />
-        </>
-
+        </View>
         <ChooseType
           title="Choose Type"
           label={matchData.type}
@@ -243,7 +242,6 @@ const EditMatchesScreen = ({navigation, route}) => {
           </Text>
           <Text style={styles.title}>Stats</Text>
           <Text style={[styles.title, {color: '#4030f0'}]}>
-            {' '}
             {steam.teamDetails.name}
           </Text>
         </View>
@@ -398,12 +396,10 @@ const EditMatchesScreen = ({navigation, route}) => {
         />
         <View style={styles.statsView}>
           <Text style={[styles.title, {color: '#4030f0'}]}>
-            {' '}
             {fteam.teamDetails.name}
           </Text>
           <Text style={styles.title}>Score</Text>
           <Text style={[styles.title, {color: '#4030f0'}]}>
-            {' '}
             {steam.teamDetails.name}
           </Text>
         </View>

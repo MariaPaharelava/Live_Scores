@@ -66,6 +66,12 @@ const EditLeagueScreen = ({navigation, route}) => {
           matches: firestore.FieldValue.arrayUnion(`${matchId}`),
         });
     });
+    firestore().collection('Soccer').doc(ligaData.id).update({
+      imageUrl: ligaData.imageUrl,
+      ligaName: ligaData.ligaName,
+      ligaCountry: ligaData.ligaCountry,
+      country: ligaData.country,
+    });
   };
   const hadleAddMatches = async () => {
     matches.forEach(async match => {
@@ -126,6 +132,23 @@ const EditLeagueScreen = ({navigation, route}) => {
       <View style={styles.container}>
         <View style={styles.Team}>
           <Text style={styles.titleTeam}>Add Match</Text>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={{width: 60, paddingBottom: 5}}
+            onPress={() => {
+              navigation.navigate('AddMatches', {
+                name: 'EditLeagues',
+              });
+              setfirstTeam();
+              setsecondTeam();
+              setteamsLoading(false);
+            }}>
+            <Image
+              source={ADMIN_IMAGES.PLUS_IMAGE}
+              resizeMode="contain"
+              style={styles.imagePlus}
+            />
+          </TouchableOpacity>
         </View>
         {ligaData.matches.map((match, index) => {
           return (
@@ -153,26 +176,10 @@ const EditLeagueScreen = ({navigation, route}) => {
         {(firstTeam && secondTeam) !== undefined && !teamsLoading
           ? addTeam(firstTeam, secondTeam, route.params?.matchAdd.playtime)
           : null}
-        <TouchableOpacity
-          activeOpacity={0.5}
-          style={{width: 60}}
-          onPress={() => {
-            navigation.navigate('AddMatches', {
-              name: 'EditLeagues',
-            });
-            setfirstTeam();
-            setsecondTeam();
-            setteamsLoading(false);
-          }}>
-          <Image
-            source={ADMIN_IMAGES.PLUS_IMAGE}
-            resizeMode="contain"
-            style={styles.imagePlus}
-          />
-        </TouchableOpacity>
+
         <View style={styles.addButton}>
           <FormButton
-            buttonTitle="Add New Matches to League"
+            buttonTitle="Upload New Matches"
             onPress={hadleAddMatches}
           />
         </View>

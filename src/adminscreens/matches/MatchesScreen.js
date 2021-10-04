@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {
   View,
-  Text,
   Animated,
   TouchableOpacity,
   StatusBar,
@@ -39,6 +38,17 @@ const MatchesScreen = ({navigation, ligs}) => {
   const [value, setValue] = useState('');
   const [timoutHandler, settimoutHandler] = useState();
   const [types, setTypes] = useState('');
+  const [add, setAdd] = useState();
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      setMatchesData([]);
+      setStartAfter({});
+      setLastMatch(false);
+      setValue('');
+      setAdd(!add);
+    });
+  }, [navigation, add]);
   const HandleSportPress = type => {
     if (type !== types) {
       setTypes(type);
@@ -124,7 +134,7 @@ const MatchesScreen = ({navigation, ligs}) => {
 
   useLayoutEffect(() => {
     matchesrequest();
-  }, [types]);
+  }, [types, add]);
 
   const getMoreMatches = async () => {
     try {

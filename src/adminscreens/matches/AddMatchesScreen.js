@@ -184,7 +184,7 @@ const AddMatchesScreen = ({navigation, route}) => {
 
         <>
           <View style={[styles.action, {alignItems: 'center'}]}>
-            <Text style={{color: 'white'}}>{date.toString().slice(0, 33)}</Text>
+            <Text style={{color: 'white'}}>{date.toString().slice(0, 24)}</Text>
           </View>
           <TouchableOpacity
             style={styles.dataButton}

@@ -10,27 +10,25 @@ const Stats = ({
   ...props
 }) => {
   return (
-    <View>
-      <View style={styles.containerStats}>
-        <TextInput
-          placeholderTextColor="white"
-          autoCorrect={false}
-          style={styles.textInput}
-          autoCapitalize="none"
-          onChangeText={onChangeFirstTeamText}
-          value={valueFirstTeam}
-        />
+    <View style={styles.containerStats}>
+      <TextInput
+        placeholderTextColor="white"
+        autoCorrect={false}
+        style={styles.textInput}
+        autoCapitalize="none"
+        onChangeText={onChangeFirstTeamText}
+        value={valueFirstTeam}
+      />
 
-        <Text style={styles.scoreText}>{title}</Text>
-        <TextInput
-          placeholderTextColor="white"
-          autoCorrect={false}
-          style={styles.textInput}
-          autoCapitalize="none"
-          onChangeText={onChangeSecondTeamText}
-          value={valueSecondTeam}
-        />
-      </View>
+      <Text style={styles.scoreText}>{title}</Text>
+      <TextInput
+        placeholderTextColor="white"
+        autoCorrect={false}
+        style={styles.textInput}
+        autoCapitalize="none"
+        onChangeText={onChangeSecondTeamText}
+        value={valueSecondTeam}
+      />
     </View>
   );
 };
@@ -43,12 +41,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 15,
-    marginHorizontal: 55,
+    paddingHorizontal: '13%',
   },
   textInput: {
-    paddingLeft: Platform.OS === 'ios' ? 0 : 15,
     color: 'white',
-    width: 30,
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -57,5 +53,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     fontStyle: 'normal',
+    paddingLeft: 25,
   },
 });

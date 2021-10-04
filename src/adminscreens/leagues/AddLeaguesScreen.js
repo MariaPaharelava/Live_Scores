@@ -120,6 +120,23 @@ const AddLeaguesScreen = ({navigation, route}) => {
       <View style={styles.container}>
         <View style={styles.Team}>
           <Text style={styles.titleTeam}>Add Match</Text>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={{width: 60, paddingBottom: 5}}
+            onPress={() => {
+              navigation.navigate('AddMatches', {
+                name: 'AddLeagues',
+              });
+              setfirstTeam();
+              setsecondTeam();
+              setteamsLoading(false);
+            }}>
+            <Image
+              source={ADMIN_IMAGES.PLUS_IMAGE}
+              resizeMode="contain"
+              style={styles.imagePlus}
+            />
+          </TouchableOpacity>
         </View>
         {teams.map((team, index) => {
           return (
@@ -136,26 +153,10 @@ const AddLeaguesScreen = ({navigation, route}) => {
         {(firstTeam && secondTeam) !== undefined && !teamsLoading
           ? addTeam(firstTeam, secondTeam, route.params?.matchAdd.playtime)
           : null}
-        <TouchableOpacity
-          activeOpacity={0.5}
-          style={{width: 60}}
-          onPress={() => {
-            navigation.navigate('AddMatches', {
-              name: 'AddLeagues',
-            });
-            setfirstTeam();
-            setsecondTeam();
-            setteamsLoading(false);
-          }}>
-          <Image
-            source={ADMIN_IMAGES.PLUS_IMAGE}
-            resizeMode="contain"
-            style={styles.imagePlus}
-          />
-        </TouchableOpacity>
+
         <View style={styles.addButton}>
           <FormButton
-            buttonTitle="Add Matches to League"
+            buttonTitle="Upload Matches to League"
             onPress={hadleAddMatches}
           />
         </View>

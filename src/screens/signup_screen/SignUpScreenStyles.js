@@ -1,9 +1,10 @@
 import {StyleSheet, Platform} from 'react-native';
+import {colors} from '../../constant/colors';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#246BFD',
+    backgroundColor: '#181829',
   },
   header: {
     flex: 1,
@@ -13,7 +14,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: Platform.OS === 'ios' ? 3 : 5,
-    backgroundColor: '#fff',
+    backgroundColor: '#222232',
+
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
@@ -29,7 +31,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   text_footer: {
-    color: '#05375a',
+    color: '#fff',
+
     fontSize: 18,
   },
   action: {
@@ -43,7 +46,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
-    color: '#05375a',
+    color: '#fff',
   },
   button: {
     alignItems: 'center',
@@ -55,7 +58,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    borderColor: '#246BFD',
+    borderColor: '#848587',
     borderWidth: 1,
     marginTop: 15,
   },
@@ -69,12 +72,12 @@ const styles = StyleSheet.create({
   textSignIn: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#246BFD',
+    color: '#848587',
   },
   textSignUp: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#246BFD',
   },
   textPrivate: {
     flexDirection: 'row',
@@ -82,7 +85,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   color_textPrivate: {
-    color: 'grey',
+    color: '#fff',
   },
   errors: {
     fontSize: 14,

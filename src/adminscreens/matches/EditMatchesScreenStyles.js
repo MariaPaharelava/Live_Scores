@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
-    marginLeft: 10,
     color: 'white',
   },
   action: {
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#4F5287',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   titleTeam: {
     fontSize: 18,
@@ -107,13 +106,12 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
   },
   statsView: {
-    borderRadius: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#999',
     marginTop: 20,
     justifyContent: 'space-between',
     flexDirection: 'row',
-    marginHorizontal: 20,
+    paddingHorizontal: 20,
   },
   dataButton: {
     alignItems: 'center',
