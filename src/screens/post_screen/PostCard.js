@@ -5,34 +5,10 @@ import ProgressiveImage from '../../component/ProgressiveImage';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
 
-const PostCard = ({item, onDelete, onPress, navigation}) => {
-  const [isPress, setisPress] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const getUser = async () => {
-    await firestore()
-      .collection('users')
-      .doc(item.userId)
-      .get()
-      .then(documentSnapshot => {
-        if (documentSnapshot.exists) {
-          console.log('User Data', documentSnapshot.data());
-          setUserData(documentSnapshot.data());
-        }
-      });
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
+const PostCard = ({item, onPress}) => {
   return (
     <View style={styles.Card} key={item.id}>
-      <TouchableOpacity
-        onPress={() =>
-          navigation.push('UserPost', {
-            item: item,
-          })
-        }>
+      <TouchableOpacity onPress={onPress}>
         <View style={{flexDirection: 'row'}}>
           {item.postImg != null ? (
             <ProgressiveImage

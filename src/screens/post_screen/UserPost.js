@@ -5,7 +5,6 @@ import UserPostCard from './UserPostCard';
 const UserPost = ({navigation, route}) => {
   const {item} = route.params;
   const [post, setPost] = useState(item);
-  console.log(post);
 
   return (
     <SafeAreaView style={{flex: 1}}>

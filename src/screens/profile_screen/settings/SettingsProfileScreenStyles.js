@@ -6,9 +6,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#181829',
   },
-  profileData: {
-    marginLeft: Platform.OS === 'ios' ? 25 : 35,
-  },
   text: {
     color: 'white',
   },

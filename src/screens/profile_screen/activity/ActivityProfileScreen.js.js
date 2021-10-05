@@ -10,9 +10,13 @@ import {
 
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-import Indicator from '../../component/ActivityIndicator';
-import PostActivityScreen from './PostActivityScreen';
+import PostActivity from './PostActivityScreen';
+import {useDispatch, useSelector} from 'react-redux';
+
+import Indicator from '../../../component/ActivityIndicator';
 const ActivityProfileScreen = ({navigation}) => {
+  console.log(navigation);
+  const user = useSelector(state => state.AuthReducer.user);
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
@@ -23,7 +27,7 @@ const ActivityProfileScreen = ({navigation}) => {
 
       await firestore()
         .collection('posts')
-        .orderBy('postTime', 'desc')
+        .where('userId', '==', user)
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
@@ -134,9 +138,6 @@ const ActivityProfileScreen = ({navigation}) => {
       .catch(e => console.log('Error deleting posst.', e));
   };
 
-  const ListHeader = () => {
-    return null;
-  };
   return (
     <SafeAreaView style={{flex: 1}}>
       {loading ? (
@@ -146,13 +147,12 @@ const ActivityProfileScreen = ({navigation}) => {
           <FlatList
             data={posts}
             renderItem={({item}) => (
-              <PostActivityScreen
+              <PostActivity
                 item={item}
                 onDelete={handleDelete}
-                navigation={navigation}
                 onPress={() =>
-                  navigation.navigate('ActivityProfile', {
-                    userId: item.userId,
+                  navigation.navigate('UserPost', {
+                    item: item,
                   })
                 }
               />
@@ -168,8 +168,8 @@ const ActivityProfileScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#222232',
+    marginTop: 20,
+    backgroundColor: '#181829',
   },
 });
 

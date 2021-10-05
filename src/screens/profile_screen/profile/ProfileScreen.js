@@ -3,14 +3,13 @@ import {View, Text, ScrollView, ImageBackground} from 'react-native';
 import {NavigateButton} from '../../../buttons/NavigateButton';
 import {ProfileData} from '../../../component/ProfileData';
 import styles from './ProfileScreenStyles';
-import ActivityProfileScreen from '../activity/ActivityProfileScreen';
 import SettingsProfileScreen from '../settings/SettingsProfileScreen';
 import firestore from '@react-native-firebase/firestore';
 import Error from '../../../component/ErrorIndicator';
 import Indicator from '../../../component/ActivityIndicator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {PROFILE_IMAGE} from '../../../images/Images';
-
+import ActivityProfileScreen from '../activity/ActivityProfileScreen.js';
 const ProfileScreen = ({navigation, route}) => {
   const [view, setView] = useState('profile');
   const [userData, setUserData] = useState();
@@ -84,14 +83,16 @@ const ProfileScreen = ({navigation, route}) => {
         );
 
       case 'activity':
-        return <ActivityProfileScreen />;
+        return <ActivityProfileScreen navigation={navigation} />;
       case 'settings':
         return (
-          <SettingsProfileScreen
-            navigation={navigation}
-            userData={userData}
-            sport={sport}
-          />
+          <View style={styles.profileData}>
+            <SettingsProfileScreen
+              navigation={navigation}
+              userData={userData}
+              sport={sport}
+            />
+          </View>
         );
       default:
         return;
@@ -139,7 +140,7 @@ const ProfileScreen = ({navigation, route}) => {
           />
         ))}
       </View>
-      <ScrollView>{selectedView()}</ScrollView>
+      <View style={{width: '100%', flex: 1}}>{selectedView()}</View>
     </View>
   );
 };

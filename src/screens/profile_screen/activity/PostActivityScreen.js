@@ -1,42 +1,52 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Image, View, Text, TouchableOpacity} from 'react-native';
-
-import ProgressiveImage from '../../component/ProgressiveImage';
-import firestore from '@react-native-firebase/firestore';
+import {
+  StyleSheet,
+  Image,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import ProgressiveImage from '../../../component/ProgressiveImage';
 import moment from 'moment';
+import firestore from '@react-native-firebase/firestore';
+import {useDispatch, useSelector} from 'react-redux';
+import {ADMIN_IMAGES} from '../../../images/Images';
+const PostActivity = ({item, onDelete, onPress}) => {
+  const user = useSelector(state => state.AuthReducer.user);
+  console.log(item);
+  const likeIcon = item.liked ? 'heart' : 'heart-outline';
+  const likeIconColor = item.liked ? '#2e64e5' : '#333';
+  let likeText = '1 Like';
+  let commentText = '1 Like';
 
-const PostActivityScreen = ({item, onDelete, onPress, navigation}) => {
-  const [isPress, setisPress] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const getUser = async () => {
-    await firestore()
-      .collection('users')
-      .doc(item.userId)
-      .get()
-      .then(documentSnapshot => {
-        if (documentSnapshot.exists) {
-          console.log('User Data', documentSnapshot.data());
-          setUserData(documentSnapshot.data());
-        }
-      });
-  };
+  if (item.likes === 1) {
+    likeText = '1 Like';
+  } else if (item.likes > 1) {
+    likeText = item.likes + ' Likes';
+  } else {
+    likeText = 'Like';
+  }
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  if (item.comments === 1) {
+    commentText = '1 Comment';
+  } else if (item.comments > 1) {
+    commentText = item.comments + ' Comments';
+  } else {
+    commentText = 'Comment';
+  }
 
   return (
     <View style={styles.Card} key={item.id}>
-      <TouchableOpacity
-        onPress={() =>
-          navigation.push('UserPost', {
-            item: item,
-          })
-        }>
-        <View style={{flexDirection: 'row'}}>
+      <TouchableOpacity onPress={onPress}>
+        <Text style={styles.PostTime}>
+          {moment(item.postTime.toDate()).fromNow()}
+        </Text>
+
+        <View style={{flexDirection: 'row', paddingLeft: 10}}>
           {item.postImg != null ? (
             <ProgressiveImage
-              defaultImageSource={require('../../images/images/default-img.jpg')}
+              defaultImageSource={require('../../../images/images/default-img.jpg')}
               source={{uri: item.postImg}}
               style={{width: 64, height: 64}}
               resizeMode="cover"
@@ -44,30 +54,60 @@ const PostActivityScreen = ({item, onDelete, onPress, navigation}) => {
           ) : (
             <Image
               style={styles.AddImage}
-              source={require('../../images/images/default-img.jpg')}
+              source={require('../../../images/images/default-img.jpg')}
             />
           )}
-          <View style={{flexDirection: 'column'}}>
-            <Text style={styles.PostText}>{item.title}</Text>
-            <Text style={styles.PostTime}>
-              {moment(item.postTime.toDate()).fromNow()}
-            </Text>
+          <Text style={styles.PostText}>{item.title}</Text>
+        </View>
+
+        <View style={styles.InteractionWrapper}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TouchableOpacity style={styles.Interaction}>
+              <Image
+                source={ADMIN_IMAGES.HEART_IMAGE}
+                resizeMode="contain"
+                style={styles.image}
+              />
+            </TouchableOpacity>
+            <Text style={styles.stats}>{item.likes}</Text>
           </View>
+
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TouchableOpacity style={styles.Interaction}>
+              <Image
+                source={ADMIN_IMAGES.CHAR_IMAGE}
+                resizeMode="contain"
+                style={styles.image}
+              />
+            </TouchableOpacity>
+            <Text style={styles.stats}>{item.comments}</Text>
+          </View>
+
+          {user === item.userId ? (
+            <TouchableOpacity
+              style={styles.Interaction}
+              onPress={() => onDelete(item.id)}>
+              <Image
+                source={ADMIN_IMAGES.TRASHCAN_IMAGE}
+                resizeMode="contain"
+                style={styles.image}
+              />
+            </TouchableOpacity>
+          ) : null}
         </View>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default PostActivityScreen;
+export default PostActivity;
 
 const styles = StyleSheet.create({
   Card: {
-    flex: 1,
     backgroundColor: '#222232',
-    height: 64,
-    width: '80%',
-    marginBottom: 40,
+    marginBottom: 20,
+    marginHorizontal: 10,
+    borderRadius: 10,
   },
   UserInfo: {
     flexDirection: 'row',
@@ -89,18 +129,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   PostTime: {
+    padding: 10,
     fontSize: 14,
-    color: '#C4C4C4',
-    paddingLeft: 15,
-    marginTop: 'auto',
+    color: '#666',
   },
   PostText: {
-    width: 200,
-    fontSize: 16,
+    fontSize: 14,
     paddingLeft: 15,
+    paddingRight: 15,
+    marginBottom: 15,
     color: 'white',
-    fontWeight: 'bold',
   },
+
   PostImg: {
     width: '100%',
     height: 250,
@@ -123,14 +163,21 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 2,
   },
-  InteractionText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#2e64e5',
-  },
-  image: {width: 25, height: 25, tintColor: 'red'},
+
+  image: {width: 25, height: 25, tintColor: 'white'},
   AddImage: {
     width: 64,
     height: 64,
+  },
+  TitleText: {
+    fontSize: 24,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  stats: {
+    color: 'white',
+    alignItems: 'center',
+    paddingLeft: 10,
+    fontWeight: 'bold',
   },
 });

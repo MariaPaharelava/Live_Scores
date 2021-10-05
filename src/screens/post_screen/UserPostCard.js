@@ -1,14 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Image, View, Text, TouchableOpacity} from 'react-native';
 
-import ProgressiveImage from '../../component/ProgressiveImage';
 import firestore from '@react-native-firebase/firestore';
-import {useDispatch, useSelector} from 'react-redux';
 import {ADMIN_IMAGES} from '../../images/Images';
-import Indicator from '../../component/ActivityIndicator';
 import {ScrollView} from 'react-native-gesture-handler';
 const UserPostCard = ({item, onDelete, onPress}) => {
-  const user = useSelector(state => state.AuthReducer.user);
   const [isPress, setisPress] = useState(false);
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -74,7 +70,7 @@ const UserPostCard = ({item, onDelete, onPress}) => {
         <View style={styles.InteractionWrapper}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <TouchableOpacity
-              style={styles.InteractionText}
+              style={styles.Interaction}
               onPress={() => {
                 setisPress(!isPress);
               }}>
@@ -186,11 +182,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 2,
   },
-  InteractionText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#2e64e5',
-  },
+
   image: {width: 25, height: 25, tintColor: 'white'},
   AddImage: {
     width: 64,

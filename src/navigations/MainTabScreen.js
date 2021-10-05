@@ -9,12 +9,12 @@ import HomeScreen from '../screens/home_screen/HomeScreen';
 import ExploreScreen from '../screens/explore_screen/ExploreScreen';
 import StandingsScreen from '../screens/standings_screen/StandingsScreen';
 import ProfileScreen from '../screens/profile_screen/profile/ProfileScreen';
-import ActivityProfileScreen from '../screens/profile_screen/activity/ActivityProfileScreen';
 import SettingsProfileScreen from '../screens/profile_screen/settings/SettingsProfileScreen';
 import EditProfileScreen from '../screens/profile_screen/edit/EditProfileScreen';
 import DetailTeamScreen from '../screens/detailteam_screen/DetailTeamScreen';
 import StandingsDetailScreen from '../screens/standingsdetail_screen/StandingsDetailScreen';
 import LeaguesScreen from '../adminscreens/leagues/LeaguesScreen';
+import ActivityProfileScreen from '../screens/profile_screen/activity/ActivityProfileScreen.js';
 import AddLeaguesScreen from '../adminscreens/leagues/AddLeaguesScreen';
 import EditLeaguesScreen from '../adminscreens/leagues/EditLeaguesScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -218,6 +218,25 @@ const ProfileStack = ({navigation}) => (
       component={EditProfileScreen}
       options={{
         headerTitle: ' Edit Profile',
+      }}
+    />
+    <Stack.Screen
+      name="UserPost"
+      component={UserPost}
+      options={{
+        headerStatusBarHeight: 30,
+
+        headerBackTitleVisible: false,
+        headerTitleAlign: 'center',
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          color: '#2e64e5',
+        },
+        headerStyle: {
+          backgroundColor: '#222232',
+          shadowColor: 'white',
+          elevation: 0,
+        },
       }}
     />
   </Stack.Navigator>

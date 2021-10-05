@@ -3,7 +3,6 @@ import {StyleSheet, Platform} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#181829',
   },
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
   userEditImg: {height: 45, width: 45},
   lastView: {height: 75},
   profileData: {
-    marginLeft: Platform.OS === 'ios' ? 25 : 35,
+    marginHorizontal: Platform.OS === 'ios' ? 25 : 35,
   },
   navigate: {
     flexDirection: 'row',
