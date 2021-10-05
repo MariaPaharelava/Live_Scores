@@ -25,14 +25,18 @@ import styles from './MainTabScreenStyles';
 import MatchesScreen from '../adminscreens/matches/MatchesScreen';
 import EditMatchesScreen from '../adminscreens/matches/EditMatchesScreen';
 import UsersScreen from '../adminscreens/users/UsersScreen';
-import AddMatches from '../adminscreens/matches/AddMatchesScreen';
 import AddMatchesScreen from '../adminscreens/matches/AddMatchesScreen';
+import PostScreen from '../screens/post_screen/PostScreen';
+import AddPostScreen from '../screens/post_screen/AddPostSreen';
+import UserPost from '../screens/post_screen/UserPost';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const HomeStack = ({navigation, route}) => (
   <Stack.Navigator
     screenOptions={{
+      headerStatusBarHeight: 30,
+
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
       headerTintColor: 'white',
@@ -40,7 +44,6 @@ const HomeStack = ({navigation, route}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
-        height: Platform.OS === 'ios' ? 115 : 55,
       },
     }}>
     <Stack.Screen
@@ -72,13 +75,12 @@ const LeaguesStack = ({navigation}) => (
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
       headerTintColor: 'white',
+      headerStatusBarHeight: 30,
 
       headerStyle: {
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
-
-        height: Platform.OS === 'ios' ? 115 : 55,
       },
     }}>
     <Stack.Screen
@@ -125,6 +127,8 @@ const LeaguesStack = ({navigation}) => (
 const MatchesStack = ({navigation}) => (
   <Stack.Navigator
     screenOptions={{
+      headerStatusBarHeight: 30,
+
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
       headerTintColor: 'white',
@@ -132,7 +136,6 @@ const MatchesStack = ({navigation}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
-        height: Platform.OS === 'ios' ? 115 : 55,
       },
     }}>
     <Stack.Screen
@@ -155,6 +158,8 @@ const MatchesStack = ({navigation}) => (
 const UsersStack = ({navigation}) => (
   <Stack.Navigator
     screenOptions={{
+      headerStatusBarHeight: 30,
+
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
       headerTintColor: 'white',
@@ -162,7 +167,6 @@ const UsersStack = ({navigation}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
-        height: Platform.OS === 'ios' ? 115 : 55,
       },
     }}>
     <Stack.Screen
@@ -177,6 +181,8 @@ const UsersStack = ({navigation}) => (
 const ProfileStack = ({navigation}) => (
   <Stack.Navigator
     screenOptions={{
+      headerStatusBarHeight: 30,
+
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
       headerTintColor: 'white',
@@ -184,7 +190,6 @@ const ProfileStack = ({navigation}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
-        height: Platform.OS === 'ios' ? 115 : 55,
       },
     }}>
     <Stack.Screen
@@ -221,6 +226,8 @@ const ProfileStack = ({navigation}) => (
 const StandingsStack = ({navigation, route}) => (
   <Stack.Navigator
     screenOptions={{
+      headerStatusBarHeight: 30,
+
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
       headerTintColor: 'white',
@@ -228,7 +235,6 @@ const StandingsStack = ({navigation, route}) => (
         backgroundColor: '#181829',
         shadowColor: '#181829',
         elevation: 0,
-        height: Platform.OS === 'ios' ? 115 : 55,
       },
     }}>
     <Stack.Screen
@@ -245,6 +251,75 @@ const StandingsStack = ({navigation, route}) => (
       options={({route}) => ({
         title: route.params.title,
       })}
+    />
+  </Stack.Navigator>
+);
+const PostsStack = ({navigation, route}) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Post"
+      component={PostScreen}
+      options={{
+        headerBackTitleVisible: false,
+        headerTitleAlign: 'center',
+        headerStatusBarHeight: 30,
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          color: '#2e64e5',
+        },
+        headerStyle: {
+          backgroundColor: '#222232',
+          shadowColor: 'white',
+          elevation: 0,
+        },
+        headerRight: () => (
+          <View style={{marginRight: 10}}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('AddPostScreen')}
+              style={{alignItems: 'center', justifyContent: 'center'}}>
+              <Image source={ADMIN_IMAGES.PLUS_IMAGE} style={styles.image} />
+            </TouchableOpacity>
+          </View>
+        ),
+      }}
+    />
+    <Stack.Screen
+      name="AddPostScreen"
+      component={AddPostScreen}
+      options={{
+        headerStatusBarHeight: 30,
+
+        headerBackTitleVisible: false,
+        headerTitleAlign: 'center',
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          color: '#2e64e5',
+        },
+        headerStyle: {
+          backgroundColor: '#222232',
+          shadowColor: 'white',
+          elevation: 0,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="UserPost"
+      component={UserPost}
+      options={{
+        headerStatusBarHeight: 30,
+
+        headerBackTitleVisible: false,
+        headerTitleAlign: 'center',
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          color: '#2e64e5',
+        },
+        headerStyle: {
+          backgroundColor: '#222232',
+          shadowColor: 'white',
+          elevation: 0,
+        },
+      }}
     />
   </Stack.Navigator>
 );
@@ -269,6 +344,12 @@ const tabRender = (view, focused, isAdmin) => {
     case 'profile':
       title = 'Profile';
       icon = isAdmin ? TAB_IMAGES.HOME_IMAGE : TAB_IMAGES.PROFILE_IMAGE;
+      break;
+
+    case 'posts':
+      title = 'Posts';
+      icon = isAdmin ? null : TAB_IMAGES.PROFILE_IMAGE;
+
       break;
 
     default:
@@ -352,6 +433,13 @@ const MainTabScreen = ({navigation, route}) => {
         component={isAdmin ? UsersStack : StandingsStack}
         options={{
           tabBarIcon: ({focused}) => tabRender('standings', focused, isAdmin),
+        }}
+      />
+      <Tab.Screen
+        name="Posts"
+        component={PostsStack}
+        options={{
+          tabBarIcon: ({focused}) => tabRender('posts', focused, isAdmin),
         }}
       />
       <Tab.Screen

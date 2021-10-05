@@ -8,11 +8,11 @@ import {
   Alert,
 } from 'react-native';
 
+import PostCard from './PostCard';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import Indicator from '../../component/ActivityIndicator';
-import PostActivityScreen from './PostActivityScreen';
-const ActivityProfileScreen = ({navigation}) => {
+const PostScreen = ({navigation}) => {
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
   const [deleted, setDeleted] = useState(false);
@@ -111,7 +111,6 @@ const ActivityProfileScreen = ({navigation}) => {
               .catch(e => {
                 console.log('Error while deleting the image. ', e);
               });
-            // If the post image is not available
           } else {
             deleteFirestoreData(postId);
           }
@@ -146,14 +145,12 @@ const ActivityProfileScreen = ({navigation}) => {
           <FlatList
             data={posts}
             renderItem={({item}) => (
-              <PostActivityScreen
+              <PostCard
                 item={item}
                 onDelete={handleDelete}
                 navigation={navigation}
                 onPress={() =>
-                  navigation.navigate('ActivityProfile', {
-                    userId: item.userId,
-                  })
+                  navigation.navigate('PostScreen', {userId: item.userId})
                 }
               />
             )}
@@ -173,4 +170,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ActivityProfileScreen;
+export default PostScreen;

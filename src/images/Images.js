@@ -33,4 +33,6 @@ export const ADMIN_IMAGES = {
   EDIT_IMAGE: require('./admin/Edit.png'),
   TRASHCAN_IMAGE: require('./admin/TrashCan.png'),
   PLUS_IMAGE: require('./admin/Plus.png'),
+  HEART_IMAGE: require('./admin/Heart.png'),
+  CHAR_IMAGE: require('./admin/Chat.png'),
 };

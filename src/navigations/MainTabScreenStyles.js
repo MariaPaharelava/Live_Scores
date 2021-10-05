@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     marginTop: 5,
   },
-  image: {width: 30, height: 30, tintColor: 'white', marginRight: 20},
+  image: {width: 30, height: 30, tintColor: 'blue', marginRight: 20},
   tabImage: {width: 25, height: 25, tintColor: 'white'},
 });
 export default styles;
