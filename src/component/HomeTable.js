@@ -49,9 +49,7 @@ const HomeTable = ({navigation, ligaID, types}) => {
             Gd: 0,
             Pts: 0,
           };
-          console.log('Team', team);
           ligaData.matches.map(match => {
-            console.log('match', match);
             if (match.type !== 'UPC') {
               if (team === match.firstTeam.team[0].teamDetails.name) {
                 teamStats.team = team;

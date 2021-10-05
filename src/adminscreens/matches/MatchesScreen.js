@@ -179,7 +179,6 @@ const MatchesScreen = ({navigation, ligs}) => {
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
           const ligaID = documentSnapshot.data().id;
-          console.log(ligaID);
           firestore()
             .collection('Soccer')
             .doc(ligaID)

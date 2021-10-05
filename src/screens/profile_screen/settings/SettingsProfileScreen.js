@@ -10,7 +10,6 @@ const SettingsProfileScreen = ({navigation, userData, sport}) => {
   const loading = useSelector(state => state.AuthReducer.logoutProcessing);
   const error = useSelector(state => state.AuthReducer.logoutError);
   const dispatch = useDispatch();
-  console.log(navigation);
 
   if (loading) {
     return <Indicator />;

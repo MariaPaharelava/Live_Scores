@@ -42,8 +42,6 @@ const PostScreen = ({navigation}) => {
       if (loading) {
         setLoading(false);
       }
-
-      console.log('Posts: ', posts);
     } catch (e) {
       console.log(e);
     }

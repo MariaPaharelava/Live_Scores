@@ -14,7 +14,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ADMIN_IMAGES} from '../../../images/Images';
 const PostActivity = ({item, onDelete, onPress}) => {
   const user = useSelector(state => state.AuthReducer.user);
-  console.log(item);
   const likeIcon = item.liked ? 'heart' : 'heart-outline';
   const likeIconColor = item.liked ? '#2e64e5' : '#333';
   let likeText = '1 Like';

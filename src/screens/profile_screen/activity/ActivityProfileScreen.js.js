@@ -55,8 +55,6 @@ const ActivityProfileScreen = ({navigation}) => {
       if (loading) {
         setLoading(false);
       }
-
-      console.log('Posts: ', posts);
     } catch (e) {
       console.log(e);
     }
@@ -92,8 +90,6 @@ const ActivityProfileScreen = ({navigation}) => {
   };
 
   const deletePost = postId => {
-    console.log('Current Post Id: ', postId);
-
     firestore()
       .collection('posts')
       .doc(postId)
@@ -109,7 +105,6 @@ const ActivityProfileScreen = ({navigation}) => {
             imageRef
               .delete()
               .then(() => {
-                console.log(`${postImg} has been deleted successfully.`);
                 deleteFirestoreData(postId);
               })
               .catch(e => {
