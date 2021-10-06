@@ -174,8 +174,8 @@ const ExploreScreen = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#181829'}}>
-      <View>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
+      <View style={styles.container}>
         <View style={styles.wrapper}>
           <View style={styles.search}>
             <Search />
@@ -223,20 +223,17 @@ const ExploreScreen = ({navigation}) => {
           </ScrollView>
         </View>
 
-        <View style={styles.container}>
-          <FlatList
-            style={styles.lastView}
-            data={matchesData}
-            renderItem={RednderLigs}
-            keyExtractor={item => item.id}
-            onEndReached={getMoreMatches}
-            onEndReachedThreshold={0.01}
-            scrollEventThrottle={150}
-            ListFooterComponent={() =>
-              matchesLoading || !lastMatch ? <Indicator /> : null
-            }
-          />
-        </View>
+        <FlatList
+          data={matchesData}
+          renderItem={RednderLigs}
+          keyExtractor={item => item.id}
+          onEndReached={getMoreMatches}
+          onEndReachedThreshold={0.01}
+          scrollEventThrottle={150}
+          ListFooterComponent={() =>
+            matchesLoading || !lastMatch ? <Indicator /> : null
+          }
+        />
       </View>
     </SafeAreaView>
   );

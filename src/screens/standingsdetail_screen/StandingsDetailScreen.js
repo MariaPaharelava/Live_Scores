@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Platform, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  Image,
+  SafeAreaView,
+} from 'react-native';
 import {NavigateButton} from '../../buttons/NavigateButton';
 import HomeTable from '../../component/HomeTable';
 import AllTable from '../../component/AllTable';
@@ -57,37 +64,39 @@ const StandingsDetailScreen = ({navigation, route}) => {
     }
   };
   return (
-    <View style={styles.container}>
-      <View style={{alignItems: 'center'}}>
-        <Image style={styles.image} source={{uri: image}} />
-      </View>
-      <View style={styles.navigate}>
-        {options.map(item => (
-          <NavigateButton
-            key={item.label}
-            title={item.label}
-            width={100}
-            height={50}
-            color={view === item.value ? '#ED6B4E' : '#00000000'}
-            onPress={() => {
-              setView(item.value);
-            }}
-          />
-        ))}
-      </View>
-      <View style={styles.selecteView}>
-        <View style={styles.indicators}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={[styles.textTeam, {paddingRight: 10}]}>#</Text>
-            <Text style={styles.textTeam}>Team</Text>
-          </View>
-          {selectedSport()}
+    <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
+      <View style={styles.container}>
+        <View style={{alignItems: 'center'}}>
+          <Image style={styles.image} source={{uri: image}} />
         </View>
-        <View style={styles.line} />
+        <View style={styles.navigate}>
+          {options.map(item => (
+            <NavigateButton
+              key={item.label}
+              title={item.label}
+              width={100}
+              height={50}
+              color={view === item.value ? '#ED6B4E' : '#00000000'}
+              onPress={() => {
+                setView(item.value);
+              }}
+            />
+          ))}
+        </View>
+        <View style={styles.selecteView}>
+          <View style={styles.indicators}>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={[styles.textTeam, {paddingRight: 10}]}>#</Text>
+              <Text style={styles.textTeam}>Team</Text>
+            </View>
+            {selectedSport()}
+          </View>
+          <View style={styles.line} />
 
-        <View>{selectedView()}</View>
+          <View>{selectedView()}</View>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -97,6 +106,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#181829',
+    paddingTop: 20,
   },
   ligaTitle: {
     color: 'white',

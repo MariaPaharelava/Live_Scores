@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#181829',
     flex: 1,
+    paddingTop: 20,
   },
   backTextWhite: {
     color: '#FFF',

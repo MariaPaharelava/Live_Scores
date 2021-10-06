@@ -171,7 +171,7 @@ const StandingsScreen = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#181829'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
       <View style={styles.container}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View style={styles.search}>

@@ -19,6 +19,7 @@ import styles from './EditProfileScreenStyles';
 import {PROFILE_IMAGE} from '../../../images/Images';
 import Indicator from '../../../component/ActivityIndicator';
 import RNPickerSelect from 'react-native-picker-select';
+import {SafeAreaView} from 'react-native-safe-area-context';
 const EditProfileScreen = ({navigation, route}) => {
   const [image, setImage] = useState(null);
 
@@ -118,68 +119,70 @@ const EditProfileScreen = ({navigation, route}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.containerImage}>
-        <ImageBackground
-          style={styles.userImg}
-          imageStyle={{borderRadius: 150}}
-          source={{
-            uri: image
-              ? image
-              : userData
-              ? userData.userImg ||
-                'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
-              : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
-          }}
-          onLoadStart={() => setimageLoading(true)}
-          onLoadEnd={() => setimageLoading(false)}>
-          {imageLoading && <Indicator />}
+    <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
+      <View style={styles.container}>
+        <View style={styles.containerImage}>
+          <ImageBackground
+            style={styles.userImg}
+            imageStyle={{borderRadius: 150}}
+            source={{
+              uri: image
+                ? image
+                : userData
+                ? userData.userImg ||
+                  'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
+                : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+            }}
+            onLoadStart={() => setimageLoading(true)}
+            onLoadEnd={() => setimageLoading(false)}>
+            {imageLoading && <Indicator />}
 
-          <TouchableOpacity
-            style={styles.userEditContainer}
-            onPress={choosePhotoFromLibrary}>
-            <Image
-              style={styles.userEditImg}
-              source={PROFILE_IMAGE.EDITIMAGE_IMAGE}
-            />
-          </TouchableOpacity>
-        </ImageBackground>
-        <Text style={styles.userName}>{userData ? userData.name : ''}</Text>
-      </View>
+            <TouchableOpacity
+              style={styles.userEditContainer}
+              onPress={choosePhotoFromLibrary}>
+              <Image
+                style={styles.userEditImg}
+                source={PROFILE_IMAGE.EDITIMAGE_IMAGE}
+              />
+            </TouchableOpacity>
+          </ImageBackground>
+          <Text style={styles.userName}>{userData ? userData.name : ''}</Text>
+        </View>
 
-      <View style={styles.action}>
-        <TextInput
-          placeholderTextColor="white"
-          placeholder="Name"
-          autoCorrect={false}
-          style={styles.textInput}
-          autoCapitalize="none"
-          onChangeText={txt => setUserData({...userData, name: txt})}
-          value={userData ? userData.name : ''}
-        />
-      </View>
-      <View style={styles.action}>
-        <RNPickerSelect
-          placeholder={{
-            label: `${Capitalize(sport)}`,
-            value: sport,
-          }}
-          style={{
-            placeholder: {color: 'white'},
-            inputAndroid: {color: 'white'},
-            inputIOS: {color: 'white'},
-          }}
-          onValueChange={value => setSport(value)}
-          items={[
-            {label: 'Soccer', value: 'soccer'},
-            {label: 'Basketball', value: 'basketball'},
-          ]}
-          placeholderTextColor="red"
-        />
-      </View>
+        <View style={styles.action}>
+          <TextInput
+            placeholderTextColor="white"
+            placeholder="Name"
+            autoCorrect={false}
+            style={styles.textInput}
+            autoCapitalize="none"
+            onChangeText={txt => setUserData({...userData, name: txt})}
+            value={userData ? userData.name : ''}
+          />
+        </View>
+        <View style={styles.action}>
+          <RNPickerSelect
+            placeholder={{
+              label: `${Capitalize(sport)}`,
+              value: sport,
+            }}
+            style={{
+              placeholder: {color: 'white'},
+              inputAndroid: {color: 'white'},
+              inputIOS: {color: 'white'},
+            }}
+            onValueChange={value => setSport(value)}
+            items={[
+              {label: 'Soccer', value: 'soccer'},
+              {label: 'Basketball', value: 'basketball'},
+            ]}
+            placeholderTextColor="red"
+          />
+        </View>
 
-      <FormButton buttonTitle="Update" onPress={handleUpdate} />
-    </View>
+        <FormButton buttonTitle="Update" onPress={handleUpdate} />
+      </View>
+    </SafeAreaView>
   );
 };
 

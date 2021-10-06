@@ -9,6 +9,7 @@ import {styles} from './DetailTeamScreenStyles';
 import {NavigateButton} from '../../buttons/NavigateButton';
 import {getSoccerMatchById} from '../../api/Matches';
 import {getBasketballMatchById} from '../../api/Matches';
+import {SafeAreaView} from 'react-native-safe-area-context';
 const DetailTeamScreen = ({navigation, route}) => {
   const {matchID, ligaID, types} = route.params;
 
@@ -90,64 +91,66 @@ const DetailTeamScreen = ({navigation, route}) => {
     return <Error />;
   }
   return (
-    <View style={styles.container}>
-      <View style={styles.score}>
-        <View
-          style={{
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}>
-          <Image
-            style={styles.icon}
-            source={{
-              uri: matchData.firstTeam.team[0].teamDetails.imageUrl,
-            }}
-          />
-          <Text style={styles.text}>
-            {matchData.firstTeam.team[0].teamDetails.name}
-          </Text>
-        </View>
-        <View style={styles.column}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
+      <View style={styles.container}>
+        <View style={styles.score}>
           <View
             style={{
-              flexDirection: 'row',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}>
-            <Text style={styles.textScore}>{matchData.firstTeam.score}</Text>
-            <Text style={styles.textScore}>-</Text>
-            <Text style={styles.textScore}>{matchData.secondTeam.score}</Text>
+            <Image
+              style={styles.icon}
+              source={{
+                uri: matchData.firstTeam.team[0].teamDetails.imageUrl,
+              }}
+            />
+            <Text style={styles.text}>
+              {matchData.firstTeam.team[0].teamDetails.name}
+            </Text>
+          </View>
+          <View style={styles.column}>
+            <View
+              style={{
+                flexDirection: 'row',
+              }}>
+              <Text style={styles.textScore}>{matchData.firstTeam.score}</Text>
+              <Text style={styles.textScore}>-</Text>
+              <Text style={styles.textScore}>{matchData.secondTeam.score}</Text>
+            </View>
+
+            <Text style={styles.text}>90.15</Text>
           </View>
 
-          <Text style={styles.text}>90.15</Text>
+          <View style={styles.column}>
+            <Image
+              style={styles.icon}
+              source={{
+                uri: matchData.secondTeam.team[0].teamDetails.imageUrl,
+              }}
+            />
+            <Text style={styles.text}>
+              {matchData.secondTeam.team[0].teamDetails.name}
+            </Text>
+          </View>
         </View>
-
-        <View style={styles.column}>
-          <Image
-            style={styles.icon}
-            source={{
-              uri: matchData.secondTeam.team[0].teamDetails.imageUrl,
-            }}
-          />
-          <Text style={styles.text}>
-            {matchData.secondTeam.team[0].teamDetails.name}
-          </Text>
+        <View style={styles.navigate}>
+          {options.map(item => (
+            <NavigateButton
+              key={item.label}
+              title={item.label}
+              width={100}
+              height={50}
+              color={view === item.value ? '#ED6B4E' : '#00000000'}
+              onPress={() => {
+                setView(item.value);
+              }}
+            />
+          ))}
         </View>
+        <View>{selectedView()}</View>
       </View>
-      <View style={styles.navigate}>
-        {options.map(item => (
-          <NavigateButton
-            key={item.label}
-            title={item.label}
-            width={100}
-            height={50}
-            color={view === item.value ? '#ED6B4E' : '#00000000'}
-            onPress={() => {
-              setView(item.value);
-            }}
-          />
-        ))}
-      </View>
-      <View>{selectedView()}</View>
-    </View>
+    </SafeAreaView>
   );
 };
 

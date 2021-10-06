@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   },
   containerImage: {
     backgroundColor: '#181829',
-    marginTop: Platform.OS === 'ios' ? 60 : 20,
+    marginTop: Platform.OS === 'ios' ? 20 : 0,
     alignItems: 'center',
     justifyContent: 'center',
   },

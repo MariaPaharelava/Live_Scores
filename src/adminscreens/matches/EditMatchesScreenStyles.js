@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#181829',
+    paddingTop: 20,
   },
   textInput: {
     paddingLeft: Platform.OS === 'ios' ? 0 : 15,

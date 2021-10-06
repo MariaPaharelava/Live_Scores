@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
 import styles from './HomeScreenStyles';
 import Indicator from '../../component/ActivityIndicator';
 import Error from '../../component/ErrorIndicator';
@@ -106,34 +113,36 @@ const HomeScreen = ({navigation, route}) => {
     return <Error />;
   }
   return (
-    <View style={styles.container}>
-      <View style={styles.title}>
-        <Text style={styles.titleText}>LiveScore</Text>
-      </View>
-
-      <ScrollView style={styles.content}>
-        <View style={{alignItems: 'center'}}>
-          <Image style={styles.image} source={image} />
+    <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
+      <View style={styles.container}>
+        <View style={styles.title}>
+          <Text style={styles.titleText}>LiveScore</Text>
         </View>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          {SPORTS.map(item => (
-            <View style={styles.sportImages2} key={item.type}>
-              <TouchableOpacity
-                style={[
-                  styles.touchableOpacity,
-                  item.type === types && {backgroundColor: 'orange'},
-                ]}
-                onPress={() => HandleSportPress(item.type)}>
-                <Image style={styles.button} source={item.image} />
-              </TouchableOpacity>
-              <Text style={styles.textUnderButton}>{item.name}</Text>
-            </View>
-          ))}
+
+        <ScrollView style={styles.content}>
+          <View style={{alignItems: 'center'}}>
+            <Image style={styles.image} source={image} />
+          </View>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            {SPORTS.map(item => (
+              <View style={styles.sportImages2} key={item.type}>
+                <TouchableOpacity
+                  style={[
+                    styles.touchableOpacity,
+                    item.type === types && {backgroundColor: 'orange'},
+                  ]}
+                  onPress={() => HandleSportPress(item.type)}>
+                  <Image style={styles.button} source={item.image} />
+                </TouchableOpacity>
+                <Text style={styles.textUnderButton}>{item.name}</Text>
+              </View>
+            ))}
+          </ScrollView>
+          {rednderLigs(ligsData)}
+          <View style={styles.lastView} />
         </ScrollView>
-        {rednderLigs(ligsData)}
-        <View style={styles.lastView} />
-      </ScrollView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 

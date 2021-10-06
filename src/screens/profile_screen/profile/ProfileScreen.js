@@ -10,6 +10,7 @@ import Indicator from '../../../component/ActivityIndicator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {PROFILE_IMAGE} from '../../../images/Images';
 import ActivityProfileScreen from '../activity/ActivityProfileScreen.js';
+import {SafeAreaView} from 'react-native-safe-area-context';
 const ProfileScreen = ({navigation, route}) => {
   const [view, setView] = useState('profile');
   const [userData, setUserData] = useState();
@@ -107,41 +108,43 @@ const ProfileScreen = ({navigation, route}) => {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.containerImage}>
-        <ImageBackground
-          style={styles.userImg}
-          imageStyle={{borderRadius: 150}}
-          source={{
-            uri: userData
-              ? userData.userImg ||
-                'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
-              : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
-          }}
-          onLoadStart={() => setimageLoading(true)}
-          onLoadEnd={() => setimageLoading(false)}>
-          {imageLoading && <Indicator />}
-        </ImageBackground>
-
-        <Text style={styles.userName}>{userData ? userData.name : ''}</Text>
-      </View>
-
-      <View style={styles.navigate}>
-        {options.map(item => (
-          <NavigateButton
-            key={item.label}
-            title={item.label}
-            width={100}
-            height={50}
-            color={view === item.value ? '#ED6B4E' : '#00000000'}
-            onPress={() => {
-              setView(item.value);
+    <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
+      <View style={styles.container}>
+        <View style={styles.containerImage}>
+          <ImageBackground
+            style={styles.userImg}
+            imageStyle={{borderRadius: 150}}
+            source={{
+              uri: userData
+                ? userData.userImg ||
+                  'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
+                : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
             }}
-          />
-        ))}
+            onLoadStart={() => setimageLoading(true)}
+            onLoadEnd={() => setimageLoading(false)}>
+            {imageLoading && <Indicator />}
+          </ImageBackground>
+
+          <Text style={styles.userName}>{userData ? userData.name : ''}</Text>
+        </View>
+
+        <View style={styles.navigate}>
+          {options.map(item => (
+            <NavigateButton
+              key={item.label}
+              title={item.label}
+              width={100}
+              height={50}
+              color={view === item.value ? '#ED6B4E' : '#00000000'}
+              onPress={() => {
+                setView(item.value);
+              }}
+            />
+          ))}
+        </View>
+        <View style={{width: '100%', flex: 1}}>{selectedView()}</View>
       </View>
-      <View style={{width: '100%', flex: 1}}>{selectedView()}</View>
-    </View>
+    </SafeAreaView>
   );
 };
 

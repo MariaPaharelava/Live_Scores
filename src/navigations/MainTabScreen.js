@@ -38,10 +38,11 @@ const HomeStack = ({navigation, route}) => (
       headerStatusBarHeight: 30,
 
       headerBackTitleVisible: false,
+      title: '',
       headerTitleAlign: 'center',
-      headerTintColor: 'white',
+      headerTintColor: '#2e64e5',
       headerStyle: {
-        backgroundColor: '#181829',
+        backgroundColor: '#35364d',
         shadowColor: '#181829',
         elevation: 0,
       },
@@ -57,14 +58,14 @@ const HomeStack = ({navigation, route}) => (
       name="DetailTeam"
       component={DetailTeamScreen}
       options={{
-        headerTitle: route.headerTitle,
+        headerTransparent: true,
       }}
     />
     <Stack.Screen
       name="StandingsDetail"
       component={StandingsDetailScreen}
       options={({route}) => ({
-        title: route.params.title,
+        headerTransparent: true,
       })}
     />
   </Stack.Navigator>
@@ -74,11 +75,11 @@ const LeaguesStack = ({navigation}) => (
     screenOptions={{
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
-      headerTintColor: 'white',
+      headerTintColor: '#2e64e5',
       headerStatusBarHeight: 30,
 
       headerStyle: {
-        backgroundColor: '#181829',
+        backgroundColor: '#35364d',
         shadowColor: '#181829',
         elevation: 0,
       },
@@ -88,6 +89,8 @@ const LeaguesStack = ({navigation}) => (
       component={LeaguesScreen}
       options={{
         headerTitle: ' Leagues',
+        headerLeft: false,
+
         headerRight: () => (
           <TouchableOpacity
             activeOpacity={0.5}
@@ -128,12 +131,13 @@ const MatchesStack = ({navigation}) => (
   <Stack.Navigator
     screenOptions={{
       headerStatusBarHeight: 30,
+      headerLeft: false,
 
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
-      headerTintColor: 'white',
+      headerTintColor: '#2e64e5',
       headerStyle: {
-        backgroundColor: '#181829',
+        backgroundColor: '#35364d',
         shadowColor: '#181829',
         elevation: 0,
       },
@@ -159,12 +163,12 @@ const UsersStack = ({navigation}) => (
   <Stack.Navigator
     screenOptions={{
       headerStatusBarHeight: 30,
-
+      headerLeft: false,
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
-      headerTintColor: 'white',
+      headerTintColor: '#2e64e5',
       headerStyle: {
-        backgroundColor: '#181829',
+        backgroundColor: '#35364d',
         shadowColor: '#181829',
         elevation: 0,
       },
@@ -182,10 +186,9 @@ const ProfileStack = ({navigation}) => (
   <Stack.Navigator
     screenOptions={{
       headerStatusBarHeight: 30,
-
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
-      headerTintColor: 'white',
+      headerTintColor: '#2e64e5',
       headerStyle: {
         backgroundColor: '#181829',
         shadowColor: '#181829',
@@ -217,7 +220,16 @@ const ProfileStack = ({navigation}) => (
       name="EditProfile"
       component={EditProfileScreen}
       options={{
-        headerTitle: ' Edit Profile',
+        headerTransparent: true,
+        headerBackTitleVisible: false,
+        title: '',
+        headerTitleAlign: 'center',
+
+        headerStyle: {
+          backgroundColor: '#222232',
+          shadowColor: 'white',
+          elevation: 0,
+        },
       }}
     />
     <Stack.Screen
@@ -225,10 +237,11 @@ const ProfileStack = ({navigation}) => (
       component={UserPost}
       options={{
         headerStatusBarHeight: 30,
-
+        headerTransparent: true,
         headerBackTitleVisible: false,
+        title: '',
         headerTitleAlign: 'center',
-        headerTintColor: 'white',
+        headerTintColor: '#2e64e5',
         headerTitleStyle: {
           color: '#2e64e5',
         },
@@ -246,10 +259,11 @@ const StandingsStack = ({navigation, route}) => (
   <Stack.Navigator
     screenOptions={{
       headerStatusBarHeight: 30,
+      title: '',
 
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
-      headerTintColor: 'white',
+      headerTintColor: '#2e64e5',
       headerStyle: {
         backgroundColor: '#181829',
         shadowColor: '#181829',
@@ -268,7 +282,7 @@ const StandingsStack = ({navigation, route}) => (
       name="StandingsDetail"
       component={StandingsDetailScreen}
       options={({route}) => ({
-        title: route.params.title,
+        headerTransparent: true,
       })}
     />
   </Stack.Navigator>
@@ -279,15 +293,17 @@ const PostsStack = ({navigation, route}) => (
       name="Post"
       component={PostScreen}
       options={{
+        headerLeft: false,
+
         headerBackTitleVisible: false,
         headerTitleAlign: 'center',
         headerStatusBarHeight: 30,
-        headerTintColor: 'white',
+        headerTintColor: '#2e64e5',
         headerTitleStyle: {
           color: '#2e64e5',
         },
         headerStyle: {
-          backgroundColor: '#222232',
+          backgroundColor: '#35364d',
           shadowColor: 'white',
           elevation: 0,
         },
@@ -307,15 +323,18 @@ const PostsStack = ({navigation, route}) => (
       component={AddPostScreen}
       options={{
         headerStatusBarHeight: 30,
+        title: '',
+        headerTransparent: true,
 
         headerBackTitleVisible: false,
         headerTitleAlign: 'center',
-        headerTintColor: 'white',
+        headerTintColor: '#2e64e5',
         headerTitleStyle: {
           color: '#2e64e5',
         },
         headerStyle: {
-          backgroundColor: '#222232',
+          backgroundColor: '#35364d',
+
           shadowColor: 'white',
           elevation: 0,
         },
@@ -326,10 +345,11 @@ const PostsStack = ({navigation, route}) => (
       component={UserPost}
       options={{
         headerStatusBarHeight: 30,
-
+        headerTransparent: true,
         headerBackTitleVisible: false,
+        title: '',
         headerTitleAlign: 'center',
-        headerTintColor: 'white',
+        headerTintColor: '#2e64e5',
         headerTitleStyle: {
           color: '#2e64e5',
         },
@@ -367,7 +387,7 @@ const tabRender = (view, focused, isAdmin) => {
 
     case 'posts':
       title = 'Posts';
-      icon = isAdmin ? null : TAB_IMAGES.PROFILE_IMAGE;
+      icon = isAdmin ? TAB_IMAGES.PROFILE_IMAGE : TAB_IMAGES.PROFILE_IMAGE;
 
       break;
 
@@ -454,13 +474,15 @@ const MainTabScreen = ({navigation, route}) => {
           tabBarIcon: ({focused}) => tabRender('standings', focused, isAdmin),
         }}
       />
-      <Tab.Screen
-        name="Posts"
-        component={PostsStack}
-        options={{
-          tabBarIcon: ({focused}) => tabRender('posts', focused, isAdmin),
-        }}
-      />
+      {!isAdmin ? (
+        <Tab.Screen
+          name="Posts"
+          component={PostsStack}
+          options={{
+            tabBarIcon: ({focused}) => tabRender('posts', focused, isAdmin),
+          }}
+        />
+      ) : null}
       <Tab.Screen
         name="My Profile"
         component={ProfileStack}

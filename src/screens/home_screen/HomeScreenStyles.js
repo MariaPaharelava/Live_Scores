@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   },
   title: {
     flexDirection: 'row',
-    marginTop: Platform.OS === 'ios' ? 50 : 20,
+    marginTop: Platform.OS === 'ios' ? 10 : 0,
   },
   titleText: {
     color: 'white',

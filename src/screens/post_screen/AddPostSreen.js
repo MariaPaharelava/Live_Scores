@@ -14,6 +14,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import {useDispatch, useSelector} from 'react-redux';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const AddPostScreen = () => {
   const user = useSelector(state => state.AuthReducer.user);
@@ -120,59 +121,63 @@ const AddPostScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.InputWrapper}>
-        {image != null ? (
-          <Image style={styles.AddImage} source={{uri: image}} />
-        ) : (
-          <Image
-            style={styles.AddImage}
-            source={require('../../images/images/default-img.jpg')}
+    <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
+      <View style={styles.container}>
+        <View style={styles.InputWrapper}>
+          {image != null ? (
+            <Image style={styles.AddImage} source={{uri: image}} />
+          ) : (
+            <Image
+              style={styles.AddImage}
+              source={require('../../images/images/default-img.jpg')}
+            />
+          )}
+          <TextInput
+            placeholder="Title"
+            placeholderTextColor="white"
+            multiline
+            maxLength={35}
+            numberOfLines={4}
+            value={title}
+            onChangeText={title => setTitle(title)}
+            style={styles.InputField}
           />
-        )}
-        <TextInput
-          placeholder="Title"
-          multiline
-          maxLength={35}
-          numberOfLines={4}
-          value={title}
-          onChangeText={title => setTitle(title)}
-          style={styles.InputField}
-        />
 
-        <TextInput
-          placeholder="Description"
-          multiline
-          numberOfLines={4}
-          value={post}
-          onChangeText={content => setPost(content)}
-          style={styles.InputField}
-        />
-        {uploading ? (
-          <View style={styles.StatusWrapper}>
-            <Text>{transferred} % Completed!</Text>
-            <ActivityIndicator size="large" color="#0000ff" />
-          </View>
-        ) : (
-          <TouchableOpacity style={styles.SubmitBtn} onPress={submitPost}>
-            <Text style={styles.SubmitBtnText}>Post</Text>
+          <TextInput
+            placeholder="Description"
+            placeholderTextColor="white"
+            multiline
+            numberOfLines={4}
+            value={post}
+            onChangeText={content => setPost(content)}
+            style={styles.InputField}
+          />
+          {uploading ? (
+            <View style={styles.StatusWrapper}>
+              <Text>{transferred} % Completed!</Text>
+              <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+          ) : (
+            <TouchableOpacity style={styles.SubmitBtn} onPress={submitPost}>
+              <Text style={styles.SubmitBtnText}>Post</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+
+        <View style={styles.buttonWrapper}>
+          <TouchableOpacity
+            onPress={takePhotoFromCamera}
+            style={styles.roundButton1}>
+            <Text>Take Photo</Text>
           </TouchableOpacity>
-        )}
+          <TouchableOpacity
+            onPress={choosePhotoFromLibrary}
+            style={styles.roundButton1}>
+            <Text>Choose Photo</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
-      <View style={styles.buttonWrapper}>
-        <TouchableOpacity
-          onPress={takePhotoFromCamera}
-          style={styles.roundButton1}>
-          <Text>Take Photo</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={choosePhotoFromLibrary}
-          style={styles.roundButton1}>
-          <Text>Choose Photo</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -183,6 +188,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#181829',
   },
   actionButtonIcon: {
     fontSize: 20,
@@ -194,7 +200,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    backgroundColor: '#2e64e515',
   },
 
   InputField: {
@@ -204,6 +209,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: '90%',
     marginBottom: 15,
+    color: 'white',
   },
   AddImage: {
     width: '100%',
@@ -217,7 +223,6 @@ const styles = StyleSheet.create({
   SubmitBtn: {
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: '#2e64e515',
     borderRadius: 5,
     padding: 10,
   },
@@ -235,8 +240,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#2e64e5',
   },
   buttonWrapper: {
-    backgroundColor: '#2e64e515',
-
     width: '100%',
     flexDirection: 'row',
     marginBottom: '17%',

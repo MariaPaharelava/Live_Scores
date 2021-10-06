@@ -12,6 +12,7 @@ export const UsersData = ({
   firstInfo,
   secondInfo,
 }) => {
+  console.log(image);
   const [imageLoading, setimageLoading] = useState();
 
   return (
