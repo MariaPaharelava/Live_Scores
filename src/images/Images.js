@@ -34,5 +34,7 @@ export const ADMIN_IMAGES = {
   TRASHCAN_IMAGE: require('./admin/TrashCan.png'),
   PLUS_IMAGE: require('./admin/Plus.png'),
   HEART_IMAGE: require('./admin/Heart.png'),
-  CHAR_IMAGE: require('./admin/Chat.png'),
+  CHART_IMAGE: require('./admin/Chat.png'),
+  SEND_IMAGE: require('./admin/send.png'),
+  SCROLLDOWN_IMAGE: require('./admin/chevron.png'),
 };

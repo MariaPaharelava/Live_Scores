@@ -4,9 +4,10 @@ import {StyleSheet, Image, View, Text, TouchableOpacity} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import {ADMIN_IMAGES} from '../../images/Images';
 import {ScrollView} from 'react-native-gesture-handler';
-const UserPostCard = ({item, onDelete, onPress}) => {
+const UserPostCard = ({item, onDelete, onPress, navigation}) => {
   const [isPress, setisPress] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [commentsData, setcommentsData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const getUser = async () => {
@@ -23,10 +24,27 @@ const UserPostCard = ({item, onDelete, onPress}) => {
       setLoading(false);
     }
   };
+  const getComments = async () => {
+    await firestore()
+      .collection('posts')
+      .doc(item.id)
+      .get()
+      .then(documentSnapshot => {
+        if (documentSnapshot.exists) {
+          setcommentsData(documentSnapshot.data());
+        }
+      });
+    if (loading) {
+      setLoading(false);
+    }
+  };
+  console.log(commentsData);
 
   useEffect(() => {
     getUser();
-  }, []);
+    getComments();
+    navigation.addListener('focus', () => setLoading(!loading));
+  }, [navigation, loading]);
 
   return (
     <View style={styles.Card} key={item.id}>
@@ -67,7 +85,7 @@ const UserPostCard = ({item, onDelete, onPress}) => {
           </Text>
         </View>
         <View style={styles.InteractionWrapper}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <TouchableOpacity
               style={styles.Interaction}
               onPress={() => {
@@ -83,22 +101,31 @@ const UserPostCard = ({item, onDelete, onPress}) => {
                 ]}
               />
             </TouchableOpacity>
-            <Text style={styles.stats}>{item.likes}</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginLeft: 25,
-            }}>
-            <TouchableOpacity style={styles.Interaction}>
+            <Text style={styles.stats}>
+              {commentsData ? commentsData.likes : item.likes}
+            </Text>
+          </View> */}
+          <View style={styles.comments}>
+            <TouchableOpacity
+              style={styles.Interaction}
+              onPress={() =>
+                navigation.push('Chat', {
+                  postId: item.id,
+                  comments: commentsData
+                    ? commentsData.comments
+                    : item.comments,
+                })
+              }>
               <Image
-                source={ADMIN_IMAGES.CHAR_IMAGE}
+                source={ADMIN_IMAGES.CHART_IMAGE}
                 resizeMode="contain"
                 style={styles.image}
               />
             </TouchableOpacity>
-            <Text style={styles.stats}>{item.comments}</Text>
+            <Text style={styles.stats}>
+              {' '}
+              {commentsData ? commentsData.comments : item.comments}
+            </Text>
           </View>
         </View>
       </View>
@@ -192,5 +219,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 10,
     fontWeight: 'bold',
+  },
+  comments: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 25,
   },
 });

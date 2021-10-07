@@ -30,8 +30,8 @@ const PostScreen = ({navigation}) => {
               post,
               title,
               postImg,
-              liked: false,
-              likes,
+              // liked: false,
+              // likes,
               comments,
             });
           });

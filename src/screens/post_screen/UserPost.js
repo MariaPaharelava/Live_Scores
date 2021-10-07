@@ -14,6 +14,7 @@ const UserPost = ({navigation, route}) => {
           onPress={() =>
             navigation.navigate('PostScreen', {userId: item.userId})
           }
+          navigation={navigation}
         />
       </View>
     </SafeAreaView>

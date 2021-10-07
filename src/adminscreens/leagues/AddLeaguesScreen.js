@@ -8,6 +8,8 @@ import Swiper from 'react-native-swiper';
 import AddLeagues from '../../component/AddLegues';
 import ChooseCountry from '../../component/ChooseCoutry';
 import {Alert} from 'react-native';
+import 'react-native-get-random-values';
+
 import {v4 as uuidv4} from 'uuid';
 import {LogBox} from 'react-native';
 

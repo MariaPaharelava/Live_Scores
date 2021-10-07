@@ -15,7 +15,9 @@ import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import {useDispatch, useSelector} from 'react-redux';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import 'react-native-get-random-values';
 
+import {v4 as uuidv4} from 'uuid';
 const AddPostScreen = () => {
   const user = useSelector(state => state.AuthReducer.user);
 
@@ -49,16 +51,18 @@ const AddPostScreen = () => {
 
   const submitPost = async () => {
     const imageUrl = await uploadImage();
+    const postId = uuidv4();
 
     firestore()
       .collection('posts')
-      .add({
+      .doc(postId)
+      .set({
         userId: user,
         post: post,
         title: title,
         postImg: imageUrl,
         postTime: firestore.Timestamp.fromDate(new Date()),
-        likes: 0,
+        // likes: 0,
         comments: 0,
       })
       .then(() => {
@@ -75,6 +79,7 @@ const AddPostScreen = () => {
           error,
         );
       });
+    firestore().collection('comments').doc(postId).set({});
   };
 
   const uploadImage = async () => {
@@ -154,7 +159,7 @@ const AddPostScreen = () => {
           />
           {uploading ? (
             <View style={styles.StatusWrapper}>
-              <Text>{transferred} % Completed!</Text>
+              <Text style={{color: 'white'}}>{transferred} % Completed!</Text>
               <ActivityIndicator size="large" color="#0000ff" />
             </View>
           ) : (
@@ -219,6 +224,7 @@ const styles = StyleSheet.create({
   StatusWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
+    color: 'white',
   },
   SubmitBtn: {
     flexDirection: 'row',

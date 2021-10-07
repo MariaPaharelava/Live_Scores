@@ -20,6 +20,7 @@ import EditLeaguesScreen from '../adminscreens/leagues/EditLeaguesScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Indicator from '../component/ActivityIndicator';
 import Error from '../component/ErrorIndicator';
+import ChatScreen from '../screens/post_screen/ChatScreen';
 
 import styles from './MainTabScreenStyles';
 import MatchesScreen from '../adminscreens/matches/MatchesScreen';
@@ -35,7 +36,7 @@ const Stack = createStackNavigator();
 const HomeStack = ({navigation, route}) => (
   <Stack.Navigator
     screenOptions={{
-      headerStatusBarHeight: 30,
+      headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
 
       headerBackTitleVisible: false,
       title: '',
@@ -76,7 +77,7 @@ const LeaguesStack = ({navigation}) => (
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
       headerTintColor: '#2e64e5',
-      headerStatusBarHeight: 30,
+      headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
 
       headerStyle: {
         backgroundColor: '#35364d',
@@ -130,8 +131,7 @@ const LeaguesStack = ({navigation}) => (
 const MatchesStack = ({navigation}) => (
   <Stack.Navigator
     screenOptions={{
-      headerStatusBarHeight: 30,
-      headerLeft: false,
+      headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
 
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
@@ -146,6 +146,7 @@ const MatchesStack = ({navigation}) => (
       name="Matches"
       component={MatchesScreen}
       options={{
+        headerLeft: false,
         headerTitle: ' Matches',
       }}
     />
@@ -162,7 +163,7 @@ const MatchesStack = ({navigation}) => (
 const UsersStack = ({navigation}) => (
   <Stack.Navigator
     screenOptions={{
-      headerStatusBarHeight: 30,
+      headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
       headerLeft: false,
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
@@ -185,7 +186,7 @@ const UsersStack = ({navigation}) => (
 const ProfileStack = ({navigation}) => (
   <Stack.Navigator
     screenOptions={{
-      headerStatusBarHeight: 30,
+      headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
       headerTintColor: '#2e64e5',
@@ -232,33 +233,13 @@ const ProfileStack = ({navigation}) => (
         },
       }}
     />
-    <Stack.Screen
-      name="UserPost"
-      component={UserPost}
-      options={{
-        headerStatusBarHeight: 30,
-        headerTransparent: true,
-        headerBackTitleVisible: false,
-        title: '',
-        headerTitleAlign: 'center',
-        headerTintColor: '#2e64e5',
-        headerTitleStyle: {
-          color: '#2e64e5',
-        },
-        headerStyle: {
-          backgroundColor: '#222232',
-          shadowColor: 'white',
-          elevation: 0,
-        },
-      }}
-    />
   </Stack.Navigator>
 );
 
 const StandingsStack = ({navigation, route}) => (
   <Stack.Navigator
     screenOptions={{
-      headerStatusBarHeight: 30,
+      headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
       title: '',
 
       headerBackTitleVisible: false,
@@ -297,7 +278,7 @@ const PostsStack = ({navigation, route}) => (
 
         headerBackTitleVisible: false,
         headerTitleAlign: 'center',
-        headerStatusBarHeight: 30,
+        headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
         headerTintColor: '#2e64e5',
         headerTitleStyle: {
           color: '#2e64e5',
@@ -322,7 +303,7 @@ const PostsStack = ({navigation, route}) => (
       name="AddPostScreen"
       component={AddPostScreen}
       options={{
-        headerStatusBarHeight: 30,
+        headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
         title: '',
         headerTransparent: true,
 
@@ -344,7 +325,7 @@ const PostsStack = ({navigation, route}) => (
       name="UserPost"
       component={UserPost}
       options={{
-        headerStatusBarHeight: 30,
+        headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
         headerTransparent: true,
         headerBackTitleVisible: false,
         title: '',
@@ -359,6 +340,27 @@ const PostsStack = ({navigation, route}) => (
           elevation: 0,
         },
       }}
+    />
+
+    <Stack.Screen
+      name="Chat"
+      component={ChatScreen}
+      options={({route}) => ({
+        headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
+        headerTransparent: true,
+        headerBackTitleVisible: false,
+        title: 'Comments',
+        headerTitleAlign: 'center',
+        headerTintColor: '#2e64e5',
+        headerTitleStyle: {
+          color: '#2e64e5',
+        },
+        headerStyle: {
+          backgroundColor: '#222232',
+          shadowColor: 'white',
+          elevation: 0,
+        },
+      })}
     />
   </Stack.Navigator>
 );

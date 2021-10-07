@@ -192,13 +192,9 @@ const EditMatchesScreen = ({navigation, route}) => {
       paginationStyle={{
         bottom: 100,
       }}>
-      <View
-        style={styles.container}
-        title={
-          <Text numberOfLines={1}>Aussie tourist dies at Bali hotel</Text>
-        }>
+      <View style={styles.container}>
         <View style={styles.Team}>
-          <Text style={styles.titleTeam}>MatchInfo</Text>
+          <Text style={styles.titleTeam}>Match Info</Text>
         </View>
 
         <View style={{marginBottom: 15}}>

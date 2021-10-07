@@ -15,7 +15,6 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import Indicator from '../../../component/ActivityIndicator';
 const ActivityProfileScreen = ({navigation}) => {
-  console.log(navigation);
   const user = useSelector(state => state.AuthReducer.user);
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -43,8 +42,8 @@ const ActivityProfileScreen = ({navigation}) => {
               post,
               title,
               postImg,
-              liked: false,
-              likes,
+              // liked: false,
+              // likes,
               comments,
             });
           });
@@ -119,6 +118,13 @@ const ActivityProfileScreen = ({navigation}) => {
   };
 
   const deleteFirestoreData = postId => {
+    console.log(postId);
+
+    // firestore().collection('comments').doc(postId).collection('comments').then(val => {
+    //   val.map((val) => {
+    //     val.delete(val)
+    //   })
+
     firestore()
       .collection('posts')
       .doc(postId)
@@ -145,9 +151,11 @@ const ActivityProfileScreen = ({navigation}) => {
               <PostActivity
                 item={item}
                 onDelete={handleDelete}
+                navigation={navigation}
                 onPress={() =>
-                  navigation.navigate('UserPost', {
-                    item: item,
+                  navigation.navigate('Posts', {
+                    screen: 'UserPost',
+                    params: {item: item},
                   })
                 }
               />

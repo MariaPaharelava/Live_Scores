@@ -12,28 +12,8 @@ import moment from 'moment';
 import firestore from '@react-native-firebase/firestore';
 import {useDispatch, useSelector} from 'react-redux';
 import {ADMIN_IMAGES} from '../../../images/Images';
-const PostActivity = ({item, onDelete, onPress}) => {
+const PostActivity = ({item, onDelete, onPress, navigation}) => {
   const user = useSelector(state => state.AuthReducer.user);
-  const likeIcon = item.liked ? 'heart' : 'heart-outline';
-  const likeIconColor = item.liked ? '#2e64e5' : '#333';
-  let likeText = '1 Like';
-  let commentText = '1 Like';
-
-  if (item.likes === 1) {
-    likeText = '1 Like';
-  } else if (item.likes > 1) {
-    likeText = item.likes + ' Likes';
-  } else {
-    likeText = 'Like';
-  }
-
-  if (item.comments === 1) {
-    commentText = '1 Comment';
-  } else if (item.comments > 1) {
-    commentText = item.comments + ' Comments';
-  } else {
-    commentText = 'Comment';
-  }
 
   return (
     <View style={styles.Card} key={item.id}>
@@ -60,7 +40,7 @@ const PostActivity = ({item, onDelete, onPress}) => {
         </View>
 
         <View style={styles.InteractionWrapper}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          {/* <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <TouchableOpacity style={styles.Interaction}>
               <Image
                 source={ADMIN_IMAGES.HEART_IMAGE}
@@ -69,12 +49,22 @@ const PostActivity = ({item, onDelete, onPress}) => {
               />
             </TouchableOpacity>
             <Text style={styles.stats}>{item.likes}</Text>
-          </View>
+          </View> */}
 
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <TouchableOpacity style={styles.Interaction}>
+            <TouchableOpacity
+              style={styles.Interaction}
+              onPress={() =>
+                navigation.navigate('Posts', {
+                  screen: 'Chat',
+                  params: {
+                    postId: item.id,
+                    comments: item.comments,
+                  },
+                })
+              }>
               <Image
-                source={ADMIN_IMAGES.CHAR_IMAGE}
+                source={ADMIN_IMAGES.CHART_IMAGE}
                 resizeMode="contain"
                 style={styles.image}
               />
