@@ -19,6 +19,7 @@ export const TAB_IMAGES = {
   DISCOVERY_IMAGE: require('./tab/Discovery.png'),
   CHART_IMAGE: require('./tab/Chart.png'),
   PROFILE_IMAGE: require('./tab/Profile.png'),
+  POST_IMAGE: require('./tab/writing.png'),
 };
 export const PROFILE_IMAGE = {
   PROFILE_IMAGE: require('./profile/Profile.png'),

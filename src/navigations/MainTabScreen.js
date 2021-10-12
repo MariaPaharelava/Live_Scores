@@ -41,7 +41,7 @@ const HomeStack = ({navigation, route}) => (
       headerBackTitleVisible: false,
       title: '',
       headerTitleAlign: 'center',
-      headerTintColor: '#2e64e5',
+      headerTintColor: 'white',
       headerStyle: {
         backgroundColor: '#35364d',
         shadowColor: '#181829',
@@ -76,7 +76,7 @@ const LeaguesStack = ({navigation}) => (
     screenOptions={{
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
-      headerTintColor: '#2e64e5',
+      headerTintColor: 'white',
       headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
 
       headerStyle: {
@@ -135,7 +135,7 @@ const MatchesStack = ({navigation}) => (
 
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
-      headerTintColor: '#2e64e5',
+      headerTintColor: 'white',
       headerStyle: {
         backgroundColor: '#35364d',
         shadowColor: '#181829',
@@ -167,7 +167,7 @@ const UsersStack = ({navigation}) => (
       headerLeft: false,
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
-      headerTintColor: '#2e64e5',
+      headerTintColor: 'white',
       headerStyle: {
         backgroundColor: '#35364d',
         shadowColor: '#181829',
@@ -189,7 +189,7 @@ const ProfileStack = ({navigation}) => (
       headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
-      headerTintColor: '#2e64e5',
+      headerTintColor: 'white',
       headerStyle: {
         backgroundColor: '#181829',
         shadowColor: '#181829',
@@ -244,7 +244,7 @@ const StandingsStack = ({navigation, route}) => (
 
       headerBackTitleVisible: false,
       headerTitleAlign: 'center',
-      headerTintColor: '#2e64e5',
+      headerTintColor: 'white',
       headerStyle: {
         backgroundColor: '#181829',
         shadowColor: '#181829',
@@ -279,9 +279,9 @@ const PostsStack = ({navigation, route}) => (
         headerBackTitleVisible: false,
         headerTitleAlign: 'center',
         headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
-        headerTintColor: '#2e64e5',
+        headerTintColor: 'white',
         headerTitleStyle: {
-          color: '#2e64e5',
+          color: 'white',
         },
         headerStyle: {
           backgroundColor: '#35364d',
@@ -309,9 +309,9 @@ const PostsStack = ({navigation, route}) => (
 
         headerBackTitleVisible: false,
         headerTitleAlign: 'center',
-        headerTintColor: '#2e64e5',
+        headerTintColor: 'white',
         headerTitleStyle: {
-          color: '#2e64e5',
+          color: 'white',
         },
         headerStyle: {
           backgroundColor: '#35364d',
@@ -330,9 +330,9 @@ const PostsStack = ({navigation, route}) => (
         headerBackTitleVisible: false,
         title: '',
         headerTitleAlign: 'center',
-        headerTintColor: '#2e64e5',
+        headerTintColor: 'white',
         headerTitleStyle: {
-          color: '#2e64e5',
+          color: 'white',
         },
         headerStyle: {
           backgroundColor: '#222232',
@@ -348,12 +348,13 @@ const PostsStack = ({navigation, route}) => (
       options={({route}) => ({
         headerStatusBarHeight: Platform.OS === 'ios' ? 30 : -10,
         headerTransparent: true,
+
         headerBackTitleVisible: false,
-        title: 'Comments',
+        title: '',
         headerTitleAlign: 'center',
-        headerTintColor: '#2e64e5',
+        headerTintColor: 'white',
         headerTitleStyle: {
-          color: '#2e64e5',
+          color: 'white',
         },
         headerStyle: {
           backgroundColor: '#222232',
@@ -389,7 +390,7 @@ const tabRender = (view, focused, isAdmin) => {
 
     case 'posts':
       title = 'Posts';
-      icon = isAdmin ? TAB_IMAGES.PROFILE_IMAGE : TAB_IMAGES.PROFILE_IMAGE;
+      icon = isAdmin ? TAB_IMAGES.POST_IMAGE : TAB_IMAGES.POST_IMAGE;
 
       break;
 

@@ -18,6 +18,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import 'react-native-get-random-values';
 
 import {v4 as uuidv4} from 'uuid';
+import {RoundedButton} from '../../buttons/RoundedButton';
+import {ScrollView} from 'react-native-gesture-handler';
 const AddPostScreen = () => {
   const user = useSelector(state => state.AuthReducer.user);
 
@@ -128,59 +130,66 @@ const AddPostScreen = () => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
       <View style={styles.container}>
-        <View style={styles.InputWrapper}>
-          {image != null ? (
-            <Image style={styles.AddImage} source={{uri: image}} />
-          ) : (
-            <Image
-              style={styles.AddImage}
-              source={require('../../images/images/default-img.jpg')}
-            />
-          )}
-          <TextInput
-            placeholder="Title"
-            placeholderTextColor="white"
-            multiline
-            maxLength={35}
-            numberOfLines={4}
-            value={title}
-            onChangeText={title => setTitle(title)}
-            style={styles.InputField}
-          />
-
-          <TextInput
-            placeholder="Description"
-            placeholderTextColor="white"
-            multiline
-            numberOfLines={4}
-            value={post}
-            onChangeText={content => setPost(content)}
-            style={styles.InputField}
-          />
-          {uploading ? (
-            <View style={styles.StatusWrapper}>
-              <Text style={{color: 'white'}}>{transferred} % Completed!</Text>
-              <ActivityIndicator size="large" color="#0000ff" />
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.InputWrapper}>
+            {image != null ? (
+              <Image style={styles.AddImage} source={{uri: image}} />
+            ) : (
+              <Image
+                style={styles.AddImage}
+                source={require('../../images/images/default-img.jpg')}
+              />
+            )}
+            <View style={styles.postTitle}>
+              <TextInput
+                placeholder="Title"
+                placeholderTextColor="white"
+                multiline
+                maxLength={35}
+                numberOfLines={4}
+                value={title}
+                onChangeText={title => setTitle(title)}
+                style={styles.InputField}
+              />
             </View>
-          ) : (
-            <TouchableOpacity style={styles.SubmitBtn} onPress={submitPost}>
-              <Text style={styles.SubmitBtnText}>Post</Text>
-            </TouchableOpacity>
-          )}
-        </View>
+            <View style={[styles.postTitle, {marginBottom: 20}]}>
+              <TextInput
+                placeholder="Description"
+                placeholderTextColor="white"
+                multiline
+                numberOfLines={4}
+                value={post}
+                onChangeText={content => setPost(content)}
+                style={styles.InputField}
+              />
+            </View>
 
-        <View style={styles.buttonWrapper}>
-          <TouchableOpacity
-            onPress={takePhotoFromCamera}
-            style={styles.roundButton1}>
-            <Text>Take Photo</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={choosePhotoFromLibrary}
-            style={styles.roundButton1}>
-            <Text>Choose Photo</Text>
-          </TouchableOpacity>
-        </View>
+            {uploading ? (
+              <View style={styles.StatusWrapper}>
+                <Text style={{color: 'white'}}>{transferred} % Completed!</Text>
+                <ActivityIndicator size="large" color="#0000ff" />
+              </View>
+            ) : (
+              // <TouchableOpacity style={styles.SubmitBtn} onPress={submitPost}>
+              //   <Text style={styles.SubmitBtnText}>Post</Text>
+              // </TouchableOpacity>
+              <RoundedButton title="Post" onPress={submitPost} />
+            )}
+          </View>
+
+          <View style={styles.buttonWrapper}>
+            <TouchableOpacity
+              onPress={takePhotoFromCamera}
+              style={styles.roundButton1}>
+              <Text>Take Photo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={choosePhotoFromLibrary}
+              style={styles.roundButton1}>
+              <Text>Choose Photo</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -191,9 +200,12 @@ export default AddPostScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#181829',
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   actionButtonIcon: {
     fontSize: 20,
@@ -202,18 +214,15 @@ const styles = StyleSheet.create({
   },
   InputWrapper: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
   },
 
   InputField: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingTop: 0,
     fontSize: 24,
     textAlign: 'center',
-    width: '90%',
-    marginBottom: 15,
+    marginVertical: 15,
     color: 'white',
   },
   AddImage: {
@@ -246,11 +255,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#2e64e5',
   },
   buttonWrapper: {
+    paddingTop: 10,
     width: '100%',
     flexDirection: 'row',
-    marginBottom: '17%',
+    marginBottom: '8%',
     justifyContent: 'space-between',
     paddingHorizontal: 50,
     paddingBottom: 30,
+  },
+  postTitle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '90%',
+    backgroundColor: '#222232',
+    margin: 8,
+    borderRadius: 16,
+    borderWidth: 1,
   },
 });

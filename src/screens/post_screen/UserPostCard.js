@@ -1,11 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Image, View, Text, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Image,
+  View,
+  Text,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 
 import firestore from '@react-native-firebase/firestore';
 import {ADMIN_IMAGES} from '../../images/Images';
 import {ScrollView} from 'react-native-gesture-handler';
 const UserPostCard = ({item, onDelete, onPress, navigation}) => {
-  const [isPress, setisPress] = useState(false);
+  // const [isPress, setisPress] = useState(false);
   const [userData, setUserData] = useState(null);
   const [commentsData, setcommentsData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -129,8 +136,10 @@ const UserPostCard = ({item, onDelete, onPress, navigation}) => {
           </View>
         </View>
       </View>
-      <ScrollView style={{marginTop: 15}}>
+      {/* <ScrollView style={{marginTop: 15}}> */}
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.PostText}>{item.post}</Text>
+        <View style={styles.lastView} />
       </ScrollView>
     </View>
   );
@@ -142,6 +151,12 @@ const styles = StyleSheet.create({
   Card: {
     flex: 1,
     backgroundColor: '#222232',
+  },
+  scrollContainer: {
+    paddingTop: 20,
+    paddingHorizontal: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   UserInfo: {
     width: '100%',
@@ -171,10 +186,9 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   PostText: {
+    width: '100%',
     fontSize: 24,
-    paddingHorizontal: 25,
     color: 'white',
-    marginTop: 30,
   },
   TitleText: {
     width: 300,
@@ -186,9 +200,11 @@ const styles = StyleSheet.create({
   },
   PostImg: {
     width: '100%',
-    height: 250,
-    borderBottomLeftRadius: 50,
-    borderBottomRightRadius: 50,
+    // height: 350,
+    height: Platform.OS === 'ios' ? 350 : 200,
+
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
   },
   Divider: {
     borderBottomColor: '#dddddd',
@@ -225,4 +241,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 25,
   },
+  lastView: {height: 75},
 });

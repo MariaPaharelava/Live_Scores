@@ -40,7 +40,7 @@ export default PostCard;
 const styles = StyleSheet.create({
   Card: {
     flex: 1,
-    backgroundColor: '#222232',
+    backgroundColor: '#181829',
     height: 64,
     width: '80%',
     marginBottom: 40,

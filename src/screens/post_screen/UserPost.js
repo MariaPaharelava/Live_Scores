@@ -5,19 +5,16 @@ import UserPostCard from './UserPostCard';
 const UserPost = ({navigation, route}) => {
   const {item} = route.params;
   const [post, setPost] = useState(item);
-
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
-      <View style={styles.Container}>
-        <UserPostCard
-          item={item}
-          onPress={() =>
-            navigation.navigate('PostScreen', {userId: item.userId})
-          }
-          navigation={navigation}
-        />
-      </View>
-    </SafeAreaView>
+    // <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
+    <View style={styles.Container}>
+      <UserPostCard
+        item={item}
+        onPress={() => navigation.navigate('PostScreen', {userId: item.userId})}
+        navigation={navigation}
+      />
+    </View>
+    // </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

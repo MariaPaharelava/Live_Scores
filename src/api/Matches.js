@@ -647,3 +647,46 @@ export const getSoocerTeams = async () => {
 
   return teams;
 };
+
+export const getSoccerPost = async search => {
+  console.log(search);
+  const post = [];
+  const queryTeamsSnapshot = await firestore()
+    .collection('posts')
+    .where('title', '==', search)
+    .get();
+  queryTeamsSnapshot.forEach(documentSnapshot => {
+    post.push(documentSnapshot.data());
+  });
+  console.log(post);
+
+  return post;
+};
+export const fetchPosts = async () => {
+  const list = [];
+
+  await firestore()
+    .collection('posts')
+    .orderBy('postTime', 'desc')
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+        const {userId, post, postImg, postTime, title, likes, comments} =
+          documentSnapshot.data();
+        list.push({
+          id: documentSnapshot.id,
+          userId,
+
+          postTime: postTime,
+          post,
+          title,
+          postImg,
+          // liked: false,
+          // likes,
+          comments,
+        });
+      });
+    });
+
+  return list;
+};

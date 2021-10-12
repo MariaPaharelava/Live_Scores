@@ -51,15 +51,11 @@ const Alltable = ({navigation, ligaID, types}) => {
           };
           ligaData.matches.map(match => {
             if (match.type !== 'UPC') {
-              if (
-                team === match.firstTeam.team[0].teamDetails.name ||
-                team === match.secondTeam.team[0].teamDetails.name
-              ) {
+              if (team === match.firstTeam.team[0].teamDetails.name) {
                 teamStats.team = team;
                 teamStats.imageTeam =
-                  team === match.firstTeam.team[0].teamDetails.name
-                    ? match.firstTeam.team[0].teamDetails.imageUrl
-                    : match.secondTeam.team[0].teamDetails.imageUrl;
+                  match.firstTeam.team[0].teamDetails.imageUrl;
+
                 teamStats.Ga += Number(match.firstTeam.score);
                 teamStats.Gd += Number(match.secondTeam.score);
                 teamStats.win +=
@@ -82,6 +78,37 @@ const Alltable = ({navigation, ligaID, types}) => {
                       Number(match.secondTeam.score)
                     ? 1
                     : 0;
+              } else {
+                if (team === match.secondTeam.team[0].teamDetails.name) {
+                  teamStats.team = team;
+                  teamStats.imageTeam =
+                    match.secondTeam.team[0].teamDetails.imageUrl;
+                  teamStats.Ga += Number(match.secondTeam.score);
+                  teamStats.Gd += Number(match.firstTeam.score);
+                  teamStats.win +=
+                    Number(match.secondTeam.score) >
+                    Number(match.firstTeam.score)
+                      ? 1
+                      : 0;
+                  teamStats.lose +=
+                    Number(match.secondTeam.score) <
+                    Number(match.firstTeam.score)
+                      ? 1
+                      : 0;
+                  teamStats.draw +=
+                    Number(match.secondTeam.score) ===
+                    Number(match.firstTeam.score)
+                      ? 1
+                      : 0;
+                  teamStats.Pts +=
+                    Number(match.secondTeam.score) >
+                    Number(match.firstTeam.score)
+                      ? 3
+                      : Number(match.secondTeam.score) ===
+                        Number(match.firstTeam.score)
+                      ? 1
+                      : 0;
+                }
               }
             } else {
               if (

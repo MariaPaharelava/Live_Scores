@@ -4,11 +4,12 @@ import {
   ScrollView,
   Text,
   Button,
+  SafeAreaView,
   StyleSheet,
   Image,
   Platform,
 } from 'react-native';
-import {Bubble, GiftedChat, Send} from 'react-native-gifted-chat';
+import {Bubble, GiftedChat, Send, InputToolbar} from 'react-native-gifted-chat';
 import {ADMIN_IMAGES} from '../../images/Images';
 import firestore from '@react-native-firebase/firestore';
 import {useDispatch, useSelector} from 'react-redux';
@@ -87,7 +88,7 @@ const ChatScreen = ({route}) => {
   const renderSend = props => {
     return (
       <Send {...props}>
-        <View style={{padding: 5}}>
+        <View style={{paddingBottom: 10, paddingRight: 5}}>
           <Image
             source={ADMIN_IMAGES.SEND_IMAGE}
             resizeMode="contain"
@@ -125,6 +126,16 @@ const ChatScreen = ({route}) => {
       />
     );
   };
+  const customtInputToolbar = props => {
+    return (
+      <InputToolbar
+        {...props}
+        containerStyle={{
+          backgroundColor: '#2b2b3d',
+        }}
+      />
+    );
+  };
   if (!userData) {
     return <Indicator />;
   }
@@ -133,25 +144,31 @@ const ChatScreen = ({route}) => {
   }
   console.log(commentsValue);
   return (
-    <View style={styles.container}>
-      <GiftedChat
-        messages={messages}
-        onSend={messages => {
-          onSend(messages);
-          setcommentsValue(count => count + 1);
-        }}
-        user={{
-          _id: user,
-          name: userData.name,
-          avatar: userData.userImg,
-        }}
-        renderBubble={renderBubble}
-        alwaysShowSend
-        renderSend={renderSend}
-        scrollToBottom
-        scrollToBottomComponent={scrollToBottomComponent}
-      />
-    </View>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
+      <View style={styles.container}>
+        <GiftedChat
+          messages={messages}
+          onSend={messages => {
+            onSend(messages);
+            setcommentsValue(count => count + 1);
+          }}
+          user={{
+            _id: user,
+            name: userData.name,
+            avatar: userData.userImg,
+          }}
+          renderBubble={renderBubble}
+          alwaysShowSend
+          renderSend={renderSend}
+          scrollToBottom
+          scrollToBottomComponent={scrollToBottomComponent}
+          showAvatarForEveryMessage={true}
+          renderInputToolbar={props => customtInputToolbar(props)}
+          placeholderTextColor="#65656B"
+          textInputStyle={{color: '#fff'}}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -160,7 +177,8 @@ export default ChatScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: Platform.OS === 'ios' ? 70 : 50,
+    marginBottom: Platform.OS === 'ios' ? 30 : 50,
+    backgroundColor: '#181829',
   },
   image: {
     width: 25,
