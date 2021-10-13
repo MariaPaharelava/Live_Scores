@@ -11,7 +11,6 @@ import {
   LOAD_USER_STARTED,
   LOAD_USER_COMPLETED,
 } from '../actions/types';
-
 const INITIAL_STATE = {
   user: null,
   loginError: '',

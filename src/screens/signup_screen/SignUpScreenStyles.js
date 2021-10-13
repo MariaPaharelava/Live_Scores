@@ -3,34 +3,46 @@ import {StyleSheet, Platform} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#246BFD',
+    backgroundColor: 'black',
   },
-  header: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    paddingHorizontal: 20,
-    paddingBottom: 50,
-  },
+
   footer: {
-    flex: Platform.OS === 'ios' ? 3 : 5,
-    backgroundColor: '#fff',
+    backgroundColor: '#222232',
+    marginTop: '60%',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 30,
   },
   text_header: {
-    color: '#fff',
     fontWeight: 'bold',
     fontSize: 30,
   },
+  onboardingImage: {
+    marginHorizontal: 48,
+    marginBottom: 'auto',
+    opacity: 0.5,
+    marginTop: Platform.OS === 'ios' ? 10 : 1,
+  },
+  hideLine: {
+    borderBottomColor: 'white',
+    borderBottomWidth: 5,
+    opacity: 0.3,
+    padding: 10,
+    width: 75,
+    alignItems: 'center',
+    marginLeft: 150,
+  },
+  pressable: {paddingBottom: 20},
+
   errorMsg: {
     color: '#FF0000',
     fontSize: 14,
   },
   text_footer: {
-    color: '#05375a',
+    color: '#5e74f7',
     fontSize: 18,
+    marginTop: 35,
   },
   action: {
     flexDirection: 'row',
@@ -43,7 +55,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     paddingLeft: 10,
-    color: '#05375a',
+    color: 'white',
   },
   button: {
     alignItems: 'center',
@@ -79,10 +91,10 @@ const styles = StyleSheet.create({
   textPrivate: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 20,
+    marginTop: 30,
   },
   color_textPrivate: {
-    color: 'grey',
+    color: 'white',
   },
   errors: {
     fontSize: 14,

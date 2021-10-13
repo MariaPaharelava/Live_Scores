@@ -10,8 +10,9 @@ import {getLigs} from '../../api/Matches';
 import {MatchButton} from '../../buttons/MatchButton';
 import {SPORTS} from '../../constant/Sport';
 import {IMAGES} from '../../images/Images';
+import {colors} from '../../constant/colors';
 
-function HomeScreen({navigation}) {
+function HomeScreen({navigation, route}) {
   const [types, setTypes] = useState([]);
   const HandleSportPress = type => {
     if (types.includes(type)) {
@@ -51,7 +52,7 @@ function HomeScreen({navigation}) {
       const matchIndex = getIndex(liga.matches);
       return (
         <View key={liga.id}>
-          <LigaButton
+          {/* <LigaButton
             liga={liga}
             matches={liga.matches[matchIndex]}
             onPress={() =>
@@ -71,7 +72,7 @@ function HomeScreen({navigation}) {
                 ligaID: liga.id,
               })
             }
-          />
+          /> */}
         </View>
       );
     });
@@ -113,7 +114,7 @@ function HomeScreen({navigation}) {
             <TouchableOpacity
               style={[
                 styles.touchableOpacity,
-                types.includes(item.type) && {backgroundColor: 'orange'},
+                types.includes(item.type) && {backgroundColor: colors.orange},
               ]}
               onPress={() => HandleSportPress(item.type)}>
               <Image style={styles.button} source={item.image} />
