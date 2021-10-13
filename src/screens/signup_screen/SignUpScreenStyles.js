@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -67,12 +67,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    color: 'white',
+    borderColor: '#246BFD',
+    borderWidth: 1,
+    marginTop: 15,
   },
-  textSign: {
+  signUp: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  textSignIn: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#246BFD',
+  },
+  textSignUp: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
   },
   textPrivate: {
     flexDirection: 'row',
@@ -81,6 +95,12 @@ const styles = StyleSheet.create({
   },
   color_textPrivate: {
     color: 'white',
+  },
+  errors: {
+    fontSize: 14,
+    color: 'red',
+    fontWeight: 'bold',
+    margin: 5,
   },
 });
 

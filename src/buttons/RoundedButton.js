@@ -2,10 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {styles} from './RoundedButtonStyles';
 import {TouchableOpacity, Text} from 'react-native';
-export const RoundedButton = ({onPress, noBackground = false, ...props}) => {
+import {colors} from '../constant/colors';
+export const RoundedButton = ({
+  onPress,
+  isValid,
+  noBackground = false,
+  ...props
+}) => {
   return (
     <TouchableOpacity
-      style={[styles.radius, noBackground && styles.noBackground]}
+      style={[
+        styles.radius,
+        isValid
+          ? {backgroundColor: colors.gray}
+          : {backgroundColor: colors.darkBlue},
+      ]}
+      disabled={isValid}
       onPress={onPress}
       {...props}>
       <Text style={[styles.text]} numberOfLines={1}>

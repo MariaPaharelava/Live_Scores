@@ -13,7 +13,6 @@ import {
 import Search from '../../icons/other/Search.svg';
 import {SPORTS_IMAGES} from '../../images/Images';
 import {SportsButton} from '../../buttons/SportsButton';
-import {Ligs} from '../../component/Ligs';
 import TeamShedule from '../../component/TeamShedule';
 const ExploreScreen = ({navigation}) => {
   const [view, setView] = useState('soccer');

@@ -58,11 +58,10 @@ function SportsSelectionScreen({navigation}) {
         {SPORTS.map(item => (
           <View style={styles.sportImages2} key={item.type}>
             <TouchableOpacity
-              style={
-                types.includes(item.type)
-                  ? [styles.touchableOpacity, {backgroundColor: '#ED6B4E'}]
-                  : styles.touchableOpacity
-              }
+              style={[
+                styles.touchableOpacity,
+                types.includes(item.type) && {backgroundColor: 'orange'},
+              ]}
               onPress={() => HandleSportPress(item.type)}>
               <Image style={styles.button} source={item.image} />
             </TouchableOpacity>

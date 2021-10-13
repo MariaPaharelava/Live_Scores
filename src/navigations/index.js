@@ -1,12 +1,14 @@
 import React from 'react';
-import {AuthProvider} from './AuthProvider';
-import Routes from './Routes';
+import {Provider} from 'react-redux';
 
+import Routes from './Routes';
+import configureStore from '../redux/store/store';
+const store = configureStore();
 const Providers = () => {
   return (
-    <AuthProvider>
+    <Provider store={store}>
       <Routes />
-    </AuthProvider>
+    </Provider>
   );
 };
 

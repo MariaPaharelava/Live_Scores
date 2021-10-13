@@ -1,14 +1,28 @@
-import React, {useContext} from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
-import {AuthContext} from '../../../navigations/AuthProvider';
+import React from 'react';
+import {View, Text} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import Indicator from '../../../component/ActivityIndicator';
 import styles from './SettingsProfileScreenStyles';
+import {logoutUser} from '../../../redux/actions/AuthActions';
+import {RoundedButton} from '../../../buttons/RoundedButton';
 const SettingsProfileScreen = () => {
-  const {logout} = useContext(AuthContext);
+  const loading = useSelector(state => state.AuthReducer.logoutProcessing);
+  const error = useSelector(state => state.AuthReducer.logoutError);
+  const dispatch = useDispatch();
+
+  if (loading) {
+    return <Indicator />;
+  }
+
+  const onUserLogout = () => {
+    dispatch(logoutUser());
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Settings Screen</Text>
-      <Button title="Log out" onPress={() => logout()} />
+      <RoundedButton title="Sign out" onPress={onUserLogout} />
+      {!!error && <Text>{error.message}</Text>}
     </View>
   );
 };
