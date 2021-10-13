@@ -2,18 +2,12 @@ import React from 'react';
 import {Provider} from 'react-redux';
 
 import Routes from './Routes';
-
-import {store, persistor, sagaMiddleware} from '../redux/store/store';
-import rootSaga from '../redux/sagas/index';
-import {PersistGate} from 'redux-persist/integration/react';
-sagaMiddleware.run(rootSaga);
-
+import configureStore from '../redux/store/store';
+const store = configureStore();
 const Providers = () => {
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Routes />
-      </PersistGate>
+      <Routes />
     </Provider>
   );
 };

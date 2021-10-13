@@ -1,17 +1,11 @@
-import {persistStore, persistReducer} from 'redux-persist';
 import {createStore, applyMiddleware} from 'redux';
+
 import createSagaMiddleware from 'redux-saga';
-import rootReducer from '../reducers';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+import saga from '../sagas';
+import reducer from '../reducers';
 const sagaMiddleware = createSagaMiddleware();
-let store = createStore(persistedReducer, applyMiddleware(sagaMiddleware));
-let persistor = persistStore(store);
-
-export {store, persistor, sagaMiddleware};
+export default function configureStore() {
+  const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+  sagaMiddleware.run(saga);
+  return store;
+}
