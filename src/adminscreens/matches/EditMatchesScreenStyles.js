@@ -22,6 +22,8 @@ const styles = StyleSheet.create({
     borderBottomColor: '#999',
   },
   title: {
+    textAlign: 'center',
+    flex: 1,
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
@@ -107,12 +109,12 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
   },
   statsView: {
+    flex: 1,
     borderBottomWidth: 1,
     borderBottomColor: '#999',
     marginTop: 20,
     justifyContent: 'space-between',
     flexDirection: 'row',
-    paddingHorizontal: 20,
   },
   dataButton: {
     alignItems: 'center',

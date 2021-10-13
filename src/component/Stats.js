@@ -37,22 +37,26 @@ export default Stats;
 
 const styles = StyleSheet.create({
   containerStats: {
+    flex: 1,
+
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 15,
-    paddingHorizontal: '13%',
   },
   textInput: {
+    flex: 1,
+    textAlign: 'center',
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
   },
   scoreText: {
+    flex: 1,
     color: '#C4C4C4',
     fontSize: 18,
     fontWeight: '600',
     fontStyle: 'normal',
-    paddingLeft: 25,
+    textAlign: 'center',
   },
 });

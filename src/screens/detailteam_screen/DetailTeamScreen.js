@@ -94,11 +94,7 @@ const DetailTeamScreen = ({navigation, route}) => {
     <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
       <View style={styles.container}>
         <View style={styles.score}>
-          <View
-            style={{
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}>
+          <View style={styles.image}>
             <Image
               style={styles.icon}
               source={{
@@ -118,8 +114,6 @@ const DetailTeamScreen = ({navigation, route}) => {
               <Text style={styles.textScore}>-</Text>
               <Text style={styles.textScore}>{matchData.secondTeam.score}</Text>
             </View>
-
-            <Text style={styles.text}>90.15</Text>
           </View>
 
           <View style={styles.column}>

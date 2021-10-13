@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   column: {
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
 
   score: {flexDirection: 'row', justifyContent: 'space-around'},
@@ -43,4 +43,5 @@ export const styles = StyleSheet.create({
   },
   otherText: {color: colors.white, ...fonts.defaultFont, fontSize: 20},
   allText: {color: '#C4C4C4', ...fonts.defaultFont, fontSize: 16},
+  image: {flexDirection: 'column', alignItems: 'center'},
 });
