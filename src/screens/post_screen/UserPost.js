@@ -6,7 +6,6 @@ const UserPost = ({navigation, route}) => {
   const {item} = route.params;
   const [post, setPost] = useState(item);
   return (
-    // <SafeAreaView style={{flex: 1, backgroundColor: '#35364d'}}>
     <View style={styles.Container}>
       <UserPostCard
         item={item}
@@ -14,7 +13,6 @@ const UserPost = ({navigation, route}) => {
         navigation={navigation}
       />
     </View>
-    // </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

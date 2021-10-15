@@ -151,13 +151,16 @@ const EditLeagueScreen = ({navigation, route}) => {
             />
           </TouchableOpacity>
         </View>
+
         {ligaData.matches.map((match, index) => {
           return (
             <View key={index} style={{marginLeft: 10}}>
               <AddMatchData
                 firstTeam={match.firstTeam.team[0]}
                 secondTeam={match.secondTeam.team[0]}
-                playtime={new Date(match.playtime)}
+                playtime={new Date(match.playtime * 1000)
+                  .toString()
+                  .slice(0, 21)}
               />
             </View>
           );
