@@ -1,6 +1,8 @@
 import React from 'react';
 
 import {TouchableOpacity, Text, Image, View, StyleSheet} from 'react-native';
+import PropTypes from 'prop-types';
+
 export const SportsButton = ({
   onPress,
   noBackground = false,
@@ -51,3 +53,9 @@ const styles = StyleSheet.create({
     height: 30,
   },
 });
+SportsButton.propTypes = {
+  onPress: PropTypes.func,
+};
+SportsButton.defaultProps = {
+  noBackground: false,
+};

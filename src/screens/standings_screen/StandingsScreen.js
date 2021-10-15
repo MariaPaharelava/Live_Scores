@@ -19,7 +19,17 @@ import {getLigsTable} from '../../api/Matches';
 import {fetchMoreLigs} from '../../api/Matches';
 import {getLiga} from '../../api/Matches';
 import styles from './StandingScreenStyles';
+const perLoad = 2;
+
 const StandingsScreen = ({navigation}) => {
+  const [ligsData, setligsData] = useState([]);
+  const [ligsError, setligsError] = useState();
+  const [ligsLoading, setligsLoading] = useState();
+  const [startAfter, setStartAfter] = useState({});
+  const [ligsPerload] = useState(perLoad);
+  const [lastLigs, setLastLigs] = useState(false);
+  const [value, setValue] = useState('');
+  const [timoutHandler, settimoutHandler] = useState();
   const [view, setView] = useState('soccer');
   const options = [
     {label: 'Soccer', value: 'soccer', image: SPORTS_IMAGES.SOOCER_IMAGE},
@@ -49,15 +59,6 @@ const StandingsScreen = ({navigation}) => {
       image: SPORTS_IMAGES.VOLLEYBALL_IMAGE,
     },
   ];
-
-  const [ligsData, setligsData] = useState([]);
-  const [ligsError, setligsError] = useState();
-  const [ligsLoading, setligsLoading] = useState();
-  const [startAfter, setStartAfter] = useState({});
-  const [ligsPerload] = useState(2);
-  const [lastLigs, setLastLigs] = useState(false);
-  const [value, setValue] = useState('');
-  const [timoutHandler, settimoutHandler] = useState();
 
   const ligsrequest = async () => {
     setligsLoading(true);

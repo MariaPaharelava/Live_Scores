@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
   },
   text_footer: {
     color: 'white',
-    paddingBottom: 20,
     fontSize: 26,
   },
   action: {

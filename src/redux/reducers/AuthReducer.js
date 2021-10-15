@@ -14,7 +14,6 @@ import {
   FORGOTPASSWORD_USER_COMPLETED,
   FORGOTPASSWORD_USER_ERROR,
 } from '../actions/types';
-
 const INITIAL_STATE = {
   user: null,
   loginError: '',
