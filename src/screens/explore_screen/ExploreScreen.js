@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,42 +8,136 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-
+import {getMatches} from '../../api/Matches';
+import {fetchMoreMatches} from '../../api/Matches';
+import {getTeamMatches} from '../../api/Matches';
 import Search from '../../icons/other/Search.svg';
 import {SPORTS_IMAGES} from '../../images/Images';
 import {SportsButton} from '../../buttons/SportsButton';
-import TeamShedule from '../../component/TeamShedule';
+import {ExploreMatchButton} from '../../buttons/ExploreMatchButton';
+import Indicator from '../../component/ActivityIndicator';
+import Error from '../../component/ErrorIndicator';
+import styles from './ExploreScreenStyles';
+const options = [
+  {label: 'Soccer', value: 'soccer', image: SPORTS_IMAGES.SOOCER_IMAGE},
+  {
+    label: 'Basketball',
+    value: 'basketball',
+    image: SPORTS_IMAGES.BASKETBALL_IMAGE,
+  },
+  {
+    label: ' Football',
+    value: 'football',
+    image: SPORTS_IMAGES.FOOTBALL_IMAGE,
+  },
+  {
+    label: ' Baseball',
+    value: 'baseball',
+    image: SPORTS_IMAGES.BASEBALL_IMAGE,
+  },
+  {
+    label: ' Tennis',
+    value: 'tennis',
+    image: SPORTS_IMAGES.TENNIS_IMAGE,
+  },
+  {
+    label: ' Volleyball',
+    value: 'volleyball',
+    image: SPORTS_IMAGES.VOLLEYBALL_IMAGE,
+  },
+];
+const perLoad = 2;
 const ExploreScreen = ({navigation}) => {
+  const [matchesData, setMatchesData] = useState([]);
+  const [matchesError, setMatchesError] = useState();
+  const [matchesLoading, setMatchesLoading] = useState();
+  const [startAfter, setStartAfter] = useState({});
+  const [matchPerLoad] = useState(perLoad);
+  const [lastMatch, setLastMatch] = useState(false);
   const [view, setView] = useState('soccer');
-  const options = [
-    {label: 'Soccer', value: 'soccer', image: SPORTS_IMAGES.SOOCER_IMAGE},
-    {
-      label: 'Basketball',
-      value: 'basketball',
-      image: SPORTS_IMAGES.BASKETBALL_IMAGE,
-    },
-    {
-      label: ' Football',
-      value: 'football',
-      image: SPORTS_IMAGES.FOOTBALL_IMAGE,
-    },
-    {
-      label: ' Baseball',
-      value: 'baseball',
-      image: SPORTS_IMAGES.BASEBALL_IMAGE,
-    },
-    {
-      label: ' Tennis',
-      value: 'tennis',
-      image: SPORTS_IMAGES.TENNIS_IMAGE,
-    },
-    {
-      label: ' Volleyball',
-      value: 'volleyball',
-      image: SPORTS_IMAGES.VOLLEYBALL_IMAGE,
-    },
-  ];
+  const [value, setValue] = useState('');
+  const [timoutHandler, settimoutHandler] = useState();
+
+  const matchesrequest = async (refresh = false) => {
+    setMatchesLoading(true);
+    try {
+      const matchesdata = await getMatches(matchPerLoad);
+      if (refresh) {
+        setLastMatch(false);
+        setMatchesData(matchesdata.matches);
+      } else {
+        setMatchesData([...matchesData, ...matchesdata.matches]);
+      }
+      setStartAfter(matchesdata.lastVisible);
+    } catch (error) {
+      setMatchesError(error);
+      console.log(error);
+    } finally {
+      setMatchesLoading(false);
+    }
+  };
+  const onInput = async text => {
+    setMatchesLoading(true);
+    try {
+      const matchesdata = await getTeamMatches(matchPerLoad, text);
+      setMatchesData(matchesdata.matches);
+      console.log(text);
+
+      if (text === '') {
+        setLastMatch(false);
+        setMatchesData([]);
+        matchesrequest();
+      }
+      setStartAfter(matchesdata.lastVisible);
+    } catch (error) {
+      setMatchesError(error);
+      console.log(error);
+    } finally {
+      setMatchesLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    matchesrequest();
+  }, []);
+
+  const getMoreMatches = async () => {
+    try {
+      if (!lastMatch) {
+        const matchesdata = await fetchMoreMatches(
+          startAfter,
+          matchPerLoad,
+          value,
+        );
+        setMatchesData([...matchesData, ...matchesdata.matches]);
+        setStartAfter(matchesdata.lastVisible);
+        matchesdata.matches.length === 0
+          ? setLastMatch(true)
+          : setLastMatch(false);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setMatchesLoading(false);
+    }
+  };
+
+  const RednderLigs = ({item}) => {
+    return (
+      <View key={item.id}>
+        <ExploreMatchButton matches={item} />
+      </View>
+    );
+  };
+
+  if (!matchesData) {
+    return null;
+  }
+  if (matchesError) {
+    return <Error />;
+  }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#181829'}}>
@@ -56,9 +150,23 @@ const ExploreScreen = ({navigation}) => {
               color="white"
               placeholderTextColor="#65656B"
               placeholder="Search your team..."
+              onChangeText={text => {
+                setValue(text);
+
+                if (timoutHandler) {
+                  clearTimeout(timoutHandler);
+                }
+                const timout = setTimeout(() => onInput(text), 300);
+                settimoutHandler(timout);
+              }}
+              value={value}
             />
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setValue('');
+              matchesrequest(true);
+            }}>
             <Text style={{color: 'white'}}>Cancel</Text>
           </TouchableOpacity>
         </View>
@@ -80,8 +188,20 @@ const ExploreScreen = ({navigation}) => {
             ))}
           </ScrollView>
         </View>
+
         <View style={styles.container}>
-          <TeamShedule />
+          <FlatList
+            data={matchesData}
+            renderItem={RednderLigs}
+            keyExtractor={item => item.id}
+            style={{height: Platform.OS === 'ios' ? '90%' : '67%'}}
+            onEndReached={getMoreMatches}
+            onEndReachedThreshold={0.01}
+            scrollEventThrottle={150}
+            ListFooterComponent={() =>
+              matchesLoading || !lastMatch ? <Indicator /> : null
+            }
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -89,48 +209,3 @@ const ExploreScreen = ({navigation}) => {
 };
 
 export default ExploreScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#181829',
-  },
-  wrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: Platform.OS === 'ios' ? 10 : 20,
-  },
-  itemStyle: {
-    padding: 15,
-    color: 'white',
-  },
-  textInput: {
-    paddingLeft: 15,
-  },
-  search: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderRadius: 16,
-    width: '70%',
-    borderWidth: 1,
-    height: 50,
-    paddingLeft: 20,
-    marginHorizontal: Platform.OS === 'ios' ? 10 : 15,
-
-    borderColor: '#222232',
-    backgroundColor: '#222232',
-  },
-  navigate: {
-    flexDirection: 'row',
-    marginTop: Platform.OS === 'ios' ? 40 : 40,
-    marginHorizontal: 15,
-    marginBottom: 20,
-  },
-  content: {
-    marginTop: Platform.OS === 'ios' ? 40 : 40,
-
-    backgroundColor: '#181829',
-  },
-});
