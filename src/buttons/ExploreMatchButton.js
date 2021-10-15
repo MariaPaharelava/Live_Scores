@@ -1,6 +1,9 @@
 import React from 'react';
 import {Text, Image, View} from 'react-native';
 import {styles} from './ExploreMatchButtonStyle';
+
+import PropTypes from 'prop-types';
+
 export const ExploreMatchButton = ({
   onPress,
   noBackground = false,
@@ -34,4 +37,12 @@ export const ExploreMatchButton = ({
       </View>
     </View>
   );
+};
+ExploreMatchButton.propTypes = {
+  onPress: PropTypes.func,
+  liga: PropTypes.array,
+  matches: PropTypes.array,
+};
+ExploreMatchButton.defaultProps = {
+  noBackground: false,
 };

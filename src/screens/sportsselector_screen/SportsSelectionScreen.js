@@ -73,6 +73,12 @@ function SportsSelectionScreen({navigation}) {
       <View style={styles.roundedButton}>
         <RoundedButton
           title="Continue"
+          // onPress={() => {
+          //   navigation.navigate('MainTabScreen', {
+          //     screen: 'HomeScreen',
+          //     otherParam: 'sadasdsadsadsadsa',
+          //   });
+          // }}
           onPress={() => navigation.navigate('MainTabScreen')}
         />
         <TouchableOpacity style={styles.skipButton}>

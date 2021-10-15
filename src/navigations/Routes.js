@@ -18,7 +18,7 @@ const Routes = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (userLoading) {
+    if (!userLoading) {
       SplashScreen.hide();
     }
   }, [userLoading]);
