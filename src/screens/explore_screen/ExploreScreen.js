@@ -48,12 +48,13 @@ const options = [
     image: SPORTS_IMAGES.VOLLEYBALL_IMAGE,
   },
 ];
+const perLoad = 2;
 const ExploreScreen = ({navigation}) => {
   const [matchesData, setMatchesData] = useState([]);
   const [matchesError, setMatchesError] = useState();
   const [matchesLoading, setMatchesLoading] = useState();
   const [startAfter, setStartAfter] = useState({});
-  const [matchPerLoad] = useState(2);
+  const [matchPerLoad] = useState(perLoad);
   const [lastMatch, setLastMatch] = useState(false);
   const [view, setView] = useState('soccer');
   const [value, setValue] = useState('');
